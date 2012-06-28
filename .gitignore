@@ -6,4 +6,5 @@ Temp
 *.unityproj
 *.pidb
 *.userprefs
+*.suo
 obj
