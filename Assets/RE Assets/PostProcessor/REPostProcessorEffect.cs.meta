@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: a673c9e279e9bf241aeafbd3ad1c22c8
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - DownsampleShader2x2: {fileID: 4800000, guid: 63b8799d660dd1343bf0a768ce809678,
+      type: 1}
+  - FinalBlendShader: {fileID: 4800000, guid: c6263045098d09747aefe74b78d09ec6, type: 1}
+  - BlurCombineShader: {fileID: 4800000, guid: a19c07fc8fc08da4d9a6c4531bb0828b, type: 1}
+  - BlurCombineShaderForRadialFocus: {fileID: 4800000, guid: e7b0a6b7ddcc6a342a1ef84698659d65,
+      type: 1}
+  - BlurCombineShaderForConstantFocus: {fileID: 4800000, guid: e4127626a2946c14687a84a58bb53c18,
+      type: 1}
+  - HDRIrisAdjustShader: {fileID: 4800000, guid: f0ef889e3cdf32a4b92e3ba1412de1ba,
+      type: 1}
+  - PostProcessorInclude: {fileID: 4900000, guid: ee7aa250b04c9a144aa9e6ea09b1378e,
+      type: 1}
+  executionOrder: 0
+  icon: {instanceID: 0}
