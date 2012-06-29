@@ -211,8 +211,7 @@ public class GretaController : MonoBehaviour
 
             Velocity += Velocity_temp;
            
-            if (Input.GetButton("Jump") && isCanJump)            //handle jumping
-                moveDirection.y = jumpSpeed;
+            
             //正向力    N = m*g                                inclineAngle = 斜面夾角
             //斜面     Fi = m*g*sin(inclineAngle)              
             //動摩擦力  fk = u * N * cos(inclineAngle)         u = 摩擦係數   與移動方向相反
@@ -243,10 +242,12 @@ public class GretaController : MonoBehaviour
             else if (Velocity < 0.1f && Velocity > -0.1f)
                 Velocity = 0.0f;
             //---------------------------
-            
-            
-            
-            moveDirection = new Vector3(0, 0, Velocity) * speed;
+
+            //if (Input.GetButton("Jump") || isCanJump)            //handle jumping
+            if (isCanJump)            //handle jumping
+                moveDirection = new Vector3(0, jumpSpeed, Velocity) * speed;
+            else
+                moveDirection = new Vector3(0, 0, Velocity) * speed;
         }
 
         
