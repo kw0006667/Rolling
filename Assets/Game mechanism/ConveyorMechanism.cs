@@ -1,32 +1,27 @@
 using UnityEngine;
 using System.Collections;
 
-public class JumpMechanism : MonoBehaviour
-{
-    public float JumpSpeed = 1;    
+public class ConveyorMechanism : MonoBehaviour
+{    
+    public float moveSpeed = 0.05f;
+    public Vector3 direction;
     public GameObject Greta;
+
     private GretaController control;
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
         if (other.name == this.Greta.name)
         {
-            this.control.SetJumpSpeed(JumpSpeed);
-        }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.name == Greta.name)
-        {
-            this.control.SetJumpSpeed(0);
+            this.Greta.transform.position += transform.TransformDirection(direction * moveSpeed);                
         }
     }
 
     // Use this for initialization
-	void Start () 
+    void Start()
     {
         this.Greta = GameObject.Find("Greta");
         this.control = this.Greta.GetComponent<GretaController>();
-	}	
+    }
+
 }

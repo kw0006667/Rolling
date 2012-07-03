@@ -5,20 +5,20 @@ public class AccelerateMechanism : MonoBehaviour
 {
     public GameObject Greta;
     private GretaController control;
-    public float Acc = 8;
+    public float SpeedUp = 8;
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.name == Greta.name)
+        if (other.name == this.Greta.name)
         {
-            control.Velocity = Acc;
+            this.control.Velocity = this.SpeedUp;
         }
     }
 
 	// Use this for initialization
 	void Start () {
-        Greta = GameObject.Find("Greta");
-        control = Greta.GetComponent<GretaController>();
+        this.Greta = GameObject.Find("Greta");
+        this.control = this.Greta.GetComponent<GretaController>();
 	}
 	
 }

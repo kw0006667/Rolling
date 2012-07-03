@@ -7,19 +7,31 @@ public class SwitchMechanism : MonoBehaviour {
     public bool Trigger = false;
 
     void OnTriggerEnter(Collider other)
-    {
-        if (!Trigger)
+    {        
+        if (other.name == this.Greta.name)
         {
-            if (other.name == Greta.name)
+            Trigger = !Trigger;
+            if (Trigger)
             {
-                Trigger = true;
+                if (!this.animation.IsPlaying("SwithchOnAnimation"))
+                    this.animation.PlayQueued("SwithchOnAnimation");                
             }
-        }
+            else
+            {
+                if (!this.animation.IsPlaying("SwithchOffAnimation"))
+                    this.animation.PlayQueued("SwithchOffAnimation");
+            }
+        }        
+    }
+
+    public bool GetTrigger()
+    {
+        return Trigger;
     }
 
     // Use this for initialization
     void Start()
     {
-        Greta = GameObject.Find("Greta");
+        this.Greta = GameObject.Find("Greta");
     }
 }

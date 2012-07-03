@@ -15,7 +15,7 @@ public class GretaController : MonoBehaviour
     
     public float speed = 2.0F;                  //硉计
     public float Velocity = 0;                  //俐丁硉    
-    public float jumpSpeed = 2.0F;              //铬臘硉
+    private float jumpSpeed = 0.0F;              //铬臘硉
     public float gravity = 9.8F;                //(籔办╰参礚闽)
     public float MaxVelocity = 5.0f;            //程タ硉
     public float nMaxVelocity = -5.0f;          //程は硉    
@@ -150,7 +150,7 @@ public class GretaController : MonoBehaviour
 
         if (controller.isGrounded && isGameStop != true)                              //On the ground to move     
         {
-            float Velocity_temp = Input.GetAxis("Vertical") * 0.1f;
+            float Velocity_temp = Input.GetAxis("Vertical") * Time.deltaTime;
             float Velocity_H_temp = Input.GetAxis("Mouse X") * 0.02f;
             
             if (Velocity_temp > 0)
@@ -244,10 +244,10 @@ public class GretaController : MonoBehaviour
             //---------------------------
 
             //if (Input.GetButton("Jump") || isCanJump)            //handle jumping
-            if (isCanJump)            //handle jumping
+            //if (isCanJump)            //handle jumping
                 moveDirection = new Vector3(0, jumpSpeed, Velocity) * speed;
-            else
-                moveDirection = new Vector3(0, 0, Velocity) * speed;
+            //else
+                //moveDirection = new Vector3(0, 0, Velocity) * speed;
         }
 
         
@@ -299,6 +299,11 @@ public class GretaController : MonoBehaviour
         controller.Move(transform.TransformDirection( moveDirection) * Time.deltaTime); //handle move
 
         
+    }
+
+    public void SetJumpSpeed(float speed)
+    {
+        jumpSpeed = speed;
     }
 
     void InclineForce()
