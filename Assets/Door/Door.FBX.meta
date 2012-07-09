@@ -11,7 +11,7 @@ ModelImporter:
     materialName: 0
     materialSearch: 1
   animations:
-    generateAnimations: 3
+    generateAnimations: 0
     bakeSimulation: 0
     splitAnimations: 1
     animationCompression: 1
@@ -46,9 +46,6 @@ ModelImporter:
       data:
         first: 4
         second: 841a0600
-      data:
-        first: 111
-        second: 605fa900
     door:
       data:
         first: 1
