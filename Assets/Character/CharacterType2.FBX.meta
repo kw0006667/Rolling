@@ -9,6 +9,11 @@ ModelImporter:
     4300008: Object13
     4300010: Object11
     7400000: Take 001 //// CharacterType2
+    7400002: idle //// CharacterType2
+    7400004: forward //// CharacterType2
+    7400006: backward //// CharacterType2
+    7400008: turnR //// CharacterType2
+    7400010: turnL //// CharacterType2
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -23,10 +28,35 @@ ModelImporter:
     animationPositionError: .5
     animationScaleError: .5
     animationWrapMode: 0
-    clipAnimations: []
+    clipAnimations:
+    - name: idle
+      firstFrame: 0
+      lastFrame: 100
+      wrapMode: 2
+      loop: 1
+    - name: forward
+      firstFrame: 130
+      lastFrame: 150
+      wrapMode: 1
+      loop: 0
+    - name: backward
+      firstFrame: 160
+      lastFrame: 185
+      wrapMode: 1
+      loop: 0
+    - name: turnR
+      firstFrame: 190
+      lastFrame: 210
+      wrapMode: 1
+      loop: 0
+    - name: turnL
+      firstFrame: 215
+      lastFrame: 235
+      wrapMode: 1
+      loop: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: .00999999978
+    globalScale: .0199999996
     meshCompression: 0
     addColliders: 0
     swapUVChannels: 0
