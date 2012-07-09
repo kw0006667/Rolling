@@ -1,9 +1,10 @@
 fileFormatVersion: 2
-guid: c214f38f08bf4874cb3665ffb8cfee96
+guid: 5dedaef181fc5164aa3414b7f07eda50
 ModelImporter:
   fileIDToRecycleName:
     4300000: button
     4300002: button_move
+    7400000: Take 001 //// Button
   serializedVersion: 10
   materials:
     importMaterials: 1

@@ -1,8 +1,9 @@
 fileFormatVersion: 2
-guid: 78e16a4beea519749964b0c05d17b287
+guid: 82ca98ec50079524982eb31c30d8d20e
 ModelImporter:
   fileIDToRecycleName:
     4300000: Weight
+    7400000: Take 001 //// Weight
   serializedVersion: 10
   materials:
     importMaterials: 1

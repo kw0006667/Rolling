@@ -1,8 +1,9 @@
 fileFormatVersion: 2
-guid: 7aa039f3235a43d4da0ea2fe786577b6
+guid: fda460182ea1f3d4e93d4a6a91c6babb
 ModelImporter:
   fileIDToRecycleName:
     4300000: S_Slope001
+    7400000: Take 001 //// S_Slope
   serializedVersion: 10
   materials:
     importMaterials: 1

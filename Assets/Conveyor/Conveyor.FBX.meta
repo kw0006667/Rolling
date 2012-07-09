@@ -1,9 +1,10 @@
 fileFormatVersion: 2
-guid: 3780b1ba4668ace49ba29642293a2c3f
+guid: 578d1f1925cf6134fa876a03d341e9cb
 ModelImporter:
   fileIDToRecycleName:
     4300000: conveyor_move
     4300002: conveyor
+    7400000: Take 001 //// Conveyor
   serializedVersion: 10
   materials:
     importMaterials: 1

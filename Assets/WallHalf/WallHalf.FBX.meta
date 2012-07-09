@@ -1,8 +1,9 @@
 fileFormatVersion: 2
-guid: f9cba86cfe2606642814f8f4408df244
+guid: 4c1820496faca644698f1ce68dc44572
 ModelImporter:
   fileIDToRecycleName:
     4300000: WallHalf
+    7400000: Take 001 //// WallHalf
   serializedVersion: 10
   materials:
     importMaterials: 1

@@ -1,8 +1,9 @@
 fileFormatVersion: 2
-guid: f940df13bcc5bef4d917ca4aa06dd42f
+guid: 6fa46d80b4e8b7e4896539d97e30262b
 ModelImporter:
   fileIDToRecycleName:
     4300000: magnetism
+    7400000: Take 001 //// Magnetism
   serializedVersion: 10
   materials:
     importMaterials: 1

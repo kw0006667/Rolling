@@ -1,8 +1,9 @@
 fileFormatVersion: 2
-guid: 9b5aa5d35cc1ed445a8856e59e3490b6
+guid: 5105199e66e5f02488ca1fb0de246a88
 ModelImporter:
   fileIDToRecycleName:
     4300000: Gear
+    7400000: Take 001 //// Gear
   serializedVersion: 10
   materials:
     importMaterials: 1

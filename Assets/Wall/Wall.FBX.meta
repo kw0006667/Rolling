@@ -1,8 +1,9 @@
 fileFormatVersion: 2
-guid: b3de2de44dda36a4db8a8a08d7d953d7
+guid: 942de0c688c91e64b83f41563bea9658
 ModelImporter:
   fileIDToRecycleName:
     4300000: Wall
+    7400000: Take 001 //// Wall
   serializedVersion: 10
   materials:
     importMaterials: 1

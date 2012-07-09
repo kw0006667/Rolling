@@ -1,9 +1,10 @@
 fileFormatVersion: 2
-guid: 3d823d2649126ed479e50b78a55ba1f3
+guid: 61d5e2cbba62b0643b95b37bec7caeda
 ModelImporter:
   fileIDToRecycleName:
     4300000: elevator
     4300002: elevator_move
+    7400000: Take 001 //// Elevator
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -41,26 +42,26 @@ ModelImporter:
     //RootNode:
       data:
         first: 1
-        second: a0860100
+        second: a4860100
       data:
         first: 4
-        second: 801a0600
+        second: 841a0600
       data:
         first: 111
         second: 605fa900
     elevator:
       data:
         first: 1
-        second: a4860100
+        second: a0860100
       data:
         first: 4
-        second: 841a0600
+        second: 801a0600
       data:
         first: 23
-        second: 62182300
+        second: 60182300
       data:
         first: 33
-        second: a25a3200
+        second: a05a3200
     elevator_move:
       data:
         first: 1
@@ -70,7 +71,7 @@ ModelImporter:
         second: 821a0600
       data:
         first: 23
-        second: 60182300
+        second: 62182300
       data:
         first: 33
-        second: a05a3200
+        second: a25a3200

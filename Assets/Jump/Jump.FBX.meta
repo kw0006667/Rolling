@@ -1,9 +1,10 @@
 fileFormatVersion: 2
-guid: ba498690f7024374baf68ca2360b75b8
+guid: 5726f778adece14449952b1a21630945
 ModelImporter:
   fileIDToRecycleName:
     4300000: jump
     4300002: jump_move
+    7400000: Take 001 //// Jump
   serializedVersion: 10
   materials:
     importMaterials: 1

@@ -1,8 +1,9 @@
 fileFormatVersion: 2
-guid: 61d84dbaaf8ab2240924ef2cea03e9d3
+guid: 1a437c9f38c8b954b97be654d34ad3a4
 ModelImporter:
   fileIDToRecycleName:
     4300000: SlopeLow001
+    7400000: Take 001 //// SlopeLow
   serializedVersion: 10
   materials:
     importMaterials: 1

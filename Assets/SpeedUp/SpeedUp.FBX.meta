@@ -1,9 +1,10 @@
 fileFormatVersion: 2
-guid: 68e363ecedef4cb4eab89b2f01fb4ea8
+guid: b8ed8ae678f55fe4bb83b84d9f34853c
 ModelImporter:
   fileIDToRecycleName:
     4300000: speedup
     4300002: speedup_move
+    7400000: Take 001 //// SpeedUp
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -41,14 +42,27 @@ ModelImporter:
     //RootNode:
       data:
         first: 1
+        second: a2860100
+      data:
+        first: 4
+        second: 821a0600
+      data:
+        first: 111
+        second: 605fa900
+    speedup 1:
+      data:
+        first: 1
         second: a0860100
       data:
         first: 4
         second: 801a0600
       data:
-        first: 111
-        second: 605fa900
-    speedup 1:
+        first: 23
+        second: 60182300
+      data:
+        first: 33
+        second: a05a3200
+    speedup_move:
       data:
         first: 1
         second: a4860100
@@ -61,16 +75,3 @@ ModelImporter:
       data:
         first: 33
         second: a25a3200
-    speedup_move:
-      data:
-        first: 1
-        second: a2860100
-      data:
-        first: 4
-        second: 821a0600
-      data:
-        first: 23
-        second: 60182300
-      data:
-        first: 33
-        second: a05a3200

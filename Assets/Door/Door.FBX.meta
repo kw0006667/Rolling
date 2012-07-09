@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f6c3d706f6e5be5469d851ba487fc74b
+guid: 7d383fd5c39f8754cb95a3c9f1d9f1a6
 ModelImporter:
   fileIDToRecycleName:
     4300000: door_base
@@ -42,27 +42,14 @@ ModelImporter:
     //RootNode:
       data:
         first: 1
-        second: a2860100
-      data:
-        first: 4
-        second: 821a0600
-      data:
-        first: 111
-        second: 605fa900
-    door:
-      data:
-        first: 1
         second: a4860100
       data:
         first: 4
         second: 841a0600
       data:
-        first: 23
-        second: 62182300
-      data:
-        first: 33
-        second: a25a3200
-    door_base:
+        first: 111
+        second: 605fa900
+    door:
       data:
         first: 1
         second: a0860100
@@ -75,3 +62,16 @@ ModelImporter:
       data:
         first: 33
         second: a05a3200
+    door_base:
+      data:
+        first: 1
+        second: a2860100
+      data:
+        first: 4
+        second: 821a0600
+      data:
+        first: 23
+        second: 62182300
+      data:
+        first: 33
+        second: a25a3200

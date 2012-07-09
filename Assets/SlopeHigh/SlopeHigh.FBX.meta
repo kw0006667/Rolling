@@ -1,8 +1,9 @@
 fileFormatVersion: 2
-guid: 5f8a361772a53ee4ea7c423abcddaa7d
+guid: ea98c81cc9ee4fc46b9fa1e3897ec0bf
 ModelImporter:
   fileIDToRecycleName:
     4300000: SlopeHigh001
+    7400000: Take 001 //// SlopeHigh
   serializedVersion: 10
   materials:
     importMaterials: 1
