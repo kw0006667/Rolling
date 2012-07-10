@@ -2,25 +2,25 @@ using UnityEngine;
 using System.Collections;
 
 public class ButtonMechanism : MonoBehaviour {
-
-    public GameObject Greta;
-    public bool Trigger = false;
+    
     public GameObject TriggerObject;
-    public Animation TriggerAnimation;
 
+    private Animation triggerAnimation;
+    private bool trigger = false;
     private bool WaitOn = false;
     private bool WaitOff = false;
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.name == this.Greta.name)
+        GameObject m_parent = other.transform.parent.gameObject;
+        if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
         {
-            this.Trigger = true;
+            this.trigger = true;
             if (!this.animation.IsPlaying("ButtonOnAnimation") && !this.WaitOn)
             {
                 this.animation.PlayQueued("ButtonOnAnimation");
-                if (!this.TriggerAnimation.IsPlaying("UpDownFloor_DownAnimation"))
-                    this.TriggerAnimation.PlayQueued("UpDownFloor_DownAnimation");
+                if (!this.triggerAnimation.IsPlaying("UpDownFloor_DownAnimation"))
+                    this.triggerAnimation.PlayQueued("UpDownFloor_DownAnimation");
 
                 this.WaitOn = true;
             }
@@ -29,14 +29,15 @@ public class ButtonMechanism : MonoBehaviour {
 
     void OnTriggerExit(Collider other)
     {
-        if (other.name == this.Greta.name)
+        GameObject m_parent = other.transform.parent.gameObject;
+        if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
         {
-            this.Trigger = false;
+            this.trigger = false;
             if (!this.animation.IsPlaying("ButtonOffAnimation") && !this.WaitOff)
             {
                 this.animation.PlayQueued("ButtonOffAnimation");
-                if (!this.TriggerAnimation.IsPlaying("UpDownFloor_UpAnimation"))
-                    this.TriggerAnimation.PlayQueued("UpDownFloor_UpAnimation");
+                if (!this.triggerAnimation.IsPlaying("UpDownFloor_UpAnimation"))
+                    this.triggerAnimation.PlayQueued("UpDownFloor_UpAnimation");
 
                 this.WaitOff = true;
             }
@@ -56,7 +57,6 @@ public class ButtonMechanism : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        this.Greta = GameObject.Find("Greta");
-        this.TriggerAnimation = this.TriggerObject.GetComponent<Animation>();
+        this.triggerAnimation = this.TriggerObject.GetComponent<Animation>();
     }
 }
