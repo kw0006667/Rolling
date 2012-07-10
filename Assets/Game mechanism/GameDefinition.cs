@@ -12,6 +12,12 @@ public class GameDefinition
         MainCamera = 2,
     };
 
+    public enum Weight : int
+    {
+        light = 1,
+        heavy = 2,
+    };
+
     #endregion
 
     #region private const string
@@ -37,5 +43,18 @@ public class GameDefinition
             default:
                 return null;
         }
+    }
+
+    /// <summary>
+    /// Get the current character rigidbody mass is heavy or light.
+    /// </summary>
+    /// <param name="mass">Current rigidbody mass</param>
+    /// <returns>Return light if less or equeal light even not.</returns>
+    public static Weight GetIsWeight(float mass)
+    {
+        if (mass > (float)GameDefinition.Weight.light)
+            return Weight.heavy;
+        else
+            return Weight.light;
     }
 }
