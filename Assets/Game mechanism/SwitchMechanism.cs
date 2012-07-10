@@ -3,15 +3,15 @@ using System.Collections;
 
 public class SwitchMechanism : MonoBehaviour {
 
-    public GameObject Greta;
-    public bool Trigger = false;
+    private bool trigger = false;
 
     void OnTriggerEnter(Collider other)
-    {        
-        if (other.name == this.Greta.name)
+    {
+        GameObject m_parent = other.transform.parent.gameObject;
+        if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
         {
-            Trigger = !Trigger;
-            if (Trigger)
+            this.trigger = !this.trigger;
+            if (trigger)
             {
                 if (!this.animation.IsPlaying("SwithchOnAnimation"))
                     this.animation.PlayQueued("SwithchOnAnimation");                
@@ -26,12 +26,11 @@ public class SwitchMechanism : MonoBehaviour {
 
     public bool GetTrigger()
     {
-        return Trigger;
+        return this.trigger;
     }
 
     // Use this for initialization
     void Start()
     {
-        this.Greta = GameObject.Find("Greta");
     }
 }

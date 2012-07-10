@@ -3,24 +3,25 @@ using System.Collections;
 
 public class ElevatorMechanism : MonoBehaviour 
 {    
-    public float moveDistance = 4.0f;
-    public float moveSpeed = 0.03f;
-    public GameObject Greta;
+    public float MoveDistance = 4.0f;
+    public float MoveSpeed = 0.03f;
     public GameObject SwitchObject;
 
     private SwitchMechanism switchMechanism;
     private bool isEnter = false;    
-    private float addVaule = 0;    
+    private float addVaule = 0;
+    private RaycastHit hit;
     
     public enum ElevatorDirection
     { 
         Up , Down
     }
-    public ElevatorDirection direction;
+    public ElevatorDirection Direction;
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.name == this.Greta.name)
+        GameObject m_parent = other.transform.parent.gameObject;
+        if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
         {
             this.isEnter = true;            
         }
@@ -28,7 +29,8 @@ public class ElevatorMechanism : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.name == this.Greta.name)
+        GameObject m_parent = other.transform.parent.gameObject;
+        if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
         {
             this.isEnter = false;
         }
@@ -37,42 +39,40 @@ public class ElevatorMechanism : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        this.Greta = GameObject.Find("Greta");
         this.switchMechanism = this.SwitchObject.GetComponent<SwitchMechanism>();
     }
 
-    private RaycastHit hit;
     void Update()
     {
         if (this.switchMechanism.GetTrigger())
         {
-            if (Mathf.Abs(this.addVaule) < this.moveDistance)
+            if (Mathf.Abs(this.addVaule) < this.MoveDistance)
             {
-                if (this.direction == ElevatorDirection.Down)
+                if (this.Direction == ElevatorDirection.Down)
                 {
                     if (Physics.Raycast(transform.position, new Vector3(0, -0.5f, 0), out hit, new Vector3(0, -0.5f, 0).magnitude))
-                        if (hit.transform.name == Greta.name)
+                        if (hit.transform.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
                             return;
                     
-                    transform.parent.transform.position -= transform.parent.transform.TransformDirection(new Vector3(0, 0, moveSpeed));
-                    if (this.isEnter)
-                        this.Greta.transform.position -= transform.parent.transform.TransformDirection(new Vector3(0, 0, moveSpeed));
+                    this.transform.parent.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
+                    //if (this.isEnter)
+                    //    this.Greta.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
                 }
-                else if (direction == ElevatorDirection.Up)
+                else if (this.Direction == ElevatorDirection.Up)
                 {
-                    transform.parent.transform.position += transform.parent.transform.TransformDirection(new Vector3(0, 0, moveSpeed));
-                    if (this.isEnter)
-                        this.Greta.transform.position += transform.parent.transform.TransformDirection(new Vector3(0, 0, moveSpeed));
+                    transform.parent.transform.position += this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
+                    //if (this.isEnter)
+                    //    this.Greta.transform.position += transform.parent.transform.TransformDirection(new Vector3(0, 0, MoveSpeed));
                 }
-                addVaule += moveSpeed;
+                this.addVaule += this.MoveSpeed;
             }
             else
             {
                 this.addVaule = 0;
-                if (this.direction == ElevatorDirection.Down)
-                    this.direction = ElevatorDirection.Up;
+                if (this.Direction == ElevatorDirection.Down)
+                    this.Direction = ElevatorDirection.Up;
                 else
-                    this.direction = ElevatorDirection.Down;
+                    this.Direction = ElevatorDirection.Down;
             }
         }     
     }

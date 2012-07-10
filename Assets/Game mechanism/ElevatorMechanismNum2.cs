@@ -4,8 +4,8 @@ using System.Collections;
 public class ElevatorMechanismNum2 : MonoBehaviour
 {
     public GameObject Greta;
-    public float moveDistance = 4.0f;
-    public float moveSpeed = 0.03f;
+    public float MoveDistance = 4.0f;
+    public float MoveSpeed = 0.03f;
 
     private bool isEnter = false;
     private float addVaule = 0;
@@ -13,7 +13,8 @@ public class ElevatorMechanismNum2 : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.name == this.Greta.name && !this.isEnter)
+        GameObject m_parent = other.transform.parent.gameObject;
+        if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)) && !this.isEnter)
         {
             this.isEnter = true;
             for (int i = 1; i < this.boxs.Length; i++)
@@ -23,7 +24,8 @@ public class ElevatorMechanismNum2 : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.name == Greta.name)
+        GameObject m_parent = other.transform.parent.gameObject;
+        if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
             this.isEnter = false;        
     }
 
@@ -31,21 +33,20 @@ public class ElevatorMechanismNum2 : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        this.Greta = GameObject.Find("Greta");
-        this.boxs = transform.GetComponentsInChildren<BoxCollider>();
+        this.boxs = this.transform.GetComponentsInChildren<BoxCollider>();
     }
 
     void Update()
     {
         if (this.isEnter)
         {
-            if (Mathf.Abs(addVaule) < moveDistance)
+            if (Mathf.Abs(this.addVaule) < this.MoveDistance)
             {
-                transform.parent.transform.position -= transform.parent.transform.TransformDirection(new Vector3(0, 0, this.moveSpeed));
-                if (this.isEnter)
-                    Greta.transform.position -= transform.parent.transform.TransformDirection(new Vector3(0, 0, this.moveSpeed));
+                this.transform.parent.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
+                //if (this.isEnter)
+                //    Greta.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
 
-                this.addVaule += this.moveSpeed;
+                this.addVaule += this.MoveSpeed;
             }
             else
             {

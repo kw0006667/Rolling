@@ -3,25 +3,22 @@ using System.Collections;
 
 public class ConveyorMechanism : MonoBehaviour
 {    
-    public float moveSpeed = 0.05f;
-    public Vector3 direction;
-    public GameObject Greta;
-
-    private GretaController control;
+    public float MoveSpeed = 0.05f;
+    public Vector3 Direction;
 
     void OnTriggerStay(Collider other)
     {
-        if (other.name == this.Greta.name)
+        GameObject m_parent = other.transform.parent.gameObject;
+        if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
         {
-            this.Greta.transform.position += transform.TransformDirection(direction * moveSpeed);                
+            m_parent.rigidbody.AddForce(this.transform.TransformDirection(this.Direction * this.MoveSpeed));
         }
     }
 
     // Use this for initialization
     void Start()
     {
-        this.Greta = GameObject.Find("Greta");
-        this.control = this.Greta.GetComponent<GretaController>();
+        
     }
 
 }
