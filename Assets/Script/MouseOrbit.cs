@@ -8,7 +8,6 @@ class MouseOrbit : MonoBehaviour
     public Transform player;
     public Transform Radar;
     public Camera radarcam;
-    public LayerMask hitLayer;
     public Vector3 targetOffset = Vector3.zero;
 
     public float distance = 2.0f;
