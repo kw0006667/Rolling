@@ -9,7 +9,6 @@ public class ElevatorMechanismNum2 : MonoBehaviour
 
     private bool isEnter = false;
     private float addVaule = 0;
-    private BoxCollider[] boxs;
 
     void OnTriggerEnter(Collider other)
     {
@@ -17,9 +16,7 @@ public class ElevatorMechanismNum2 : MonoBehaviour
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)) && !this.isEnter)
         {
             this.isEnter = true;
-            Greta = m_parent;
-            for (int i = 1; i < this.boxs.Length; i++)
-                this.boxs[i].isTrigger = false;            
+            Greta = m_parent;           
         }
     }
 
@@ -35,7 +32,7 @@ public class ElevatorMechanismNum2 : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        this.boxs = this.transform.GetComponentsInChildren<BoxCollider>();
+
     }
 
     void Update()
@@ -49,11 +46,6 @@ public class ElevatorMechanismNum2 : MonoBehaviour
                     Greta.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
 
                 this.addVaule += this.MoveSpeed;
-            }
-            else
-            {
-                for (int i = 1; i < this.boxs.Length; i++)
-                    this.boxs[i].isTrigger = true;                
             }
         }
     }

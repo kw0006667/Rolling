@@ -9,7 +9,6 @@ public class ElevatorMechanism : MonoBehaviour
 
     public GameObject NotPicture;
 
-    private BoxCollider[] boxs;
     private GameObject Greta;
     private SwitchMechanism switchMechanism;
     private bool isEnter = false;    
@@ -28,9 +27,7 @@ public class ElevatorMechanism : MonoBehaviour
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
         {
             this.isEnter = true;
-            Greta = m_parent;
-            for (int i = 1; i < this.boxs.Length; i++)
-                this.boxs[i].isTrigger = false;         
+            Greta = m_parent;        
         }
     }
 
@@ -48,7 +45,6 @@ public class ElevatorMechanism : MonoBehaviour
     void Start()
     {
         this.switchMechanism = this.SwitchObject.GetComponent<SwitchMechanism>();
-        this.boxs = this.transform.GetComponentsInChildren<BoxCollider>();
     }
 
     private float waitTime = 0.0f;
@@ -67,8 +63,6 @@ public class ElevatorMechanism : MonoBehaviour
                 {
                     isWait = false;
                     waitTime = 0;
-                    for (int i = 1; i < this.boxs.Length; i++)
-                        this.boxs[i].isTrigger = false;  
                 }
                 return;
             }
@@ -97,8 +91,6 @@ public class ElevatorMechanism : MonoBehaviour
             {
                 this.isWait = true;
                 this.addVaule = 0;
-                for (int i = 1; i < this.boxs.Length; i++)
-                    this.boxs[i].isTrigger = true;  
 
                 if (this.Direction == ElevatorDirection.Down)
                     this.Direction = ElevatorDirection.Up;
