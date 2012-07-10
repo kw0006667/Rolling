@@ -17,6 +17,7 @@ public class ElevatorMechanismNum2 : MonoBehaviour
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)) && !this.isEnter)
         {
             this.isEnter = true;
+            Greta = m_parent;
             for (int i = 1; i < this.boxs.Length; i++)
                 this.boxs[i].isTrigger = false;            
         }
@@ -26,7 +27,8 @@ public class ElevatorMechanismNum2 : MonoBehaviour
     {
         GameObject m_parent = other.transform.parent.gameObject;
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
-            this.isEnter = false;        
+            this.isEnter = false;
+        Greta = null;
     }
 
     
@@ -43,8 +45,8 @@ public class ElevatorMechanismNum2 : MonoBehaviour
             if (Mathf.Abs(this.addVaule) < this.MoveDistance)
             {
                 this.transform.parent.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
-                //if (this.isEnter)
-                //    Greta.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
+                if (this.isEnter)
+                    Greta.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
 
                 this.addVaule += this.MoveSpeed;
             }
