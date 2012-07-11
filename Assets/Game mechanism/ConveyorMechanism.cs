@@ -11,7 +11,8 @@ public class ConveyorMechanism : MonoBehaviour
         GameObject m_parent = other.transform.parent.gameObject;
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
         {
-            m_parent.rigidbody.AddForce(this.transform.TransformDirection(this.Direction * this.MoveSpeed));
+            //m_parent.rigidbody.AddForce(this.transform.TransformDirection(this.Direction * this.MoveSpeed));
+            m_parent.transform.position += this.transform.TransformDirection(this.Direction * this.MoveSpeed);
         }
     }
 

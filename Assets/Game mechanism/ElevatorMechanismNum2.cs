@@ -37,7 +37,7 @@ public class ElevatorMechanismNum2 : MonoBehaviour
 
     void Update()
     {
-        if (this.isEnter)
+        if (this.isEnter && GameDefinition.GetIsWeight(Greta.rigidbody.mass) == GameDefinition.Weight.heavy)
         {
             if (Mathf.Abs(this.addVaule) < this.MoveDistance)
             {

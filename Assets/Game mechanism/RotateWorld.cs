@@ -8,6 +8,7 @@ public class RotateWorld : MonoBehaviour {
     public bool isEnter = false;
     public bool isRotate = false;
     private GameObject Greta;
+    private Vector3 v3;
 
     void OnTriggerEnter(Collider other)
     {
@@ -15,14 +16,16 @@ public class RotateWorld : MonoBehaviour {
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)) && !isRotate)
         {
             isRotate = true;
-            Greta = other.gameObject;
+            Greta = m_parent;
+            v3 = Greta.transform.position;
             RotateObject();
         }
     }
 
 	// Use this for initialization
 	void Start ()
-    {        
+    {
+        deltaRotate = 90 / rotateFrame;
 	}
 
     void RotateObject()
@@ -32,13 +35,34 @@ public class RotateWorld : MonoBehaviour {
         transform.parent.transform.position += transform.TransformDirection(new Vector3(0, 0, -1));
     }
 
+    float rotateFrame = 60;
+    int addFrame = 0;
+    public float deltaRotate;
+
 	//Update is called once per frame
-    //void Update()
-    //{
-    //    if (isEnter && !isRotate)
-    //        RotateObject();
-    //    //transform.RotateAround(Vector3.zero, v3, 20 * Time.deltaTime);
-    //    //transform.RotateAround(trans.position, Axis_v3, Time.deltaTime * speed);
-    //    //transform.RotateAroundLocal(Axis_v3, Time.deltaTime * speed);
-    //}
+    void Update()
+    {
+        //if (isRotate)
+        //{
+        //    if (addFrame < rotateFrame)
+        //    {
+        //        addFrame++;
+        //        transform.parent.transform.RotateAround(transform.position, Axis_v3, deltaRotate);
+        //        //transform.parent.transform.position += transform.TransformDirection(new Vector3(0, 0, -0.5f));
+        //        //Greta.rigidbody.isKinematic = true;
+        //        //Greta.rigidbody.velocity = Vector3.zero;
+        //        //print(Greta.rigidbody.velocity);
+        //    }
+        //    else
+        //    {
+        //        //Greta.rigidbody.isKinematic = false;
+        //        isRotate = false;
+        //    }
+        //}
+        //if (isEnter && !isRotate)
+        //    RotateObject();
+        //transform.RotateAround(Vector3.zero, v3, 20 * Time.deltaTime);
+        //transform.RotateAround(trans.position, Axis_v3, Time.deltaTime * speed);
+        //transform.RotateAroundLocal(Axis_v3, Time.deltaTime * speed);
+    }
 }
