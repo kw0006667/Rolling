@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class RotateWorld : MonoBehaviour {
+public class RotateWorld : MonoBehaviour
+{
 
     public Vector3 Axis_v3;
     public float speed = 1;
@@ -22,24 +23,28 @@ public class RotateWorld : MonoBehaviour {
         }
     }
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start()
     {
         deltaRotate = 90 / rotateFrame;
-	}
+    }
 
     void RotateObject()
     {
-        transform.parent.transform.RotateAround(transform.position, Axis_v3, 90);
+        //transform.parent.transform.RotateAround(transform.position, Axis_v3, 90);
         //Greta.transform.position += Greta.transform.TransformDirection(0, 5, 0);
-        transform.parent.transform.position += transform.TransformDirection(new Vector3(0, 0, -1));
+        //transform.parent.transform.position += transform.TransformDirection(new Vector3(0, 0, -1));
+        if (Vector3.Equals(Physics.gravity, new Vector3(0.0f, -9.8f, 0.0f)))
+            Physics.gravity = new Vector3(0.0f, 0.0f, 9.8f);
+        else
+            Physics.gravity = new Vector3(0.0f, -9.8f, 0.0f);
     }
 
     float rotateFrame = 60;
     int addFrame = 0;
     public float deltaRotate;
 
-	//Update is called once per frame
+    //Update is called once per frame
     void Update()
     {
         //if (isRotate)

@@ -13,6 +13,8 @@ public class SmoothFollow : MonoBehaviour {
     public float HeightDamping = 2.0f;
     public float RotationDamping = 3.0f;
 
+    public Vector3 forward = new Vector3(0.0f, 1.0f, 0.0f);
+    public Vector3 localPoint;
     //public LayerMask LineOfSightMask = 0;
 
     //public float CloserRadius = 0.2f;
@@ -34,31 +36,101 @@ public class SmoothFollow : MonoBehaviour {
         if (!this.Target)
             return;
 
-        // Calculate the current rotation angles
-        float wanteddRotationAngle = this.Target.eulerAngles.y;
-        float wantedHeight = this.Target.position.y + this.Height;
+        if (Vector3.Equals(Physics.gravity, new Vector3(0.0f, -9.8f, 0.0f)))
+        {
+            // Calculate the current rotation angles
+            float wanteddRotationAngle = this.Target.eulerAngles.y;
+            float wantedHeight = this.Target.position.y + this.Height;
 
-        float currentRotationAngle = this.transform.eulerAngles.y;
-        float currentHeight = this.transform.position.y;
+            float currentRotationAngle = this.transform.eulerAngles.y;
+            float currentHeight = this.transform.position.y;
 
-        // Damp the rotation around the y-axis
-        currentRotationAngle = Mathf.LerpAngle(currentRotationAngle, wanteddRotationAngle, this.RotationDamping * Time.deltaTime);
+            // Damp the rotation around the y-axis
+            currentRotationAngle = Mathf.LerpAngle(currentRotationAngle, wanteddRotationAngle, this.RotationDamping * Time.deltaTime);
 
-        // Damp the height
-        currentHeight = Mathf.Lerp(currentHeight, wantedHeight, this.HeightDamping * Time.deltaTime);
+            // Damp the height
+            currentHeight = Mathf.Lerp(currentHeight, wantedHeight, this.HeightDamping * Time.deltaTime);
 
-        // Convert the angle into a rotation
-        Quaternion currentRotation = Quaternion.Euler(0, currentRotationAngle, 0);
+            // Convert the angle into a rotation
+            Quaternion currentRotation = Quaternion.Euler(0, currentRotationAngle, 0);
 
-        // Set the position of the camera on the x-z plane to:
-        this.transform.position = this.Target.position;
-        this.transform.position -= currentRotation * Vector3.forward * this.Distance;
+            // Set the position of the camera on the x-z plane to:
+            this.transform.position = this.Target.position;
+            this.transform.position -= currentRotation * Vector3.forward * this.Distance;
 
-        // Set the height of the camera
-        this.transform.position = new Vector3(this.transform.position.x, currentHeight, this.transform.position.z);
+            // Set the height of the camera
+            this.transform.position = new Vector3(this.transform.position.x, currentHeight, this.transform.position.z);
 
-        // Always look at the target
-        this.transform.LookAt(this.Target);
+            // Always look at the target
+            this.transform.LookAt(this.Target, new Vector3(0.0f, 1.0f, 0.0f));
+        }
+        else
+        {
+            float height = -this.Height;
+            // Calculate the current rotation angles
+            float wantedRotationAngle_z = this.Target.rotation.z;
+            float wantedRotationAngle_x = this.Target.rotation.x;
+            float wantedRotationAngle_y = this.Target.rotation.y;
+            float wantedHeight = this.Target.position.z + height;
+
+            float currentRotationAngle_z = this.transform.rotation.z;
+            float currentRotationAngle_x = this.transform.rotation.x;
+            float currentRotationAngle_y = this.transform.rotation.y;
+            float currentHeight = this.transform.position.z;
+
+            // Damp the rotation around the z-axis
+            currentRotationAngle_z = Mathf.LerpAngle(currentRotationAngle_z, wantedRotationAngle_z, this.RotationDamping * Time.deltaTime);
+            currentRotationAngle_x = Mathf.LerpAngle(currentRotationAngle_x, wantedRotationAngle_x, this.RotationDamping * Time.deltaTime);
+            currentRotationAngle_y = Mathf.LerpAngle(currentRotationAngle_y, wantedRotationAngle_y, this.RotationDamping * Time.deltaTime);
+
+            // Damp the height
+            currentHeight = Mathf.Lerp(currentHeight, wantedHeight, -this.HeightDamping * Time.deltaTime);
+
+            //Convert the angle into a rotation
+            Quaternion currentRotation = Quaternion.Euler(currentRotationAngle_x, currentRotationAngle_y, currentRotationAngle_z);
+
+            // Set the position of the camera on the x-y plane to:
+            // distance meters behind the target
+            this.transform.position = this.Target.position;
+            this.transform.position -= currentRotation * this.forward * this.Distance;
+
+
+            // Set the height of the camera
+            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, currentHeight);
+
+            this.localPoint = this.transform.TransformPoint(transform.position);
+            //-------------------------------
+
+            // Calculate the current rotation angles
+            //float wanteddRotationAngle = this.Target.eulerAngles.y;
+            //float wantedHeight = this.Target.position.y + this.Height;
+
+            //float currentRotationAngle = this.transform.eulerAngles.y;
+            //float currentHeight = this.transform.position.y;
+
+            //// Damp the rotation around the y-axis
+            //currentRotationAngle = Mathf.LerpAngle(currentRotationAngle, wanteddRotationAngle, this.RotationDamping * Time.deltaTime);
+
+            //// Damp the height
+            //currentHeight = Mathf.Lerp(currentHeight, wantedHeight, this.HeightDamping * Time.deltaTime);
+
+            //// Convert the angle into a rotation
+            //Quaternion currentRotation = Quaternion.Euler(0, currentRotationAngle, 0);
+
+            //// Set the position of the camera on the x-z plane to:
+            //this.transform.position = this.Target.position;
+            //this.transform.position -= currentRotation * Vector3.forward * this.Distance;
+
+            //// Set the height of the camera
+            //this.transform.position = new Vector3(this.transform.position.x, currentHeight, this.transform.position.z);
+
+            //Quaternion rotation = Quaternion.LookRotation(this.transform.position - this.Target.position);
+            //rotation = Quaternion.LookRotation(this.Target.position - this.transform.position, new Vector3(0.0f, 0.0f, -1.0f));
+            //this.transform.rotation = Quaternion.Slerp(this.transform.rotation, rotation, Time.deltaTime* this.RotationDamping * 20);
+
+            // Always look at the target
+            this.transform.LookAt(this.Target, new Vector3(0.0f, 0.0f, -1.0f));
+        }
 
         //// Adjust Camera position when raycast the wall
         //Vector3 targetPos = this.transform.position + this.transform.TransformDirection(Vector3.forward);
