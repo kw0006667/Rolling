@@ -2,13 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public class ButtonMechanism : MonoBehaviour {
-    
-    public GameObject TriggerObject;
 
-    private Animation triggerAnimation;
     private bool trigger = false;
-    private bool WaitOn = false;
-    private bool WaitOff = false;
 
     void OnTriggerEnter(Collider other)
     {
@@ -16,14 +11,8 @@ public class ButtonMechanism : MonoBehaviour {
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
         {
             this.trigger = true;
-            if (!this.animation.IsPlaying("ButtonOnAnimation") && !this.WaitOn)
-            {
+            if (!this.animation.IsPlaying("ButtonOnAnimation"))
                 this.animation.PlayQueued("ButtonOnAnimation");
-                if (!this.triggerAnimation.IsPlaying("UpDownFloor_DownAnimation"))
-                    this.triggerAnimation.PlayQueued("UpDownFloor_DownAnimation");
-
-                this.WaitOn = true;
-            }
         }
     }
 
@@ -33,30 +22,18 @@ public class ButtonMechanism : MonoBehaviour {
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
         {
             this.trigger = false;
-            if (!this.animation.IsPlaying("ButtonOffAnimation") && !this.WaitOff)
-            {
+            if (!this.animation.IsPlaying("ButtonOffAnimation"))
                 this.animation.PlayQueued("ButtonOffAnimation");
-                if (!this.triggerAnimation.IsPlaying("UpDownFloor_UpAnimation"))
-                    this.triggerAnimation.PlayQueued("UpDownFloor_UpAnimation");
-
-                this.WaitOff = true;
-            }
         }
     }
 
-    void unWaitOff()
+    public bool GetTrigger()
     {
-        this.WaitOff = false;
+        return this.trigger;
     }
 
-    void unWaitOn()
-    {
-        this.WaitOn = false;
-    }
-    
     // Use this for initialization
     void Start()
     {
-        this.triggerAnimation = this.TriggerObject.GetComponent<Animation>();
     }
 }
