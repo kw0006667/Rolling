@@ -14,6 +14,11 @@ ModelImporter:
     7400006: backward //// CharacterType2
     7400008: turnR //// CharacterType2
     7400010: turnL //// CharacterType2
+    7400012: Idle //// CharacterType2
+    7400014: Forward //// CharacterType2
+    7400016: Backward //// CharacterType2
+    7400018: TurnRight //// CharacterType2
+    7400020: TurnLeft //// CharacterType2
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -29,27 +34,27 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     clipAnimations:
-    - name: idle
+    - name: Idle
       firstFrame: 0
       lastFrame: 100
       wrapMode: 2
       loop: 1
-    - name: forward
+    - name: Forward
       firstFrame: 130
       lastFrame: 150
       wrapMode: 1
       loop: 0
-    - name: backward
+    - name: Backward
       firstFrame: 160
       lastFrame: 185
       wrapMode: 1
       loop: 0
-    - name: turnR
+    - name: TurnRight
       firstFrame: 190
       lastFrame: 210
       wrapMode: 1
       loop: 0
-    - name: turnL
+    - name: TurnLeft
       firstFrame: 215
       lastFrame: 235
       wrapMode: 1

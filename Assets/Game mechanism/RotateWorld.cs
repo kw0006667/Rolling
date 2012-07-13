@@ -18,6 +18,7 @@ public class RotateWorld : MonoBehaviour
         {
             isRotate = true;
             Greta = m_parent;
+            Greta.rigidbody.isKinematic = true;
             v3 = Greta.transform.position;
             RotateObject();
         }
@@ -31,22 +32,33 @@ public class RotateWorld : MonoBehaviour
 
     void RotateObject()
     {
-        //transform.parent.transform.RotateAround(transform.position, Axis_v3, 90);
+        transform.parent.transform.RotateAround(transform.position, Axis_v3, 90);
         //Greta.transform.position += Greta.transform.TransformDirection(0, 5, 0);
-        //transform.parent.transform.position += transform.TransformDirection(new Vector3(0, 0, -1));
-        if (Vector3.Equals(Physics.gravity, new Vector3(0.0f, -9.8f, 0.0f)))
-            Physics.gravity = new Vector3(0.0f, 0.0f, 9.8f);
-        else
-            Physics.gravity = new Vector3(0.0f, -9.8f, 0.0f);
+        transform.parent.transform.position += transform.TransformDirection(new Vector3(0, 0, -1));
+        //if (Vector3.Equals(Physics.gravity, new Vector3(0.0f, -9.8f, 0.0f)))
+        //    Physics.gravity = new Vector3(0.0f, 0.0f, 9.8f);
+        //else
+        //    Physics.gravity = new Vector3(0.0f, -9.8f, 0.0f);
     }
 
     float rotateFrame = 60;
     int addFrame = 0;
     public float deltaRotate;
 
+    float totalTime = 0.0f;
+
     //Update is called once per frame
     void Update()
     {
+        if (this.isRotate && this.totalTime < 0.05f)
+        {
+            totalTime += Time.deltaTime;
+            if (totalTime >= 0.05f)
+            {
+                Greta.rigidbody.isKinematic = false;
+                this.totalTime = 0.05f;
+            }
+        }
         //if (isRotate)
         //{
         //    if (addFrame < rotateFrame)
