@@ -33,12 +33,13 @@ public class DisplayFPS : MonoBehaviour {
         if( timeleft <= 0.0 )
         {
             // display two fractional digits (f2 format)
-            guiText.text = "FPS = " + Time.timeScale.ToString("f2") + " / " + Time.deltaTime.ToString() + " = " + (accum/frames).ToString("f2");
+            //guiText.text = "FPS = " + Time.timeScale.ToString("f2") + " / " + Time.deltaTime.ToString() + " = " + (accum/frames).ToString("f2");
             timeleft = updateInterval;
             accum = 0.0f;
             frames = 0;
         }
-	
+        if (this.GetFPS() >= 70)
+            Application.targetFrameRate = 70;
 	}
 
     public float GetFPS()
