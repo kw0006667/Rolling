@@ -146,7 +146,8 @@ public class WheelController : MonoBehaviour
             this.forceTorque += this.tempTorque;
             if (this.forceTorque >= this.MaxTorque)
                 this.forceTorque = this.MaxTorque;
-            this.forceTorque += this.tempTorque;
+            else if(this.forceTorque <= (-this.MaxTorque))
+                this.forceTorque = (-this.MaxTorque);
         }
         else
         {
