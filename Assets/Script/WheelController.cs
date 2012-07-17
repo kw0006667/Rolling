@@ -10,21 +10,27 @@ public class WheelController : MonoBehaviour
     public WheelCollider RightWheel;
     public WheelCollider LeftWheel_Front;
     public WheelCollider RightWheel_Front;
+    
+    // The center mass of Rigidbody
     public Transform CenterOfMass;
-
+    // Set the max value of ForceTorque
     public float MaxTorque;
-    public float MouseX_Value;
+    
+    // Normal rigidbody drag value
     public float WheelDrag = 0.5f;
+    // Handbreaking rigidbody drag value
     public float HandBreakDrag = 3.0f;
 
     #endregion
 
     #region private properties
+    // Save temp torque value
     private float tempTorque;
+    // forward and back force value via input device(MouseWheel)
     private float forceTorque;
-    private float brakeTorque;
-    private float powerTorque;
-
+    // Axis value to turn left and right via input device(Mouse left or right)
+    private float MouseX_Value;
+    // Verify it's handbreaking current
     private bool isHandBreak;
 
     #endregion
@@ -35,14 +41,13 @@ public class WheelController : MonoBehaviour
     void Start()
     {
         // Set the CenterOfMass of RigidBody
-        this.rigidbody.centerOfMass = this.CenterOfMass.localPosition;
+        if (this.CenterOfMass != null)
+            this.rigidbody.centerOfMass = this.CenterOfMass.localPosition;
         this.rigidbody.drag = this.WheelDrag;
 
         // Initialization of values
         this.tempTorque = 0.0f;
         this.forceTorque = 0.0f;
-        this.brakeTorque = 0.0f;
-        this.powerTorque = 0.0f;
     }
 
     // Update is called once per frame
@@ -58,77 +63,51 @@ public class WheelController : MonoBehaviour
     void Update()
     {
         // Get values of Input
-        tempTorque = Input.GetAxis("Vertical");
-        this.MouseX_Value = Input.GetAxis("Mouse X");
+        this.getInput();
 
-        if (this.MouseX_Value >= 5)
-            this.MouseX_Value = 5;
+        // Play character animation
+        this.handleAnimation();
 
-        if (Input.GetMouseButtonDown(2) && RightWheel.isGrounded)
-        {
-            if (!this.isHandBreak)
-                this.brakeTorque = this.forceTorque * (-1);
-            this.isHandBreak = true;
-            this.rigidbody.drag = this.HandBreakDrag;
-        }
-        if (Input.GetMouseButtonUp(2))
-        {
-            this.isHandBreak = false;
-            this.rigidbody.drag = this.WheelDrag;
-        }
-        handleAnimation();
+        // Hand braking
+        this.handbraking();
     }
 
     #endregion
 
     #region Support Methods
 
-    private void handleAnimation()
+    /// <summary>
+    /// Get keyboard, mouse or another input device value
+    /// </summary>
+    private void getInput()
     {
-        if (MouseX_Value > 1.4f)
-        {
-            if (!animation.IsPlaying("Forward") && !animation.IsPlaying("Backward") && !animation.IsPlaying("TurnRight") && !animation.IsPlaying("TurnLeft"))
-            {
-                animation["TurnRight"].wrapMode = WrapMode.Once;
-                animation["TurnRight"].speed = 1.0f;
-                animation.CrossFade("TurnRight");
-            }
-        }
-        if (MouseX_Value < -1.4f)
-        {
-            if (!animation.IsPlaying("Forward") && !animation.IsPlaying("Backward") && !animation.IsPlaying("TurnRight") && !animation.IsPlaying("TurnLeft"))
-            {
-                animation["TurnLeft"].wrapMode = WrapMode.Once;
-                animation["TurnLeft"].speed = 1.0f;
-                animation.CrossFade("TurnLeft");
-            }
-        }
+        // Wheel the mouse scroll to increase or decrease value
+        tempTorque = Input.GetAxis("Vertical");
+        // Turn right or left mouse to get axis value
+        this.MouseX_Value = Input.GetAxis("Mouse X");
 
-        if (tempTorque > 0)
-        {
-            if (!animation.IsPlaying("Forward") && !animation.IsPlaying("Backward") && !animation.IsPlaying("TurnRight") && !animation.IsPlaying("TurnLeft"))
-            {
-                animation["Forward"].wrapMode = WrapMode.Once;
+        if (this.MouseX_Value >= 5)
+            this.MouseX_Value = 5;
 
-                animation["Forward"].speed = 1.5f;
-                animation.CrossFade("Forward");
-            }
-        }
-        if (tempTorque < 0)
+        // Click the middle click of mouse
+        if (Input.GetMouseButtonDown(2) && RightWheel.isGrounded)
+            this.isHandBreak = true;
+        if (Input.GetMouseButtonUp(2))
+            this.isHandBreak = false;
+    }
+
+    /// <summary>
+    /// Set drag value when handbreaking or not
+    /// </summary>
+    private void handbraking()
+    {
+        if (this.isHandBreak)
         {
-            if (!animation.IsPlaying("Forward") && !animation.IsPlaying("Backward") && !animation.IsPlaying("TurnRight") && !animation.IsPlaying("TurnLeft"))
-            {
-                animation["Backward"].wrapMode = WrapMode.Once;
-                animation["Backward"].speed = 1.5f;
-                animation.CrossFade("Backward");
-            }
+            this.rigidbody.drag = this.HandBreakDrag;
         }
-        if (tempTorque == 0 && MouseX_Value == 0)
+        else
         {
-            if (!animation.IsPlaying("Forward") && !animation.IsPlaying("Backward") && !animation.IsPlaying("TurnRight") && !animation.IsPlaying("TurnLeft"))
-            {
-                animation.CrossFade("Idle");
-            }
+            this.rigidbody.drag = this.WheelDrag;
         }
     }
 
@@ -156,32 +135,69 @@ public class WheelController : MonoBehaviour
         }
         else
         {
-            this.forceTorque = 0.0f;
+            this.forceTorque = 0;
         }
 
         if (!isHandBreak)
         {
             this.rigidbody.AddForce(this.transform.TransformDirection(Vector3.forward) * (this.forceTorque));
-
-            //LeftWheel.motorTorque = forceTorque;
-            //RightWheel.motorTorque = forceTorque;
-            //LeftWheel_Front.motorTorque = forceTorque;
-            //RightWheel_Front.motorTorque = forceTorque;
-        }
-        else
-        {
-            // HandBrakeing
-            // Verify the velocity of rigidbody is not zero
-            //if (!Vector3.Equals(this.rigidbody.velocity.normalized, Vector3.zero))
-            {
-                this.rigidbody.AddForce(this.transform.TransformDirection(Vector3.forward) * this.brakeTorque);
-                //this.rigidbody.velocity = Vector3.zero;
-            }
         }
 
         // Draw a ray to display transform forward
         if (Debug.isDebugBuild)
             Debug.DrawRay(this.transform.position, this.transform.TransformDirection(Vector3.forward), Color.red);
+    }
+
+    /// <summary>
+    /// Play animation of idle, walk forward, back and turn right or left.
+    /// </summary>
+    private void handleAnimation()
+    {
+        if (MouseX_Value > 1.4f)
+        {
+            if (!animation.IsPlaying("Forward") && !animation.IsPlaying("Backward") && !animation.IsPlaying("TurnRight") && !animation.IsPlaying("TurnLeft"))
+            {
+                animation["TurnRight"].wrapMode = WrapMode.Once;
+                animation["TurnRight"].speed = 1.0f;
+                animation.CrossFade("TurnRight");
+            }
+        }
+        if (MouseX_Value < -1.4f)
+        {
+            if (!animation.IsPlaying("Forward") && !animation.IsPlaying("Backward") && !animation.IsPlaying("TurnRight") && !animation.IsPlaying("TurnLeft"))
+            {
+                animation["TurnLeft"].wrapMode = WrapMode.Once;
+                animation["TurnLeft"].speed = 1.0f;
+                animation.CrossFade("TurnLeft");
+            }
+        }
+
+        if (tempTorque > 0)
+        {
+            if (!animation.IsPlaying("Forward") && !animation.IsPlaying("Backward") && !animation.IsPlaying("TurnRight") && !animation.IsPlaying("TurnLeft"))
+            {
+                animation["Forward"].wrapMode = WrapMode.Once;
+
+                animation["Forward"].speed = 1.0f;
+                animation.CrossFade("Forward");
+            }
+        }
+        if (tempTorque < 0)
+        {
+            if (!animation.IsPlaying("Forward") && !animation.IsPlaying("Backward") && !animation.IsPlaying("TurnRight") && !animation.IsPlaying("TurnLeft"))
+            {
+                animation["Backward"].wrapMode = WrapMode.Once;
+                animation["Backward"].speed = 1.0f;
+                animation.CrossFade("Backward");
+            }
+        }
+        if (tempTorque == 0 && MouseX_Value == 0)
+        {
+            if (!animation.IsPlaying("Forward") && !animation.IsPlaying("Backward") && !animation.IsPlaying("TurnRight") && !animation.IsPlaying("TurnLeft"))
+            {
+                animation.CrossFade("Idle");
+            }
+        }
     }
 
     #endregion
