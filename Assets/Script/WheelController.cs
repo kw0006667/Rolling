@@ -14,6 +14,8 @@ public class WheelController : MonoBehaviour
 
     public float MaxTorque;
     public float MouseX_Value;
+    public float WheelDrag = 0.5f;
+    public float HandBreakDrag = 3.0f;
 
     #endregion
 
@@ -34,6 +36,7 @@ public class WheelController : MonoBehaviour
     {
         // Set the CenterOfMass of RigidBody
         this.rigidbody.centerOfMass = this.CenterOfMass.localPosition;
+        this.rigidbody.drag = this.WheelDrag;
 
         // Initialization of values
         this.tempTorque = 0.0f;
@@ -61,16 +64,18 @@ public class WheelController : MonoBehaviour
         if (this.MouseX_Value >= 5)
             this.MouseX_Value = 5;
 
-        if (Input.GetMouseButtonDown(2))
+        if (Input.GetMouseButtonDown(2) && RightWheel.isGrounded)
         {
             if (!this.isHandBreak)
                 this.brakeTorque = this.forceTorque * (-1);
             this.isHandBreak = true;
+            this.rigidbody.drag = this.HandBreakDrag;
         }
         if (Input.GetMouseButtonUp(2))
+        {
             this.isHandBreak = false;
-
-        //print(this.isHandBreak);
+            this.rigidbody.drag = this.WheelDrag;
+        }
         handleAnimation();
     }
 
@@ -157,6 +162,11 @@ public class WheelController : MonoBehaviour
         if (!isHandBreak)
         {
             this.rigidbody.AddForce(this.transform.TransformDirection(Vector3.forward) * (this.forceTorque));
+
+            //LeftWheel.motorTorque = forceTorque;
+            //RightWheel.motorTorque = forceTorque;
+            //LeftWheel_Front.motorTorque = forceTorque;
+            //RightWheel_Front.motorTorque = forceTorque;
         }
         else
         {
