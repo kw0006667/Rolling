@@ -56,10 +56,6 @@ public class RotateWorld : MonoBehaviour
                 addFrame++;
                 transform.parent.transform.RotateAround(transform.position, Axis_v3, deltaRotate);
             }
-            else
-            {
-                isRotate = false;
-            }
         }
     }
 }
