@@ -3,7 +3,8 @@ using System.Collections;
 
 public class WheelController : MonoBehaviour
 {
-
+    public float addValue;
+    private float tempLimit;
     #region Public properties
 
     public WheelCollider LeftWheel;
@@ -82,7 +83,15 @@ public class WheelController : MonoBehaviour
     private void getInput()
     {
         // Wheel the mouse scroll to increase or decrease value
-        tempTorque = Input.GetAxis("Vertical");
+        if (Input.GetAxis("Vertical") >= 13.5f)
+            tempLimit = 13.5f;
+        else if (Input.GetAxis("Vertical") <= -13.5f)
+            tempLimit = -13.5f;
+        else
+            tempLimit = Input.GetAxis("Vertical");
+        print(tempLimit);
+        tempTorque = tempLimit * Time.deltaTime * addValue;
+        
         // Turn right or left mouse to get axis value
         this.MouseX_Value = Input.GetAxis("Mouse X");
 
