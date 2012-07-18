@@ -83,13 +83,12 @@ public class WheelController : MonoBehaviour
     private void getInput()
     {
         // Wheel the mouse scroll to increase or decrease value
-        if (Input.GetAxis("Vertical") >= 13.5f)
-            tempLimit = 13.5f;
-        else if (Input.GetAxis("Vertical") <= -13.5f)
-            tempLimit = -13.5f;
+        if (Input.GetAxis("Vertical") >= 15.0f)
+            tempLimit = 15.0f;
+        else if (Input.GetAxis("Vertical") <= -15.0f)
+            tempLimit = -15.0f;
         else
             tempLimit = Input.GetAxis("Vertical");
-        print(tempLimit);
         tempTorque = tempLimit * Time.deltaTime * addValue;
         
         // Turn right or left mouse to get axis value
