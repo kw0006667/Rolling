@@ -4,7 +4,7 @@ using System.Collections;
 public class EndingMechanism : MonoBehaviour 
 {
     private CellManager cellManager;
-    public bool isOpen = false;
+    private bool isOpen = false;
 
     void OnTriggerEnter(Collider other)
     {
