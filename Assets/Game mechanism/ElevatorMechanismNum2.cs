@@ -37,15 +37,18 @@ public class ElevatorMechanismNum2 : MonoBehaviour
 
     void Update()
     {
-        if (this.isEnter && GameDefinition.GetIsWeight(Greta.rigidbody.mass) == GameDefinition.Weight.heavy)
+        if (this.Greta)
         {
-            if (Mathf.Abs(this.addVaule) < this.MoveDistance)
+            if (this.isEnter && GameDefinition.GetIsWeight(Greta.rigidbody.mass) == GameDefinition.Weight.heavy)
             {
-                this.transform.parent.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
-                if (this.isEnter)
-                    Greta.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
+                if (Mathf.Abs(this.addVaule) < this.MoveDistance)
+                {
+                    this.transform.parent.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
+                    if (this.isEnter)
+                        Greta.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
 
-                this.addVaule += this.MoveSpeed;
+                    this.addVaule += this.MoveSpeed;
+                }
             }
         }
     }
