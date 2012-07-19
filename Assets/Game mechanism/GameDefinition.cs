@@ -18,6 +18,13 @@ public class GameDefinition
         heavy = 2,
     };
 
+    public enum Scene
+    { 
+        Begin,
+        FirstStage,
+        SpeedStageOne,
+    }
+
     #endregion
 
     #region private const string
@@ -25,7 +32,31 @@ public class GameDefinition
     private const string Player = "Player";
     private const string MainCamera = "MainCamera";
 
+    private const string Begin = "Begin";
+    private const string FirstStage = "FirstStage";
+    private const string SpeedStageOne = "SpeedStageOne";
+
     #endregion
+
+    /// <summary>
+    /// Get application scene name.
+    /// </summary>
+    /// <param name="tag">Scene name</param>
+    /// <returns>Scene string name</returns>
+    public static string GetSceneName(Scene scene)
+    {
+        switch (scene)
+        {
+            case Scene.Begin:
+                return GameDefinition.Begin;
+            case Scene.FirstStage:
+                return GameDefinition.FirstStage;
+            case Scene.SpeedStageOne:
+                return GameDefinition.SpeedStageOne;
+            default:
+                return null;
+        }
+    }
 
     /// <summary>
     /// Get application tag name that you have setted.

@@ -5,13 +5,14 @@ public class EndingMechanism : MonoBehaviour
 {
     private CellManager cellManager;
     private bool isOpen = false;
+    public GameDefinition.Scene Scene;
 
     void OnTriggerEnter(Collider other)
     {
         GameObject m_parent = other.transform.parent.gameObject;
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)) && this.isOpen)
         {
-            Application.LoadLevel("FirstStage");
+            Application.LoadLevel(GameDefinition.GetSceneName(Scene));
         }
     }
 
@@ -24,10 +25,13 @@ public class EndingMechanism : MonoBehaviour
 	// Update is called once per frame
     void Update()
     {
-        if (this.cellManager.currentCount == this.cellManager.totalCount)
+        if (!isOpen)
         {
-            this.renderer.enabled = true;
-            this.isOpen = true;
+            if (this.cellManager.currentCount == this.cellManager.totalCount)
+            {
+                this.renderer.enabled = true;
+                this.isOpen = true;
+            }
         }
     }
 }

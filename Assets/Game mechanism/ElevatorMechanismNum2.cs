@@ -8,7 +8,7 @@ public class ElevatorMechanismNum2 : MonoBehaviour
     public float MoveSpeed = 0.03f;
 
     private bool isEnter = false;
-    private float addVaule = 0;
+    private float addValue = 0;
 
     void OnTriggerEnter(Collider other)
     {
@@ -25,7 +25,6 @@ public class ElevatorMechanismNum2 : MonoBehaviour
         GameObject m_parent = other.transform.parent.gameObject;
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
             this.isEnter = false;
-        Greta = null;
     }
 
     
@@ -39,16 +38,28 @@ public class ElevatorMechanismNum2 : MonoBehaviour
     {
         if (this.Greta)
         {
-            if (this.isEnter && GameDefinition.GetIsWeight(Greta.rigidbody.mass) == GameDefinition.Weight.heavy)
+            if (GameDefinition.GetIsWeight(Greta.rigidbody.mass) == GameDefinition.Weight.heavy)
             {
-                if (Mathf.Abs(this.addVaule) < this.MoveDistance)
+                if (this.isEnter)
                 {
-                    this.transform.parent.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
-                    if (this.isEnter)
-                        Greta.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
+                    if (Mathf.Abs(this.addValue) < this.MoveDistance)
+                    {
+                        this.transform.parent.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
+                        if (this.isEnter)
+                            Greta.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
 
-                    this.addVaule += this.MoveSpeed;
+                        this.addValue += this.MoveSpeed;
+                    }
                 }
+                else
+                {
+                    if (this.addValue > 0)
+                    {
+                        this.transform.parent.transform.position += this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
+                        this.addValue -= MoveSpeed;
+                    }
+                }
+
             }
         }
     }
