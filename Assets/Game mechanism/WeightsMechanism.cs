@@ -5,6 +5,7 @@ public class WeightsMechanism : MonoBehaviour {
 
     public float Mass = 1;
     public float DispearTime = 5.0f;
+    public GameObject Weight;
 
     private float totalTime;
     
@@ -39,9 +40,11 @@ public class WeightsMechanism : MonoBehaviour {
             {
                 case GameDefinition.Weight.light:
                     m_parent.rigidbody.mass += this.Mass;
+                    Weight.renderer.enabled = true;
                     break;
                 case GameDefinition.Weight.heavy:
                     m_parent.rigidbody.mass -= this.Mass;
+                    Weight.renderer.enabled = false;
                     break;
                 default:
                     break;

@@ -3,6 +3,11 @@ using System.Collections;
 
 public class Cell : MonoBehaviour
 {
+    public enum Size 
+    {
+        Small,Middle,Big
+    }
+
     private CellManager manager;
     void OnTriggerEnter(Collider other)
     {
