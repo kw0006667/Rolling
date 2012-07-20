@@ -7,6 +7,7 @@ public class Cell : MonoBehaviour
     {
         Small,Middle,Big
     }
+    public Size size = Size.Small;
 
     private CellManager manager;
     void OnTriggerEnter(Collider other)
@@ -14,18 +15,15 @@ public class Cell : MonoBehaviour
         GameObject m_parent = other.transform.parent.gameObject;        
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
         {
-            this.manager.AddCell();
+            this.manager.AddCell(this.size);
             Destroy(this.gameObject);
         }
     }
 
 	// Use this for initialization
-	void Start () {
+    void Start()
+    {
         this.manager = this.transform.parent.gameObject.GetComponent<CellManager>();
-	}
+    }
 	
-	// Update is called once per frame
-	void Update () {
-	    
-	}
 }
