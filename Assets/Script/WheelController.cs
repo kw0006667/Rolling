@@ -3,8 +3,6 @@ using System.Collections;
 
 public class WheelController : MonoBehaviour
 {
-    public float addValue;
-    private float tempLimit;
     #region Public properties
 
     public WheelCollider LeftWheel;
@@ -25,6 +23,8 @@ public class WheelController : MonoBehaviour
     #endregion
 
     #region private properties
+    private float addValue;
+    private float tempLimit;
     // Save temp torque value
     private float tempTorque;
     // forward and back force value via input device(MouseWheel)
@@ -33,6 +33,8 @@ public class WheelController : MonoBehaviour
     private float MouseX_Value;
     // Verify it's handbreaking current
     private bool isHandBreak;
+    // All wheelcolliders
+    public WheelCollider[] wheelColliderList;
 
     #endregion
 
@@ -46,9 +48,13 @@ public class WheelController : MonoBehaviour
             this.rigidbody.centerOfMass = this.CenterOfMass.localPosition;
         this.rigidbody.drag = this.WheelDrag;
 
+        // Get all wheelCollider
+        this.wheelColliderList = this.GetComponentsInChildren<WheelCollider>();
+
         // Initialization of values
         this.tempTorque = 0.0f;
         this.forceTorque = 0.0f;
+        this.addValue = 60.0f;
     }
 
     // Update is called once per frame
@@ -71,6 +77,9 @@ public class WheelController : MonoBehaviour
 
         // Hand braking
         this.handbraking();
+
+        // Free rigidbody x-axis rotate
+        this.freeRigidbodyRotate();
     }
 
     #endregion
@@ -84,12 +93,12 @@ public class WheelController : MonoBehaviour
     {
         // Wheel the mouse scroll to increase or decrease value
         if (Input.GetAxis("Vertical") >= 15.0f)
-            tempLimit = 15.0f;
+            this.tempLimit = 15.0f;
         else if (Input.GetAxis("Vertical") <= -15.0f)
-            tempLimit = -15.0f;
+            this.tempLimit = -15.0f;
         else
-            tempLimit = Input.GetAxis("Vertical");
-        tempTorque = tempLimit * Time.deltaTime * addValue;
+            this.tempLimit = Input.GetAxis("Vertical");
+        this.tempTorque = this.tempLimit * Time.deltaTime * this.addValue;
         
         // Turn right or left mouse to get axis value
         this.MouseX_Value = Input.GetAxis("Mouse X");
@@ -146,7 +155,7 @@ public class WheelController : MonoBehaviour
             this.forceTorque = 0;
         }
 
-        if (!isHandBreak)
+        if (!this.isHandBreak)
         {
             this.rigidbody.AddForce(this.transform.TransformDirection(Vector3.forward) * (this.forceTorque));
         }
@@ -156,54 +165,89 @@ public class WheelController : MonoBehaviour
             Debug.DrawRay(this.transform.position, this.transform.TransformDirection(Vector3.forward), Color.red);
     }
 
+    private void freeRigidbodyRotate()
+    {
+        if (this.getWheelOnFloor())
+        {
+            this.rigidbody.constraints = RigidbodyConstraints.None;
+        }
+        else
+        {
+            //this.rigidbody.freezeRotation = true;
+            this.rigidbody.constraints = RigidbodyConstraints.FreezeRotationX;
+        }
+    }
+
+    /// <summary>
+    /// Get all wheels are on floor
+    /// </summary>
+    /// <returns>Return true means one wheel on the floor at least, return false means all wheels not on the floor.</returns>
+    private bool getWheelOnFloor()
+    {
+        bool isOnFloor = true;
+
+        foreach (var wheel in this.wheelColliderList)
+        {
+            if (wheel.isGrounded)
+            {
+                isOnFloor = true;
+                break;
+            }
+            else
+            {
+                isOnFloor = false;
+            }
+        }
+        return isOnFloor;
+    }
+
     /// <summary>
     /// Play animation of idle, walk forward, back and turn right or left.
     /// </summary>
     private void handleAnimation()
     {
-        if (MouseX_Value > 1.4f)
+        if (this.MouseX_Value > 1.4f)
         {
-            if (!animation.IsPlaying("Forward") && !animation.IsPlaying("Backward") && !animation.IsPlaying("TurnRight") && !animation.IsPlaying("TurnLeft"))
+            if (!this.animation.IsPlaying("Forward") && !this.animation.IsPlaying("Backward") && !this.animation.IsPlaying("TurnRight") && !this.animation.IsPlaying("TurnLeft"))
             {
-                animation["TurnRight"].wrapMode = WrapMode.Once;
-                animation["TurnRight"].speed = 1.0f;
-                animation.CrossFade("TurnRight");
+                this.animation["TurnRight"].wrapMode = WrapMode.Once;
+                this.animation["TurnRight"].speed = 1.0f;
+                this.animation.CrossFade("TurnRight");
             }
         }
-        if (MouseX_Value < -1.4f)
+        if (this.MouseX_Value < -1.4f)
         {
-            if (!animation.IsPlaying("Forward") && !animation.IsPlaying("Backward") && !animation.IsPlaying("TurnRight") && !animation.IsPlaying("TurnLeft"))
+            if (!this.animation.IsPlaying("Forward") && !this.animation.IsPlaying("Backward") && !this.animation.IsPlaying("TurnRight") && !this.animation.IsPlaying("TurnLeft"))
             {
-                animation["TurnLeft"].wrapMode = WrapMode.Once;
-                animation["TurnLeft"].speed = 1.0f;
-                animation.CrossFade("TurnLeft");
+                this.animation["TurnLeft"].wrapMode = WrapMode.Once;
+                this.animation["TurnLeft"].speed = 1.0f;
+                this.animation.CrossFade("TurnLeft");
             }
         }
 
-        if (tempTorque > 0)
+        if (this.tempTorque > 0)
         {
-            if (!animation.IsPlaying("Forward") && !animation.IsPlaying("Backward") && !animation.IsPlaying("TurnRight") && !animation.IsPlaying("TurnLeft"))
+            if (!this.animation.IsPlaying("Forward") && !this.animation.IsPlaying("Backward") && !this.animation.IsPlaying("TurnRight") && !this.animation.IsPlaying("TurnLeft"))
             {
-                animation["Forward"].wrapMode = WrapMode.Once;
-
-                animation["Forward"].speed = 1.0f;
-                animation.CrossFade("Forward");
+                this.animation["Forward"].wrapMode = WrapMode.Once;
+                this.animation["Forward"].speed = 1.0f;
+                this.animation.CrossFade("Forward");
             }
         }
-        if (tempTorque < 0)
+        if (this.tempTorque < 0)
         {
-            if (!animation.IsPlaying("Forward") && !animation.IsPlaying("Backward") && !animation.IsPlaying("TurnRight") && !animation.IsPlaying("TurnLeft"))
+            if (!this.animation.IsPlaying("Forward") && !this.animation.IsPlaying("Backward") && !this.animation.IsPlaying("TurnRight") && !this.animation.IsPlaying("TurnLeft"))
             {
-                animation["Backward"].wrapMode = WrapMode.Once;
-                animation["Backward"].speed = 1.0f;
-                animation.CrossFade("Backward");
+                this.animation["Backward"].wrapMode = WrapMode.Once;
+                this.animation["Backward"].speed = 1.0f;
+                this.animation.CrossFade("Backward");
             }
         }
-        if (tempTorque == 0 && MouseX_Value == 0)
+        if (this.tempTorque == 0 && this.MouseX_Value == 0)
         {
-            if (!animation.IsPlaying("Forward") && !animation.IsPlaying("Backward") && !animation.IsPlaying("TurnRight") && !animation.IsPlaying("TurnLeft"))
+            if (!this.animation.IsPlaying("Forward") && !this.animation.IsPlaying("Backward") && !this.animation.IsPlaying("TurnRight") && !this.animation.IsPlaying("TurnLeft"))
             {
-                animation.CrossFade("Idle");
+                this.animation.CrossFade("Idle");
             }
         }
     }
