@@ -20,6 +20,7 @@ public class GameDefinition
 
     public enum Scene
     { 
+        none,
         Begin,
         FirstStage,
         SpeedStageOne,

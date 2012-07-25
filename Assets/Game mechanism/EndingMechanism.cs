@@ -12,7 +12,8 @@ public class EndingMechanism : MonoBehaviour
         GameObject m_parent = other.transform.parent.gameObject;
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)) && this.isOpen)
         {
-            Application.LoadLevel(GameDefinition.GetSceneName(Scene));
+            if(Scene != GameDefinition.Scene.none)
+                Application.LoadLevel(GameDefinition.GetSceneName(Scene));
         }
     }
 
@@ -30,7 +31,8 @@ public class EndingMechanism : MonoBehaviour
             if (this.cellManager.currentCount == this.cellManager.totalCount)
             {
                 this.renderer.enabled = true;
-                this.isOpen = true;
+                this.collider.enabled = true;
+                this.isOpen = true;                
             }
         }
     }
