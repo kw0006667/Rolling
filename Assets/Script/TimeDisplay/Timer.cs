@@ -8,7 +8,7 @@ class Timer : MonoBehaviour
     private int hour;
     private int min;
     private float sec;
-    private string TimerStr;
+    public string TimerStr;
 
     public GUIStyle style;
 
