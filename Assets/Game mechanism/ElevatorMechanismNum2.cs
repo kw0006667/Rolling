@@ -3,13 +3,13 @@ using System.Collections;
 
 public class ElevatorMechanismNum2 : MonoBehaviour
 {
-    public GameObject Greta;
     public float MoveDistance = 4.0f;
     public float MoveSpeed = 0.03f;
 
     private bool isEnter = false;
     private float addValue = 0;
-
+    private GameObject Greta;
+    
     void OnTriggerEnter(Collider other)
     {
         GameObject m_parent = other.transform.parent.gameObject;
