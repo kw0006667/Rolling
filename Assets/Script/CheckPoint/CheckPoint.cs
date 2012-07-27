@@ -5,7 +5,7 @@ using System.IO;
 
 public class CheckPoint : MonoBehaviour
 {
-    public CheckPointManager checkPointManager;
+    private CheckPointManager checkPointManager;
 
     void OnTriggerEnter(Collider other)
     {
