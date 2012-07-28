@@ -1,10 +1,19 @@
 using UnityEngine;
 using System.Collections;
 
+#region Global Define
+enum SETVALUE
+{
+    DECREASE = -1,
+    INCREASE = 1,
+};
+#endregion
+
 public class GameDefinition
 {
 
-    #region Public Properties
+
+    #region Public Properties  
 
     public enum Tag
     {
@@ -78,6 +87,8 @@ public class GameDefinition
     private const string ExitString = "Exit";   
 
     #endregion
+
+    #region Public static Methods
 
     /// <summary>
     /// Get application scene name.
@@ -159,4 +170,5 @@ public class GameDefinition
                 return null;
         }
     }
+    #endregion
 }
