@@ -3,11 +3,15 @@ using System.Collections;
 
 public class OptionMenu : MonoBehaviour
 {
-    public bool isOpenMenu = false;
+    
     public GameObject CheckPointObject;
-    private CheckPointManager checkPointManager;
+    public Texture OptionBackground;
 
+    private bool isOpenMenu = false;
+    private CheckPointManager checkPointManager;
     private GameDefinition.OptionMenu optionMenu;
+
+    private Rect optionBackgroundRect = new Rect(0, 0, 350, 390);
 
     private Rect returnCheckButtonRect = new Rect(0, 0, 300, 60);
     private Rect tutorialsButtonRect = new Rect(0, 0, 300, 60);
@@ -36,7 +40,7 @@ public class OptionMenu : MonoBehaviour
 
         if (this.isOpenMenu)
         {
-            #region Option None
+            #region Option Menu : None
             if (this.optionMenu.Equals(GameDefinition.OptionMenu.None))
             {
                 // If return to Checkpoint button has been clicked or not.
@@ -68,18 +72,32 @@ public class OptionMenu : MonoBehaviour
                 }
             }
             #endregion
+
+            #region Option Menu : Option
+            if (this.optionMenu.Equals(GameDefinition.OptionMenu.Option))
+            {
+                if (this.OptionBackground != null)
+                {
+                    GUI.DrawTexture(this.optionBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, true, 0.0f);
+                }
+            }
+            #endregion
         }
     }
 
     // Initialize All Buttons Rect real time
     private void InitializeButtonRect()
     {
+        this.optionBackgroundRect = new Rect((Screen.width - (int)this.optionBackgroundRect.width) / 2,
+                                              (Screen.height - (int)this.optionBackgroundRect.height) / 2,
+                                               this.optionBackgroundRect.width,
+                                               this.optionBackgroundRect.height);
         this.returnCheckButtonRect = new Rect((Screen.width - (int)this.returnCheckButtonRect.width) / 2,
-                                              (Screen.height - (int)this.returnCheckButtonRect.height) / 2 - 300,
+                                              (Screen.height - (int)this.returnCheckButtonRect.height) / 2 - 140,
                                                this.returnCheckButtonRect.width,
                                                this.returnCheckButtonRect.height);
         this.tutorialsButtonRect = new Rect((Screen.width - (int)this.tutorialsButtonRect.width) / 2,
-                                              (Screen.height - (int)this.tutorialsButtonRect.height) / 2 - 150,
+                                              (Screen.height - (int)this.tutorialsButtonRect.height) / 2 - 70,
                                                this.tutorialsButtonRect.width,
                                                this.tutorialsButtonRect.height);
         this.optionButtonRect = new Rect((Screen.width - (int)this.optionButtonRect.width) / 2,
@@ -87,11 +105,11 @@ public class OptionMenu : MonoBehaviour
                                                this.optionButtonRect.width,
                                                this.optionButtonRect.height);
         this.returnTitleButtonRect = new Rect((Screen.width - (int)this.returnTitleButtonRect.width) / 2,
-                                              (Screen.height - (int)this.returnTitleButtonRect.height) / 2 + 150,
+                                              (Screen.height - (int)this.returnTitleButtonRect.height) / 2 + 70,
                                                this.returnTitleButtonRect.width,
                                                this.returnTitleButtonRect.height);
         this.exitButtonRect = new Rect((Screen.width - (int)this.exitButtonRect.width) / 2,
-                                              (Screen.height - (int)this.exitButtonRect.height) / 2 + 300,
+                                              (Screen.height - (int)this.exitButtonRect.height) / 2 + 140,
                                                this.exitButtonRect.width,
                                                this.exitButtonRect.height);
     }
