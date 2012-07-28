@@ -9,11 +9,11 @@ public class OptionMenu : MonoBehaviour
 
     private GameDefinition.OptionMenu optionMenu;
 
-    private Rect returnCheckButtonRect = new Rect(0, 0, 150, 30);
-    private Rect tutorialsButtonRect = new Rect(0, 0, 150, 30);
-    private Rect optionButtonRect = new Rect(0, 0, 150, 30);
-    private Rect returnTitleButtonRect = new Rect(0, 0, 150, 30);
-    private Rect exitButtonRect = new Rect(0, 0, 150, 30);
+    private Rect returnCheckButtonRect = new Rect(0, 0, 300, 60);
+    private Rect tutorialsButtonRect = new Rect(0, 0, 300, 60);
+    private Rect optionButtonRect = new Rect(0, 0, 300, 60);
+    private Rect returnTitleButtonRect = new Rect(0, 0, 300, 60);
+    private Rect exitButtonRect = new Rect(0, 0, 300, 60);
 
     // Use this for initialization
     void Start()
@@ -31,6 +31,7 @@ public class OptionMenu : MonoBehaviour
 
     void OnGUI()
     {
+        // Initialize all button rect real time
         this.InitializeButtonRect();
 
         if (this.isOpenMenu)
@@ -38,17 +39,39 @@ public class OptionMenu : MonoBehaviour
             #region Option None
             if (this.optionMenu.Equals(GameDefinition.OptionMenu.None))
             {
-                // If return to Checkpoint button has been clicked
-                if (GUI.Button(this.returnCheckButtonRect, "測試按鈕\n回到記錄點"))
+                // If return to Checkpoint button has been clicked or not.
+                if (GUI.Button(this.returnCheckButtonRect, GameDefinition.GetOptionMenuString(GameDefinition.OptionMenu.ReturnCheck)))
                 {
                     this.checkPointManager.ReturnCheckPoint();
                     this.isOpenMenu = false;
+                }
+                // If tutorials button has been clicked or not.
+                if (GUI.Button(this.tutorialsButtonRect, GameDefinition.GetOptionMenuString(GameDefinition.OptionMenu.Tutorials)))
+                {
+                    this.isOpenMenu = false;
+                }
+                // If option button has been clicked or not.
+                if (GUI.Button(this.optionButtonRect, GameDefinition.GetOptionMenuString(GameDefinition.OptionMenu.Option)))
+                {
+                    this.isOpenMenu = false;
+                }
+                // If return title button has been clicked or not.
+                if (GUI.Button(this.returnTitleButtonRect, GameDefinition.GetOptionMenuString(GameDefinition.OptionMenu.ReturnTitle)))
+                {
+                    this.isOpenMenu = false;
+                }
+                // If exit button has been clicked or not.
+                if (GUI.Button(this.exitButtonRect, GameDefinition.GetOptionMenuString(GameDefinition.OptionMenu.Exit)))
+                {
+                    this.isOpenMenu = false;
+                    Application.Quit();
                 }
             }
             #endregion
         }
     }
 
+    // Initialize All Buttons Rect real time
     private void InitializeButtonRect()
     {
         this.returnCheckButtonRect = new Rect((Screen.width - (int)this.returnCheckButtonRect.width) / 2,
@@ -68,7 +91,7 @@ public class OptionMenu : MonoBehaviour
                                                this.returnTitleButtonRect.width,
                                                this.returnTitleButtonRect.height);
         this.exitButtonRect = new Rect((Screen.width - (int)this.exitButtonRect.width) / 2,
-                                              (Screen.height - (int)this.exitButtonRect.height) / 2 + 150,
+                                              (Screen.height - (int)this.exitButtonRect.height) / 2 + 300,
                                                this.exitButtonRect.width,
                                                this.exitButtonRect.height);
     }
