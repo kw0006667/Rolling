@@ -53,10 +53,10 @@ public class HomeMenu : MonoBehaviour
         this.optionResolutionContentValue = 0;
         this.optionResolutions = Screen.resolutions;
         this.optionResolutionList = new List<Resolution>();
-        foreach (Resolution res in optionResolutions)
+        foreach (Resolution res in this.optionResolutions)
         {
             if (res.width >= 1024 && res.height >= 720)
-                optionResolutionList.Add(res);
+                this.optionResolutionList.Add(res);
         }
         this.optionResolutionMaxLenght = this.optionResolutionList.Count;
 
