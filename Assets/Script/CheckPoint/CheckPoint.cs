@@ -12,13 +12,13 @@ public class CheckPoint : MonoBehaviour
         GameObject m_parent = other.transform.parent.gameObject;
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
         {
-            checkPointManager.currentPosition = transform.position;
-            checkPointManager.currentAngle = transform.localEulerAngles;
+            this.checkPointManager.SetCurrentPosition(this.transform.position);
+            this.checkPointManager.SetCurrentAngle(this.transform.localEulerAngles);
         }
     }
 
     void Start()
     {
-        checkPointManager = transform.parent.GetComponent<CheckPointManager>();
+        this.checkPointManager = this.transform.parent.GetComponent<CheckPointManager>();
     }
 }

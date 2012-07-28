@@ -10,14 +10,14 @@ public class TestMenu : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        checkPointManager = CheckPointObject.GetComponent<CheckPointManager>();
+        this.checkPointManager = CheckPointObject.GetComponent<CheckPointManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
-            isOpenMenu = !isOpenMenu;
+            this.isOpenMenu = true;
     }
 
     void OnGUI()
@@ -26,7 +26,8 @@ public class TestMenu : MonoBehaviour
         {
             if (GUI.Button(new Rect(0, 0, 100, 100), "測試按鈕\n回到記錄點"))
             {
-                checkPointManager.ReturnCheckPoint();
+                this.checkPointManager.ReturnCheckPoint();
+                this.isOpenMenu = false;
             }
         }
     }

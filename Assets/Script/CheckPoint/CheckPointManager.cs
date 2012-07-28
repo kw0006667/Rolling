@@ -3,18 +3,22 @@ using System.Collections;
 
 public class CheckPointManager : MonoBehaviour
 {
-    public Vector3 currentPosition;
-    public Vector3 currentAngle;
+    public Vector3 currentPosition { get; private set; }
+    public Vector3 currentAngle { get; private set; }
 
     public GameObject Greta;
 
-    public bool isCheck;
-
-    public void ReturnCheckPoint()
+    // Use this for initialization
+    void Start()
     {
-        Greta.transform.position = currentPosition;        
-        Greta.transform.eulerAngles = currentAngle;
-        Greta.rigidbody.velocity = Vector3.zero;
+        this.currentPosition = Greta.transform.position;
+        this.currentAngle = Greta.transform.eulerAngles;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 
     void OnTriggerEnter(Collider other)
@@ -22,24 +26,24 @@ public class CheckPointManager : MonoBehaviour
         GameObject m_parent = other.transform.parent.gameObject;
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
         {
-            ReturnCheckPoint();
+            this.ReturnCheckPoint();
         }
     }
 
-    // Use this for initialization
-    void Start()
+    public void ReturnCheckPoint()
     {
-        currentPosition = Greta.transform.position;
-        currentAngle = Greta.transform.eulerAngles;
+        Greta.transform.position = currentPosition;
+        Greta.transform.eulerAngles = currentAngle;
+        Greta.rigidbody.velocity = Vector3.zero;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetCurrentPosition(Vector3 vct3)
     {
-        if (isCheck)
-        {
-            ReturnCheckPoint();
-            isCheck = false;
-        }
+        this.currentPosition = vct3;
+    }
+
+    public void SetCurrentAngle(Vector3 vct3)
+    {
+        this.currentAngle = vct3;
     }
 }

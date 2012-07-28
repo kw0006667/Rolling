@@ -14,6 +14,9 @@ public class HintDisplay : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.Box(new Rect(Screen.width - Screen.width * left, Screen.height * top, Screen.width * width, Screen.height * height), hintTexture, style);
+        GUI.Box(new Rect(Screen.width - Screen.width * this.left, 
+                         Screen.height * this.top, 
+                         Screen.width * this.width, 
+                         Screen.height * this.height), this.hintTexture, this.style);
     }
 }

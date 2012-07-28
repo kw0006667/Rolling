@@ -11,7 +11,7 @@ public class ChangeHint : MonoBehaviour
         GameObject m_parent = other.transform.parent.gameObject;
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
         {
-            hintDisplay.hintTexture = ShowHintTexture;
+            this.hintDisplay.hintTexture = this.ShowHintTexture;
             Destroy(this);
         }
     }
@@ -19,6 +19,6 @@ public class ChangeHint : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        hintDisplay = transform.parent.GetComponent<HintDisplay>();
+        this.hintDisplay = this.transform.parent.GetComponent<HintDisplay>();
     }
 }
