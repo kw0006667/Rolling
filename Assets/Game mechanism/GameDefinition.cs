@@ -19,14 +19,14 @@ public class GameDefinition
     };
 
     public enum Scene
-    { 
+    {
         none,
         Begin,
         FirstStage,
-        SpeedStageOne,        
+        SpeedStageOne,
         SpeedStageTwo,
         BeginChallenge,
-    }
+    };
 
     public enum HomeMenu
     {
@@ -36,7 +36,17 @@ public class GameDefinition
         Stage,
         Option,
         Exit,
-    }
+    };
+
+    public enum OptionMenu
+    {
+        None,
+        ReturnCheck,
+        Tutorials,
+        Option,
+        ReturnTitle,
+        Exit,
+    };
 
     #endregion
 
@@ -50,6 +60,12 @@ public class GameDefinition
     private const string SpeedStageOne = "SpeedStageOne";
     private const string SpeedStageTwo = "SpeedStageTwo";
     private const string BeginChallenge = "BeginChallenge";
+
+    private const string ReturnCheckString = "Return CheckPoint";
+    private const string TutorialsString = "Tutorials";
+    private const string OptionString = "Option";
+    private const string ReturnTitleString = "Return to Title";
+    private const string ExitString = "Exit";
 
     #endregion
 
@@ -106,5 +122,31 @@ public class GameDefinition
             return Weight.heavy;
         else
             return Weight.light;
+    }
+
+    /// <summary>
+    /// Get the game option menu string.
+    /// </summary>
+    /// <param name="option">Which option.</param>
+    /// <returns>Option String.</returns>
+    public static string GetOptionMenuString(OptionMenu option)
+    {
+        switch (option)
+        {
+            case OptionMenu.None:
+                return null;
+            case OptionMenu.ReturnCheck:
+                return GameDefinition.ReturnCheckString;
+            case OptionMenu.Tutorials:
+                return GameDefinition.TutorialsString;
+            case OptionMenu.Option:
+                return GameDefinition.OptionString;
+            case OptionMenu.ReturnTitle:
+                return GameDefinition.ReturnTitleString;
+            case OptionMenu.Exit:
+                return GameDefinition.ExitString;
+            default:
+                return null;
+        }
     }
 }
