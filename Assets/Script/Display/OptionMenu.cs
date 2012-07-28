@@ -57,7 +57,7 @@ public class OptionMenu : MonoBehaviour
                 // If option button has been clicked or not.
                 if (GUI.Button(this.optionButtonRect, GameDefinition.GetOptionMenuString(GameDefinition.OptionMenu.Option)))
                 {
-                    this.isOpenMenu = false;
+                    this.optionMenu = GameDefinition.OptionMenu.Option;
                 }
                 // If return title button has been clicked or not.
                 if (GUI.Button(this.returnTitleButtonRect, GameDefinition.GetOptionMenuString(GameDefinition.OptionMenu.ReturnTitle)))
