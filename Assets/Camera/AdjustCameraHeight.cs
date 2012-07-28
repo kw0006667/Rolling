@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class AdjustCamera : MonoBehaviour
+public class AdjustCameraHeight : MonoBehaviour
 {
     public float AdjustHeight = 3;
     public float AdjustTime = 2;
