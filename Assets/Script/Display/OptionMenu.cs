@@ -7,10 +7,20 @@ public class OptionMenu : MonoBehaviour
 
     public GameObject CheckPointObject;
     public Texture OptionBackground;
+    public Texture[] HintTextures;
 
     private bool isOpenMenu = false;
     private CheckPointManager checkPointManager;
     private GameDefinition.OptionMenu optionMenu;
+
+    #region Tutorials Properties
+    // Tutorials properties
+    private Rect tutorialsAreaRect = new Rect(0, 0, 600, 390);
+    private Vector2 tutorialsScrolViewPosition = new Vector2(0, 0);
+    private Vector2 tutorialsScrolViewSize = new Vector2(275, 336);
+    private Vector2 tutorialsHintTextureSize = new Vector2(241, 300);
+    private int tutorialsValue;
+    #endregion
 
     #region Option Properties
 
@@ -58,15 +68,22 @@ public class OptionMenu : MonoBehaviour
     void Start()
     {
         this.checkPointManager = CheckPointObject.GetComponent<CheckPointManager>();
+        // Tutorials Initialization
+        this.tutorialsValue = 0;
         // Option Initialization
         this.optionMenu = GameDefinition.OptionMenu.None;
         this.optionQualityContentValue = GameDefinition.QualityContent.Fastest;
         this.optionResolutionContentValue = 0;
         this.optionResolutions = Screen.resolutions;
-        this.optionResolutionList = null;
-        this.optionResolutionMaxLenght = this.optionResolutions.Length;
+        this.optionResolutionList = new List<Resolution>();
+        foreach (var res in this.optionResolutions)
+        {
+            if (res.width >= 1024 && res.height >= 768)
+                this.optionResolutionList.Add(res);
+        }
+        this.optionResolutionMaxLenght = this.optionResolutionList.Count;
         this.optionFullScreenContentValue = true;
-	}
+    }
 
     // Update is called once per frame
     void Update()
@@ -94,7 +111,7 @@ public class OptionMenu : MonoBehaviour
                 // If tutorials button has been clicked or not.
                 if (GUI.Button(this.tutorialsButtonRect, GameDefinition.GetOptionMenuString(GameDefinition.OptionMenu.Tutorials)))
                 {
-                    this.isOpenMenu = false;
+                    this.optionMenu = GameDefinition.OptionMenu.Tutorials;
                 }
                 // If option button has been clicked or not.
                 if (GUI.Button(this.optionButtonRect, GameDefinition.GetOptionMenuString(GameDefinition.OptionMenu.Option)))
@@ -104,13 +121,65 @@ public class OptionMenu : MonoBehaviour
                 // If return title button has been clicked or not.
                 if (GUI.Button(this.returnTitleButtonRect, GameDefinition.GetOptionMenuString(GameDefinition.OptionMenu.ReturnTitle)))
                 {
-                    this.isOpenMenu = false;
+                    Application.LoadLevel(GameDefinition.GetSceneName(GameDefinition.Scene.StartMenu));
                 }
                 // If exit button has been clicked or not.
                 if (GUI.Button(this.exitButtonRect, GameDefinition.GetOptionMenuString(GameDefinition.OptionMenu.Exit)))
                 {
                     this.isOpenMenu = false;
                     Application.Quit();
+                }
+            }
+            #endregion
+
+            #region Option Menu : Tutorials
+            if (this.optionMenu.Equals(GameDefinition.OptionMenu.Tutorials))
+            {
+                // Display Option Background picture
+                if (this.OptionBackground != null)
+                {
+                    GUI.DrawTexture(this.optionBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, false, 0.0f);
+                }
+                GUILayout.BeginArea(this.tutorialsAreaRect);
+                {
+                    GUILayout.BeginHorizontal();
+                    {
+                        this.tutorialsScrolViewPosition = GUILayout.BeginScrollView(this.tutorialsScrolViewPosition, false, true, GUILayout.Width(this.tutorialsScrolViewSize.x), GUILayout.Height(this.tutorialsScrolViewSize.y));
+                        {
+                            GUILayout.BeginVertical();
+                            if (GUILayout.Button("\nHint 1\n"))
+                                this.tutorialsValue = 0;
+                            if (GUILayout.Button("\nHint 2\n"))
+                                this.tutorialsValue = 1;
+                            if (GUILayout.Button("\nHint 3\n"))
+                                this.tutorialsValue = 2;
+                            if (GUILayout.Button("\nHint 4\n"))
+                                this.tutorialsValue = 3;
+                            if (GUILayout.Button("\nHint 5\n"))
+                                this.tutorialsValue = 4;
+                            if (GUILayout.Button("\nHint 6\n"))
+                                this.tutorialsValue = 5;
+                            if (GUILayout.Button("\nHint 7\n"))
+                                this.tutorialsValue = 6;
+                            if (GUILayout.Button("\nHint 8\n"))
+                                this.tutorialsValue = 7;
+                            if (GUILayout.Button("\nHint 9\n"))
+                                this.tutorialsValue = 8;
+                            if (GUILayout.Button("\nHint 10\n"))
+                                this.tutorialsValue = 9;
+                            GUILayout.EndVertical();
+                        }
+                        GUILayout.EndScrollView();
+                        GUILayout.Box(this.HintTextures[this.tutorialsValue], GUILayout.Width(this.tutorialsHintTextureSize.x), GUILayout.Height(this.tutorialsHintTextureSize.y));
+                    }
+                    GUILayout.EndHorizontal();
+                }
+                GUILayout.EndArea();
+
+                // Back Button
+                if (GUI.Button(this.optionBackButtonRect, this.optionBackString))
+                {
+                    this.optionMenu = GameDefinition.OptionMenu.None;
                 }
             }
             #endregion
@@ -123,7 +192,7 @@ public class OptionMenu : MonoBehaviour
                 {
                     GUI.DrawTexture(this.optionBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, false, 0.0f);
                 }
-                
+
                 // Quality Options
                 GUI.Box(this.optionQualityTitleRect, this.optionQualityTitleString);
                 if (GUI.Button(this.optionQualityButtonLeftRect, "<"))
@@ -141,7 +210,7 @@ public class OptionMenu : MonoBehaviour
                 {
                     this.setResolution(SETVALUE.DECREASE);
                 }
-                GUI.Box(this.optionResolutionContentRect, string.Format("{0} x {1}", this.optionResolutions[this.optionResolutionContentValue].width, this.optionResolutions[this.optionResolutionContentValue].height));
+                GUI.Box(this.optionResolutionContentRect, string.Format("{0} x {1}", this.optionResolutionList[this.optionResolutionContentValue].width, this.optionResolutionList[this.optionResolutionContentValue].height));
                 if (GUI.Button(this.optionResolutionButtonRightRect, ">"))
                 {
                     this.setResolution(SETVALUE.INCREASE);
@@ -190,13 +259,18 @@ public class OptionMenu : MonoBehaviour
                                               (Screen.height - (int)this.exitButtonRect.height) / 2 + 140,
                                                this.exitButtonRect.width,
                                                this.exitButtonRect.height);
+        // ---------------Tutorials-----------------------------
+        this.tutorialsAreaRect = new Rect((Screen.width - (int)this.tutorialsAreaRect.width) / 2 + 25,
+                                              (Screen.height - (int)this.tutorialsAreaRect.height) / 2 + 15,
+                                               this.tutorialsAreaRect.width,
+                                               this.tutorialsAreaRect.height);
 
         // ---------------Quality-----------------------------
         this.optionQualityTitleRect = new Rect((Screen.width - (int)this.optionQualityTitleRect.width) / 2 - 150,
                                               (Screen.height - (int)this.optionQualityTitleRect.height) / 2 - 140,
                                                this.optionQualityTitleRect.width,
                                                this.optionQualityTitleRect.height);
-        this.optionQualityButtonLeftRect = new Rect((Screen.width - (int)this.optionQualityButtonLeftRect.width) / 2 ,
+        this.optionQualityButtonLeftRect = new Rect((Screen.width - (int)this.optionQualityButtonLeftRect.width) / 2,
                                               (Screen.height - (int)this.optionQualityButtonLeftRect.height) / 2 - 140,
                                                this.optionQualityButtonLeftRect.width,
                                                this.optionQualityButtonLeftRect.height);
@@ -234,8 +308,8 @@ public class OptionMenu : MonoBehaviour
                                                this.optionFullScreenContentRect.height);
 
         // ---------------Back------------------------------
-        this.optionBackButtonRect = new Rect((Screen.width - (int)this.optionBackButtonRect.width) / 2 + 150,
-                                              (Screen.height - (int)this.optionBackButtonRect.height) / 2 + 140,
+        this.optionBackButtonRect = new Rect((Screen.width - (int)this.optionBackButtonRect.width) / 2 + 170,
+                                              (Screen.height - (int)this.optionBackButtonRect.height) / 2 + 150,
                                                this.optionBackButtonRect.width,
                                                this.optionBackButtonRect.height);
     }
@@ -284,12 +358,12 @@ public class OptionMenu : MonoBehaviour
         else if (this.optionResolutionContentValue > this.optionResolutionMaxLenght - 1)
             this.optionResolutionContentValue = 0;
 
-        Screen.SetResolution(this.optionResolutions[this.optionResolutionContentValue].width, this.optionResolutions[this.optionResolutionContentValue].height, this.optionFullScreenContentValue);
+        Screen.SetResolution(this.optionResolutionList[this.optionResolutionContentValue].width, this.optionResolutionList[this.optionResolutionContentValue].height, this.optionFullScreenContentValue);
     }
 
     private void setResolution(bool isFullScreen)
     {
-        Screen.SetResolution(this.optionResolutions[this.optionResolutionContentValue].width, this.optionResolutions[this.optionResolutionContentValue].height, this.optionFullScreenContentValue);
+        Screen.SetResolution(this.optionResolutionList[this.optionResolutionContentValue].width, this.optionResolutionList[this.optionResolutionContentValue].height, this.optionFullScreenContentValue);
     }
 
     #endregion

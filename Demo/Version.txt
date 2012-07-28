@@ -1,6 +1,10 @@
 Rolling
 
-Version : 2012-07-29-01
+Version : 2012-07-29-02
+
+2012-07-29-02
+增加教學清單
+Fixed some OptionMenu bugs
 
 2012-07-29-01
 增加調整解析度，畫面品質…等等功能

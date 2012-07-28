@@ -30,6 +30,7 @@ public class GameDefinition
     public enum Scene
     {
         none,
+        StartMenu,
         Begin,
         FirstStage,
         SpeedStageOne,
@@ -74,6 +75,7 @@ public class GameDefinition
     private const string Player = "Player";
     private const string MainCamera = "MainCamera";
 
+    private const string StartMenu = "StartMenu";
     private const string Begin = "Begin";
     private const string FirstStage = "FirstStage";
     private const string SpeedStageOne = "SpeedStageOne";
@@ -99,6 +101,8 @@ public class GameDefinition
     {
         switch (scene)
         {
+            case Scene.StartMenu:
+                return GameDefinition.StartMenu;
             case Scene.Begin:
                 return GameDefinition.Begin;
             case Scene.FirstStage:
