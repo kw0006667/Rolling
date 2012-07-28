@@ -52,8 +52,14 @@ public class HomeMenu : MonoBehaviour
         this.optionQualityContentValue = GameDefinition.QualityContent.Fastest;
         this.optionResolutionContentValue = 0;
         this.optionResolutions = Screen.resolutions;
-        this.optionResolutionList = null;
-        this.optionResolutionMaxLenght = this.optionResolutions.Length;
+        this.optionResolutionList = new List<Resolution>();
+        foreach (Resolution res in optionResolutions)
+        {
+            if (res.width >= 1024 && res.height >= 720)
+                optionResolutionList.Add(res);
+        }
+        this.optionResolutionMaxLenght = this.optionResolutionList.Count;
+
         this.optionFullScreenContentValue = true;
     }
 
@@ -143,7 +149,7 @@ public class HomeMenu : MonoBehaviour
                     {
                         this.setResolution(SETVALUE.DECREASE);
                     }
-                    GUI.Box(this.optionResolutionContentRect, string.Format("{0} x {1}", this.optionResolutions[this.optionResolutionContentValue].width, this.optionResolutions[this.optionResolutionContentValue].height));
+                    GUI.Box(this.optionResolutionContentRect, string.Format("{0} x {1}", this.optionResolutionList[this.optionResolutionContentValue].width, this.optionResolutionList[this.optionResolutionContentValue].height));
                     if (GUI.Button(this.optionResolutionButtonRightRect, ">"))
                     {
                         this.setResolution(SETVALUE.INCREASE);
@@ -280,12 +286,12 @@ public class HomeMenu : MonoBehaviour
         else if (this.optionResolutionContentValue > this.optionResolutionMaxLenght - 1)
             this.optionResolutionContentValue = 0;
 
-        Screen.SetResolution(this.optionResolutions[this.optionResolutionContentValue].width, this.optionResolutions[this.optionResolutionContentValue].height, this.optionFullScreenContentValue);
+        Screen.SetResolution(this.optionResolutionList[this.optionResolutionContentValue].width, this.optionResolutionList[this.optionResolutionContentValue].height, this.optionFullScreenContentValue);
     }
 
     private void setResolution(bool isFullScreen)
     {
-        Screen.SetResolution(this.optionResolutions[this.optionResolutionContentValue].width, this.optionResolutions[this.optionResolutionContentValue].height, this.optionFullScreenContentValue);
+        Screen.SetResolution(this.optionResolutionList[this.optionResolutionContentValue].width, this.optionResolutionList[this.optionResolutionContentValue].height, this.optionFullScreenContentValue);
     }
 
     #endregion
