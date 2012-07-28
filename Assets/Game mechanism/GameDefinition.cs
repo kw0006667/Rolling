@@ -48,6 +48,16 @@ public class GameDefinition
         Exit,
     };
 
+    public enum QualityContent : int
+    {
+        Fastest = 0,
+        Fast = 1,
+        Simple = 2,
+        Good = 3,
+        Beautiful = 4,
+        Fantastic = 5,
+    };
+
     #endregion
 
     #region private const string
@@ -65,7 +75,7 @@ public class GameDefinition
     private const string TutorialsString = "Tutorials";
     private const string OptionString = "Option";
     private const string ReturnTitleString = "Return to Title";
-    private const string ExitString = "Exit";
+    private const string ExitString = "Exit";   
 
     #endregion
 

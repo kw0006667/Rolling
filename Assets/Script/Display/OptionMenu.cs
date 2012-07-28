@@ -3,7 +3,7 @@ using System.Collections;
 
 public class OptionMenu : MonoBehaviour
 {
-    
+
     public GameObject CheckPointObject;
     public Texture OptionBackground;
 
@@ -11,7 +11,14 @@ public class OptionMenu : MonoBehaviour
     private CheckPointManager checkPointManager;
     private GameDefinition.OptionMenu optionMenu;
 
-    private Rect optionBackgroundRect = new Rect(0, 0, 350, 390);
+    private Rect optionQualityContentRect = new Rect(0, 0, 200, 25);
+    private Rect optionQualityTitleRect = new Rect(0, 0, 150, 25);
+    private Rect optionQualityButtonLeftRect = new Rect(0, 0, 30, 25);
+    private Rect optionQualityButtonRightRect = new Rect(0, 0, 30, 25);
+    private string optionQualityTitleString = "Quality";
+    private GameDefinition.QualityContent optionQualityContentValue;
+
+    private Rect optionBackgroundRect = new Rect(0, 0, 600, 390);
 
     private Rect returnCheckButtonRect = new Rect(0, 0, 300, 60);
     private Rect tutorialsButtonRect = new Rect(0, 0, 300, 60);
@@ -19,11 +26,14 @@ public class OptionMenu : MonoBehaviour
     private Rect returnTitleButtonRect = new Rect(0, 0, 300, 60);
     private Rect exitButtonRect = new Rect(0, 0, 300, 60);
 
+
+
     // Use this for initialization
     void Start()
     {
         this.checkPointManager = CheckPointObject.GetComponent<CheckPointManager>();
         this.optionMenu = GameDefinition.OptionMenu.None;
+        this.optionQualityContentValue = GameDefinition.QualityContent.Fastest;
     }
 
     // Update is called once per frame
@@ -78,8 +88,20 @@ public class OptionMenu : MonoBehaviour
             {
                 if (this.OptionBackground != null)
                 {
-                    GUI.DrawTexture(this.optionBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, true, 0.0f);
+                    GUI.DrawTexture(this.optionBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, false, 0.0f);
                 }
+                
+                GUI.Box(this.optionQualityTitleRect, this.optionQualityTitleString);
+                if (GUI.Button(this.optionQualityButtonLeftRect, "<"))
+                {
+                    this.setQuality(-1);
+                }
+                GUI.Box(this.optionQualityContentRect, QualitySettings.names[(int)this.optionQualityContentValue]);
+                if (GUI.Button(this.optionQualityButtonRightRect, ">"))
+                {
+                    this.setQuality(1);
+                }
+                
             }
             #endregion
         }
@@ -112,5 +134,59 @@ public class OptionMenu : MonoBehaviour
                                               (Screen.height - (int)this.exitButtonRect.height) / 2 + 140,
                                                this.exitButtonRect.width,
                                                this.exitButtonRect.height);
+
+        this.optionQualityTitleRect = new Rect((Screen.width - (int)this.optionQualityTitleRect.width) / 2 - 150,
+                                              (Screen.height - (int)this.optionQualityTitleRect.height) / 2 - 140,
+                                               this.optionQualityTitleRect.width,
+                                               this.optionQualityTitleRect.height);
+        this.optionQualityButtonLeftRect = new Rect((Screen.width - (int)this.optionQualityButtonLeftRect.width) / 2 ,
+                                              (Screen.height - (int)this.optionQualityButtonLeftRect.height) / 2 - 140,
+                                               this.optionQualityButtonLeftRect.width,
+                                               this.optionQualityButtonLeftRect.height);
+
+        this.optionQualityContentRect = new Rect((Screen.width - (int)this.optionQualityContentRect.width) / 2 + 125,
+                                              (Screen.height - (int)this.optionQualityContentRect.height) / 2 - 140,
+                                               this.optionQualityContentRect.width,
+                                               this.optionQualityContentRect.height);
+
+        this.optionQualityButtonRightRect = new Rect((Screen.width - (int)this.optionQualityButtonRightRect.width) / 2 + 250,
+                                              (Screen.height - (int)this.optionQualityButtonRightRect.height) / 2 - 140,
+                                               this.optionQualityButtonRightRect.width,
+                                               this.optionQualityButtonRightRect.height);
+    }
+
+    private void setQuality(int value)
+    {
+        int qualityTempValue = (int)this.optionQualityContentValue + value;
+        switch (qualityTempValue)
+        {
+            case -1:
+                this.optionQualityContentValue = GameDefinition.QualityContent.Fantastic;
+                break;
+            case 0:
+                this.optionQualityContentValue = GameDefinition.QualityContent.Fastest;
+                break;
+            case 1:
+                this.optionQualityContentValue = GameDefinition.QualityContent.Fast;
+                break;
+            case 2:
+                this.optionQualityContentValue = GameDefinition.QualityContent.Simple;
+                break;
+            case 3:
+                this.optionQualityContentValue = GameDefinition.QualityContent.Good;
+                break;
+            case 4:
+                this.optionQualityContentValue = GameDefinition.QualityContent.Beautiful;
+                break;
+            case 5:
+                this.optionQualityContentValue = GameDefinition.QualityContent.Fantastic;
+                break;
+            case 6:
+                this.optionQualityContentValue = GameDefinition.QualityContent.Fastest;
+                break;
+            default:
+                break;
+        }
+        QualitySettings.SetQualityLevel((int)this.optionQualityContentValue, true);
     }
 }
