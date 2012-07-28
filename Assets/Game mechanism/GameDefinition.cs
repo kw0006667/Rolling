@@ -23,7 +23,19 @@ public class GameDefinition
         none,
         Begin,
         FirstStage,
-        SpeedStageOne,
+        SpeedStageOne,        
+        SpeedStageTwo,
+        BeginChallenge,
+    }
+
+    public enum HomeMenu
+    {
+        New,
+        Continute,
+        Load,
+        Stage,
+        Option,
+        Exit,
     }
 
     #endregion
@@ -36,6 +48,8 @@ public class GameDefinition
     private const string Begin = "Begin";
     private const string FirstStage = "FirstStage";
     private const string SpeedStageOne = "SpeedStageOne";
+    private const string SpeedStageTwo = "SpeedStageTwo";
+    private const string BeginChallenge = "BeginChallenge";
 
     #endregion
 
@@ -54,6 +68,10 @@ public class GameDefinition
                 return GameDefinition.FirstStage;
             case Scene.SpeedStageOne:
                 return GameDefinition.SpeedStageOne;
+            case Scene.SpeedStageTwo:
+                return GameDefinition.SpeedStageTwo;
+            case Scene.BeginChallenge:
+                return GameDefinition.BeginChallenge;
             default:
                 return null;
         }
