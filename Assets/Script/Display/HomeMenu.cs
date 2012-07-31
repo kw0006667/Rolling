@@ -11,14 +11,9 @@ public class HomeMenu : MonoBehaviour
 
     #region HeightScore Properties
 
-    private Rect highScoreAreaRect = new Rect(0, 0, 870, 585);
+    private Rect highScoreAreaRect = new Rect(0, 0, 900, 585);
     private Rect highScoreBackgroundRect = new Rect(0, 0, 900, 585);
-
-    private Vector2 highScoreScrolViewPosition = new Vector2(0, 0);
-
-    private Vector2 highScoreScrolViewSize = new Vector2(850, 500);
-
-
+    
     #endregion
 
     #region Option Properties
@@ -141,15 +136,34 @@ public class HomeMenu : MonoBehaviour
                     {
                         GUILayout.BeginVertical();
                         {
+                            GUILayout.Space(25);
+
                             GUILayout.BeginHorizontal();
                             {
-                                GUILayout.Box("名次",GUILayout.Width(100));
-                                GUILayout.Box("分數", GUILayout.Width(250));
-                                GUILayout.Box("時間");
+                                GUILayout.Space(25);
+                                GUILayout.Button("<", GUILayout.Width(50));
+                                GUILayout.Box("關卡名", GUILayout.Width(200));
+                                GUILayout.Button(">", GUILayout.Width(50));
+                                GUILayout.Space(300);
+                                GUILayout.Button("back", GUILayout.Width(100));
+                                GUILayout.Space(25);
+                            }
+                            GUILayout.EndHorizontal();
+
+                            GUILayout.Space(50);
+                            GUILayout.BeginHorizontal();
+                            {
+                                GUILayout.Space(25);
+                                GUILayout.Box("名次",GUILayout.Width(50));
+                                GUILayout.Box("分數", GUILayout.Width(100));
+                                GUILayout.Box("遊戲時間", GUILayout.Width(150));
                                 GUILayout.Box("銅", GUILayout.Width(50));
                                 GUILayout.Box("銀", GUILayout.Width(50));
                                 GUILayout.Box("金", GUILayout.Width(50));
                                 GUILayout.Box("等級", GUILayout.Width(50));
+                                GUILayout.Box("玩家", GUILayout.Width(150));
+                                GUILayout.Box("紀錄時間");
+                                GUILayout.Space(25);
                             }
                             GUILayout.EndHorizontal();
 
@@ -160,13 +174,17 @@ public class HomeMenu : MonoBehaviour
                                 {
                                     GUILayout.BeginHorizontal();
                                     {
-                                        GUILayout.Box("1", GUILayout.Width(100));
-                                        GUILayout.Box("0201", GUILayout.Width(250));
-                                        GUILayout.Box("00:01:12");
+                                        GUILayout.Space(25);
+                                        GUILayout.Box((i+1).ToString(), GUILayout.Width(50));
+                                        GUILayout.Box("0201", GUILayout.Width(100));
+                                        GUILayout.Box("00:01:12", GUILayout.Width(150));
                                         GUILayout.Box("4銅", GUILayout.Width(50));
                                         GUILayout.Box("5銀", GUILayout.Width(50));
                                         GUILayout.Box("6金", GUILayout.Width(50));
                                         GUILayout.Box("A", GUILayout.Width(50));
+                                        GUILayout.Box("測試玩家", GUILayout.Width(150));
+                                        GUILayout.Box("2012-07-31 13:15:12");
+                                        GUILayout.Space(25);
                                     }
                                     GUILayout.EndHorizontal();
                                 }
@@ -261,7 +279,7 @@ public class HomeMenu : MonoBehaviour
                                                this.highScoreBackgroundRect.height);
 
         this.highScoreAreaRect = new Rect((Screen.width - (int)this.highScoreAreaRect.width) / 2 ,
-                                              (Screen.height - (int)this.highScoreAreaRect.height) / 2 + 15,
+                                              (Screen.height - (int)this.highScoreAreaRect.height) / 2,
                                                this.highScoreAreaRect.width,
                                                this.highScoreAreaRect.height);
         #endregion
