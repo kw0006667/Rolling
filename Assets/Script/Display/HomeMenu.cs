@@ -9,6 +9,17 @@ public class HomeMenu : MonoBehaviour
 
     private bool isTrigger = false;
 
+    #region HeightScore Properties
+
+    private Rect highScoreAreaRect = new Rect(0, 0, 870, 585);
+    private Rect highScoreBackgroundRect = new Rect(0, 0, 900, 585);
+
+    private Vector2 highScoreScrolViewPosition = new Vector2(0, 0);
+
+    private Vector2 highScoreScrolViewSize = new Vector2(850, 500);
+
+    #endregion
+
     #region Option Properties
 
     // Option Quality properties
@@ -103,7 +114,6 @@ public class HomeMenu : MonoBehaviour
                 break;
         }
     }
-    
     void OnGUI()
     {
         if (this.isTrigger)
@@ -117,6 +127,55 @@ public class HomeMenu : MonoBehaviour
                     break;
 
                 case GameDefinition.HomeMenu.Continute:
+
+                    // Display Option Background picture
+                    if (this.OptionBackground != null)
+                    {
+                        GUI.DrawTexture(this.highScoreBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, false, 0.0f);
+                    }
+                    GUILayout.BeginArea(this.highScoreAreaRect);
+                    {
+                        GUILayout.BeginVertical();
+                        {
+                            GUILayout.BeginHorizontal();
+                            {
+                                GUILayout.Box("名次");
+                                GUILayout.Box("分數");
+                                GUILayout.Box("時間");
+                                GUILayout.Box("銅");
+                                GUILayout.Box("銀");
+                                GUILayout.Box("金");
+                                GUILayout.Box("等級");
+                            }
+                            GUILayout.EndHorizontal();
+
+                            this.highScoreScrolViewPosition = GUILayout.BeginScrollView(this.highScoreScrolViewPosition, false, true, GUILayout.Width(this.highScoreScrolViewSize.x), GUILayout.Height(this.highScoreScrolViewSize.y));
+                            {
+                                GUILayout.BeginVertical();
+                                {
+                                    for (int i = 0; i < 10; i++)
+                                    {
+                                        GUILayout.BeginHorizontal();
+                                        {
+                                            GUILayout.Box("1");
+                                            GUILayout.Box("0201");
+                                            GUILayout.Box("00:01:12");
+                                            GUILayout.Box("4銅");
+                                            GUILayout.Box("5銀");
+                                            GUILayout.Box("6金");
+                                            GUILayout.Box("A");
+                                        }
+                                        GUILayout.EndHorizontal();
+                                    }
+                                }
+                                GUILayout.EndVertical();
+                            }
+                            GUILayout.EndScrollView();
+                        }
+                        GUILayout.EndVertical();
+                    }
+                    GUILayout.EndArea();
+
                     break;
 
                 case GameDefinition.HomeMenu.Load:
@@ -124,6 +183,8 @@ public class HomeMenu : MonoBehaviour
 
                 case GameDefinition.HomeMenu.Stage:
                     break;
+
+                #region Memu : Option
 
                 case GameDefinition.HomeMenu.Option:
                     // Display Option Background picture
@@ -165,6 +226,7 @@ public class HomeMenu : MonoBehaviour
                         this.isTrigger = false;
                     }
                     break;
+                #endregion                
 
                 case GameDefinition.HomeMenu.Exit:
                     if (GUI.Button(new Rect(Screen.width * 0.3f, Screen.height * 0.425f, Screen.width * 0.2f, Screen.height * 0.15f), "Yes"))
@@ -188,10 +250,27 @@ public class HomeMenu : MonoBehaviour
     // Initialize All Buttons Rect real time
     private void InitializeButtonRect()
     {
+
+        #region HeightScore Rect
+
+        // --------------------Background------------------
+        this.highScoreBackgroundRect = new Rect((Screen.width - (int)this.highScoreBackgroundRect.width) / 2,
+                                              (Screen.height - (int)this.highScoreBackgroundRect.height) / 2,
+                                               this.highScoreBackgroundRect.width,
+                                               this.highScoreBackgroundRect.height);
+
+        this.highScoreAreaRect = new Rect((Screen.width - (int)this.highScoreAreaRect.width) / 2 ,
+                                              (Screen.height - (int)this.highScoreAreaRect.height) / 2 + 15,
+                                               this.highScoreAreaRect.width,
+                                               this.highScoreAreaRect.height);
+        #endregion
+        #region Option Rect
+
+        // --------------------Background------------------
         this.optionBackgroundRect = new Rect((Screen.width - (int)this.optionBackgroundRect.width) / 2,
                                               (Screen.height - (int)this.optionBackgroundRect.height) / 2,
                                                this.optionBackgroundRect.width,
-                                               this.optionBackgroundRect.height);        
+                                               this.optionBackgroundRect.height);
 
         // ---------------Quality-----------------------------
         this.optionQualityTitleRect = new Rect((Screen.width - (int)this.optionQualityTitleRect.width) / 2 - 150,
@@ -240,6 +319,8 @@ public class HomeMenu : MonoBehaviour
                                               (Screen.height - (int)this.optionBackButtonRect.height) / 2 + 140,
                                                this.optionBackButtonRect.width,
                                                this.optionBackButtonRect.height);
+        #endregion
+        
     }
 
     private void setQuality(SETVALUE value)
