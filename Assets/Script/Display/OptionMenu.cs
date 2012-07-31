@@ -89,7 +89,10 @@ public class OptionMenu : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
+        {
             this.isOpenMenu = !this.isOpenMenu;
+            this.optionMenu = GameDefinition.OptionMenu.None;
+        }
     }
 
     void OnGUI()

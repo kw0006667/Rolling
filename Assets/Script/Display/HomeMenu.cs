@@ -18,6 +18,7 @@ public class HomeMenu : MonoBehaviour
 
     private Vector2 highScoreScrolViewSize = new Vector2(850, 500);
 
+
     #endregion
 
     #region Option Properties
@@ -114,6 +115,9 @@ public class HomeMenu : MonoBehaviour
                 break;
         }
     }
+
+
+
     void OnGUI()
     {
         if (this.isTrigger)
@@ -139,13 +143,13 @@ public class HomeMenu : MonoBehaviour
                         {
                             GUILayout.BeginHorizontal();
                             {
-                                GUILayout.Box("名次");
-                                GUILayout.Box("分數");
+                                GUILayout.Box("名次",GUILayout.Width(100));
+                                GUILayout.Box("分數", GUILayout.Width(250));
                                 GUILayout.Box("時間");
-                                GUILayout.Box("銅");
-                                GUILayout.Box("銀");
-                                GUILayout.Box("金");
-                                GUILayout.Box("等級");
+                                GUILayout.Box("銅", GUILayout.Width(50));
+                                GUILayout.Box("銀", GUILayout.Width(50));
+                                GUILayout.Box("金", GUILayout.Width(50));
+                                GUILayout.Box("等級", GUILayout.Width(50));
                             }
                             GUILayout.EndHorizontal();
 
@@ -156,13 +160,13 @@ public class HomeMenu : MonoBehaviour
                                 {
                                     GUILayout.BeginHorizontal();
                                     {
-                                        GUILayout.Box("1");
-                                        GUILayout.Box("0201");
+                                        GUILayout.Box("1", GUILayout.Width(100));
+                                        GUILayout.Box("0201", GUILayout.Width(250));
                                         GUILayout.Box("00:01:12");
-                                        GUILayout.Box("4銅");
-                                        GUILayout.Box("5銀");
-                                        GUILayout.Box("6金");
-                                        GUILayout.Box("A");
+                                        GUILayout.Box("4銅", GUILayout.Width(50));
+                                        GUILayout.Box("5銀", GUILayout.Width(50));
+                                        GUILayout.Box("6金", GUILayout.Width(50));
+                                        GUILayout.Box("A", GUILayout.Width(50));
                                     }
                                     GUILayout.EndHorizontal();
                                 }
