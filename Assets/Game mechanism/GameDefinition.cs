@@ -15,6 +15,8 @@ public class GameDefinition
 
     #region Public Properties  
 
+    public const string ScoresFilePath = ".\\Scores.xml";
+
     public enum Tag
     {
         Player = 1,
@@ -68,6 +70,8 @@ public class GameDefinition
         Fantastic = 5,
     };
 
+    
+
     #endregion
 
     #region private const string
@@ -86,7 +90,7 @@ public class GameDefinition
     private const string TutorialsString = "Tutorials";
     private const string OptionString = "Option";
     private const string ReturnTitleString = "Return to Title";
-    private const string ExitString = "Exit";   
+    private const string ExitString = "Exit";
 
     #endregion
 
@@ -174,5 +178,6 @@ public class GameDefinition
                 return null;
         }
     }
+    
     #endregion
 }
