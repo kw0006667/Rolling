@@ -149,28 +149,25 @@ public class HomeMenu : MonoBehaviour
                             }
                             GUILayout.EndHorizontal();
 
-                            this.highScoreScrolViewPosition = GUILayout.BeginScrollView(this.highScoreScrolViewPosition, false, true, GUILayout.Width(this.highScoreScrolViewSize.x), GUILayout.Height(this.highScoreScrolViewSize.y));
+                            
+                            GUILayout.BeginVertical();
                             {
-                                GUILayout.BeginVertical();
+                                for (int i = 0; i < 10; i++)
                                 {
-                                    for (int i = 0; i < 10; i++)
+                                    GUILayout.BeginHorizontal();
                                     {
-                                        GUILayout.BeginHorizontal();
-                                        {
-                                            GUILayout.Box("1");
-                                            GUILayout.Box("0201");
-                                            GUILayout.Box("00:01:12");
-                                            GUILayout.Box("4»É");
-                                            GUILayout.Box("5»È");
-                                            GUILayout.Box("6ª÷");
-                                            GUILayout.Box("A");
-                                        }
-                                        GUILayout.EndHorizontal();
+                                        GUILayout.Box("1");
+                                        GUILayout.Box("0201");
+                                        GUILayout.Box("00:01:12");
+                                        GUILayout.Box("4»É");
+                                        GUILayout.Box("5»È");
+                                        GUILayout.Box("6ª÷");
+                                        GUILayout.Box("A");
                                     }
+                                    GUILayout.EndHorizontal();
                                 }
-                                GUILayout.EndVertical();
                             }
-                            GUILayout.EndScrollView();
+                            GUILayout.EndVertical();                            
                         }
                         GUILayout.EndVertical();
                     }
