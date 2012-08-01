@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
+using System.IO;
 
 #region ScoreTag
 /// <summary>
@@ -211,7 +212,20 @@ public class FileManager
     public void ScoresWrite(ScoreData scoreData, string filename)
     {
         XmlDocument document = new XmlDocument();
-        document.Load(filename);
+
+        if (!File.Exists(filename))
+        {
+            XmlNode docNode = document.CreateXmlDeclaration("1.0", "UTF-8", null);
+            document.AppendChild(docNode);
+
+            XmlNode productsNode = document.CreateElement(ScoreTag.ScoresTag);
+            document.AppendChild(productsNode);
+        }
+        else
+        {
+            document.Load(filename);
+        }
+
         XmlNode node = document.SelectSingleNode(ScoreTag.ScoresTag);
 
         XmlElement newUser = document.CreateElement(ScoreTag.UserTag);
