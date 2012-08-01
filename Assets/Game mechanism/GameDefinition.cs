@@ -34,10 +34,14 @@ public class GameDefinition
         none,
         StartMenu,
         Begin,
+        BeginChallenge,
         FirstStage,
+        FirstStage_Hard,
+        SecondStage,
+        SecondStage_Hard,
         SpeedStageOne,
         SpeedStageTwo,
-        BeginChallenge,
+        SpecialStage_SpeedUp,        
     };
 
     public enum HomeMenu
@@ -81,10 +85,14 @@ public class GameDefinition
 
     private const string StartMenu = "StartMenu";
     private const string Begin = "Begin";
+    private const string BeginChallenge = "BeginChallenge";
     private const string FirstStage = "FirstStage";
+    private const string FirstStage_Hard = "FirstStage_Hard";
+    private const string SecondStage = "SecondStage";
+    private const string SecondStage_Hard = "SecondStage_Hard";
     private const string SpeedStageOne = "SpeedStageOne";
     private const string SpeedStageTwo = "SpeedStageTwo";
-    private const string BeginChallenge = "BeginChallenge";
+    private const string SpecialStage_SpeedUp = "SpecialStage_SpeedUp";
 
     private const string ReturnCheckString = "Return CheckPoint";
     private const string TutorialsString = "Tutorials";

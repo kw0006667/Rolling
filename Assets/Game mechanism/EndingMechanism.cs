@@ -5,7 +5,9 @@ public class EndingMechanism : MonoBehaviour
 {
     private CellManager cellManager;
     private bool isOpen = false;
+
     public GameDefinition.Scene Scene;
+    public GameObject GearCollectionObject;
 
     void OnTriggerEnter(Collider other)
     {
@@ -20,9 +22,14 @@ public class EndingMechanism : MonoBehaviour
 	// Use this for initialization
     void Start()
     {
-        this.cellManager = GameObject.Find("GearCollection").GetComponent<CellManager>();
+        if (GearCollectionObject != null)
+        {
+            this.cellManager = GearCollectionObject.GetComponent<CellManager>();
+            isOpen = false;
+        }
+        else
+            isOpen = true;
     }
-	
 	// Update is called once per frame
     void Update()
     {
@@ -32,7 +39,7 @@ public class EndingMechanism : MonoBehaviour
             {
                 this.renderer.enabled = true;
                 this.collider.enabled = true;
-                this.isOpen = true;                
+                this.isOpen = true;
             }
         }
     }
