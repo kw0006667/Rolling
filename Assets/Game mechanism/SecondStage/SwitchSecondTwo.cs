@@ -41,6 +41,7 @@ public class SwitchSecondTwo : MonoBehaviour
     /// </summary>
     public void ChangeState(bool isOn)
     {
+        print(this.name);
         if (isOn)
         {
             if (!this.animation.IsPlaying("SwithchOnAnimation"))
@@ -85,22 +86,22 @@ public class SwitchSecondTwo : MonoBehaviour
                     this.isWorking = false;
                 }
             }
-            //else
-            //{
-            //    if (this.addValue < this.MoveDistance)
-            //    {
-            //        this.addValue -= this.MoveSpeed;
-            //        if (this.controlUpdown == ControlUpDown.Up)
-            //            this.ControlMoveWallObject.transform.position -= this.ControlMoveWallObject.transform.TransformDirection(new Vector3(0, this.MoveSpeed, 0));
-            //        else
-            //            this.ControlMoveWallObject.transform.position += this.ControlMoveWallObject.transform.TransformDirection(new Vector3(0, this.MoveSpeed, 0));
-            //    }
-            //    else
-            //    {
-            //        this.addValue = 0;
-            //        this.isWorking = false;
-            //    }
-            //}
+            else
+            {
+                if (this.addValue < this.MoveDistance)
+                {
+                    this.addValue += this.MoveSpeed;
+                    if (this.controlUpdown == ControlUpDown.Up)
+                        this.ControlMoveWallObject.transform.position -= this.ControlMoveWallObject.transform.TransformDirection(new Vector3(0, this.MoveSpeed, 0));
+                    else
+                        this.ControlMoveWallObject.transform.position += this.ControlMoveWallObject.transform.TransformDirection(new Vector3(0, this.MoveSpeed, 0));
+                }
+                else
+                {
+                    this.addValue = 0;
+                    this.isWorking = false;
+                }
+            }
         }
     }
 }
