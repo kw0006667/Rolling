@@ -9,3 +9,5 @@ Temp
 *.suo
 obj
 output_log.txt
+Scores.xml
+Setting.xml

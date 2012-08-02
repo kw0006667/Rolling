@@ -26,6 +26,37 @@ public class ScoreTag
 }
 #endregion
 
+public class SettingTag
+{
+    public const string SettingsTag = "Settings";
+    public const string SetTag = "Setting";
+    public const string MachineName = "MachineName";
+    public const string Quality = "Quality";
+    public const string Resolution = "Resolution";
+    public const string FullScreen = "FullScreen";
+}
+
+public class SettingData
+{
+    public string MachineName;
+    public string Quality;
+    public string Resolution;
+    public string FullScreen;
+
+    public SettingData()
+    {
+
+    }
+
+    public SettingData(string machineName, string quality, string resolution, string fullscreen)
+    {
+        this.MachineName = machineName;
+        this.Quality = quality;
+        this.Resolution = resolution;
+        this.FullScreen = fullscreen;
+    }
+}
+
 #region ScoreData class
 /// <summary>
 /// Score Data Structure
@@ -95,6 +126,7 @@ public class FileManager
     public Exception Ex { get; private set; }
     // Store all username's score
     private List<ScoreData> scoreList;
+    private SettingData settingData;
     // Filename for reading
     private string fileName;
 
@@ -146,6 +178,79 @@ public class FileManager
             }
         }
         reader.Close();
+    }
+
+    public bool ConfigReader(string filename, string machineName)
+    {
+        if (this.VerifyFileExist(filename))
+        {
+            XmlReaderSettings settings = new XmlReaderSettings();
+            settings.IgnoreComments = true;
+            settings.IgnoreWhitespace = true;
+            settings.ValidationType = ValidationType.None;
+            XmlReader reader = XmlTextReader.Create(filename, settings);
+
+            while (reader.Read())
+            {
+                switch (reader.NodeType)
+                {
+                    case XmlNodeType.Element:
+                        string tagName = reader.LocalName;
+                        if (tagName.Equals(SettingTag.SetTag))
+                        {
+                            this.settingData = new SettingData(reader[SettingTag.MachineName],
+                                                               reader[SettingTag.Quality],
+                                                               reader[SettingTag.Resolution],
+                                                               reader[SettingTag.FullScreen]);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            reader.Close();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void ConfigWrite(SettingData setting)
+    {
+        this.settingData = setting;
+        XmlDocument doc = new XmlDocument();
+        doc.Load(GameDefinition.SettingFilePath);
+        XmlNode setNode = doc.SelectSingleNode(SettingTag.SettingsTag + "/" + SettingTag.SetTag);
+        XmlElement element = (XmlElement)setNode;
+        XmlAttributeCollection attributes = element.Attributes;
+        foreach (XmlAttribute attribute in attributes)
+        {
+            switch (attribute.Name)
+            {
+                case SettingTag.MachineName:
+                    attribute.Value = this.settingData.MachineName;
+                    break;
+                case SettingTag.Quality:
+                    attribute.Value = this.settingData.Quality;
+                    break;
+                case SettingTag.Resolution:
+                    attribute.Value = this.settingData.Resolution;
+                    break;
+                case SettingTag.FullScreen:
+                    attribute.Value = this.settingData.FullScreen;
+                    break;
+                default:
+                    break;
+            }
+        }
+        doc.Save(GameDefinition.SettingFilePath);
+    }
+
+    public SettingData GetSettingData()
+    {
+        return this.settingData;
     }
 
     /// <summary>
@@ -213,19 +318,8 @@ public class FileManager
     {
         XmlDocument document = new XmlDocument();
 
-        if (!File.Exists(filename))
-        {
-            XmlNode docNode = document.CreateXmlDeclaration("1.0", "UTF-8", null);
-            document.AppendChild(docNode);
-
-            XmlNode productsNode = document.CreateElement(ScoreTag.ScoresTag);
-            document.AppendChild(productsNode);
-        }
-        else
-        {
-            document.Load(filename);
-        }
-
+        this.VerifyFileExist(GameDefinition.ScoresFilePath);
+        document.Load(filename);
         XmlNode node = document.SelectSingleNode(ScoreTag.ScoresTag);
 
         XmlElement newUser = document.CreateElement(ScoreTag.UserTag);
@@ -241,6 +335,47 @@ public class FileManager
         newUser.SetAttribute(ScoreTag.Scene, scoreData.Scene);
         node.AppendChild(newUser);
         document.Save(filename);
+    }
+
+    public bool VerifyFileExist(string filename)
+    {
+        XmlDocument document = new XmlDocument();
+        switch (filename)
+        {
+            case GameDefinition.SettingFilePath:
+                if (!File.Exists(filename))
+                {
+                    XmlNode docNode = document.CreateXmlDeclaration("1.0", "UTF-8", null);
+                    document.AppendChild(docNode);
+                    XmlNode productsNode = document.CreateElement(SettingTag.SettingsTag);
+                    document.AppendChild(productsNode);
+                    document.Save(filename);
+                    XmlNode nodee = document.SelectSingleNode(SettingTag.SettingsTag);
+                    XmlElement newMachine = document.CreateElement(SettingTag.SetTag);
+                    newMachine.SetAttribute(SettingTag.MachineName, "");
+                    newMachine.SetAttribute(SettingTag.Quality, "");
+                    newMachine.SetAttribute(SettingTag.Resolution, "");
+                    newMachine.SetAttribute(SettingTag.FullScreen, "");
+                    nodee.AppendChild(newMachine);
+                    document.Save(filename);
+                    return false;
+                }
+                break;
+            case GameDefinition.ScoresFilePath:
+                if (!File.Exists(filename))
+                {
+                    XmlNode docNode = document.CreateXmlDeclaration("1.0", "UTF-8", null);
+                    document.AppendChild(docNode);
+
+                    XmlNode productsNode = document.CreateElement(ScoreTag.ScoresTag);
+                    document.AppendChild(productsNode);
+                    return false;
+                }
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 }
 

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class HomeMenu : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class HomeMenu : MonoBehaviour
     public Texture OptionBackground;
 
     private bool isTrigger = false;
+    private FileManager fileManager;
+    private SettingData settingData;
+    private string machineName;
 
     #region HeightScore Properties
 
@@ -68,6 +72,10 @@ public class HomeMenu : MonoBehaviour
         this.optionResolutionMaxLenght = this.optionResolutionList.Count;
 
         this.optionFullScreenContentValue = true;
+        this.machineName = Environment.GetEnvironmentVariable("COMPUTERNAME"); 
+        this.fileManager = new FileManager();
+        this.fileManager.ConfigReader(GameDefinition.SettingFilePath, this.machineName);
+        this.settingData = this.fileManager.GetSettingData();
     }
 
     void OnTriggerEnter(Collider other)
@@ -375,6 +383,8 @@ public class HomeMenu : MonoBehaviour
                 break;
         }
         QualitySettings.SetQualityLevel((int)this.optionQualityContentValue, true);
+        this.settingData.Quality = ((int)this.optionQualityContentValue).ToString();
+        this.fileManager.ConfigWrite(this.settingData);
     }
 
     private void setResolution(SETVALUE value)
@@ -387,11 +397,15 @@ public class HomeMenu : MonoBehaviour
             this.optionResolutionContentValue = 0;
 
         Screen.SetResolution(this.optionResolutionList[this.optionResolutionContentValue].width, this.optionResolutionList[this.optionResolutionContentValue].height, this.optionFullScreenContentValue);
+        this.settingData.Quality = this.optionResolutionContentValue.ToString();
+        this.fileManager.ConfigWrite(this.settingData);
     }
 
     private void setResolution(bool isFullScreen)
     {
         Screen.SetResolution(this.optionResolutionList[this.optionResolutionContentValue].width, this.optionResolutionList[this.optionResolutionContentValue].height, this.optionFullScreenContentValue);
+        this.settingData.Quality = this.optionFullScreenContentValue.ToString();
+        this.fileManager.ConfigWrite(this.settingData);
     }
 
     #endregion
