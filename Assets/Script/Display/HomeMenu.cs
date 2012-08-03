@@ -261,11 +261,11 @@ public class HomeMenu : MonoBehaviour
                                         this.stageValue = 0;
                                     if (GUILayout.Button("FirstStageChallenge\n"))
                                         this.stageValue = 1;
-                                    if (GUILayout.Button("FirstStage_HardChallenge\n"))
+                                    if (GUILayout.Button("FirstStage_Hard\n"))
                                         this.stageValue = 2;
                                     if (GUILayout.Button("SecondStageChallenge\n"))
                                         this.stageValue = 3;
-                                    if (GUILayout.Button("SecondStage_HardChallenge\n"))
+                                    if (GUILayout.Button("SecondStage_Hard\n"))
                                         this.stageValue = 4;
                                     if (GUILayout.Button("SpeedStageOne\n"))
                                         this.stageValue = 5;
