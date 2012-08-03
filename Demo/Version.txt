@@ -1,6 +1,9 @@
 Rolling
 
-Version : 2012-08-03-01
+Version : 2012-08-04-01
+
+2012-08-04-01
+SecondStage sence complete
 
 2012-08-03-01
 新增設定檔儲存功能(FileManager.cs)
