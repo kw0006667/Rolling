@@ -215,14 +215,14 @@ public class FileManager
                     default:
                         break;
                 }
-            }
-
+            }            
+            reader.Close();
+            // if different machine , game setting will back to default value.
             if (!isSameName)
             {
                 this.settingData = new SettingData(Environment.GetEnvironmentVariable("COMPUTERNAME"), "4", "0", "False");
                 this.ConfigWrite(this.settingData);
             }
-            reader.Close();
             return true;
         }
         else
