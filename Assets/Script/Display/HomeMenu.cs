@@ -7,13 +7,26 @@ public class HomeMenu : MonoBehaviour
 {
     public GameDefinition.HomeMenu homeMenu;
     public Texture OptionBackground;
+    public Texture[] StageTextures;
 
     private bool isTrigger = false;
     private FileManager fileManager;
     private SettingData settingData;
     private string machineName;
 
-    #region HeightScore Properties
+    #region Stage Properties
+
+    private Rect stageAreaRect = new Rect(0, 0, 900, 585);
+    private Rect stageBackgroundRect = new Rect(0, 0, 900, 585);
+
+    private Vector2 stageScrolViewPosition = new Vector2(0, 0);
+    private Vector2 stageScrolViewSize = new Vector2(400, 500);
+    private Vector2 stageHintTextureSize = new Vector2(241, 300);
+    private int stageValue;
+
+    #endregion
+
+    #region HighScore Properties
 
     private Rect highScoreAreaRect = new Rect(0, 0, 900, 585);
     private Rect highScoreBackgroundRect = new Rect(0, 0, 900, 585);
@@ -68,8 +81,8 @@ public class HomeMenu : MonoBehaviour
                 this.optionResolutionList.Add(res);
         }
         this.optionResolutionMaxLenght = this.optionResolutionList.Count;
-        
-        this.machineName = Environment.GetEnvironmentVariable("COMPUTERNAME"); 
+
+        this.machineName = Environment.GetEnvironmentVariable("COMPUTERNAME");
         this.fileManager = new FileManager();
         this.fileManager.ConfigReader(GameDefinition.SettingFilePath, this.machineName);
         this.settingData = this.fileManager.GetSettingData();
@@ -148,6 +161,7 @@ public class HomeMenu : MonoBehaviour
                 case GameDefinition.HomeMenu.New:
                     break;
 
+                #region Menu : HighScore
                 case GameDefinition.HomeMenu.Continute:
 
                     // Display Option Background picture
@@ -177,7 +191,7 @@ public class HomeMenu : MonoBehaviour
                             GUILayout.BeginHorizontal();
                             {
                                 GUILayout.Space(25);
-                                GUILayout.Box("名次",GUILayout.Width(50));
+                                GUILayout.Box("名次", GUILayout.Width(50));
                                 GUILayout.Box("分數", GUILayout.Width(100));
                                 GUILayout.Box("遊戲時間", GUILayout.Width(150));
                                 GUILayout.Box("銅", GUILayout.Width(50));
@@ -190,7 +204,7 @@ public class HomeMenu : MonoBehaviour
                             }
                             GUILayout.EndHorizontal();
 
-                            
+
                             GUILayout.BeginVertical();
                             {
                                 for (int i = 0; i < 10; i++)
@@ -198,7 +212,7 @@ public class HomeMenu : MonoBehaviour
                                     GUILayout.BeginHorizontal();
                                     {
                                         GUILayout.Space(25);
-                                        GUILayout.Box((i+1).ToString(), GUILayout.Width(50));
+                                        GUILayout.Box((i + 1).ToString(), GUILayout.Width(50));
                                         GUILayout.Box("0201", GUILayout.Width(100));
                                         GUILayout.Box("00:01:12", GUILayout.Width(150));
                                         GUILayout.Box("4銅", GUILayout.Width(50));
@@ -212,21 +226,75 @@ public class HomeMenu : MonoBehaviour
                                     GUILayout.EndHorizontal();
                                 }
                             }
-                            GUILayout.EndVertical();                            
+                            GUILayout.EndVertical();
                         }
                         GUILayout.EndVertical();
                     }
                     GUILayout.EndArea();
 
                     break;
+                #endregion                
 
                 case GameDefinition.HomeMenu.Load:
                     break;
 
+                #region Menu : Stage
                 case GameDefinition.HomeMenu.Stage:
-                    break;
+                    // Display Option Background picture
+                    if (this.OptionBackground != null)
+                    {
+                        GUI.DrawTexture(this.stageBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, false, 0.0f);
+                    }
 
-                #region Memu : Option
+                    GUILayout.BeginArea(this.stageAreaRect);
+                    {
+                        GUILayout.BeginVertical();
+                        {
+                            GUILayout.Space(25);
+                            GUILayout.BeginHorizontal();
+                            {
+                                GUILayout.Space(25);
+                                this.stageScrolViewPosition = GUILayout.BeginScrollView(this.stageScrolViewPosition, false, true, GUILayout.Width(this.stageScrolViewSize.x), GUILayout.Height(this.stageScrolViewSize.y));
+                                {
+                                    GUILayout.BeginVertical();
+                                    if (GUILayout.Button("BeginChallenge\n"))
+                                        this.stageValue = 0;
+                                    if (GUILayout.Button("FirstStageChallenge\n"))
+                                        this.stageValue = 1;
+                                    if (GUILayout.Button("FirstStage_HardChallenge\n"))
+                                        this.stageValue = 2;
+                                    if (GUILayout.Button("SecondStageChallenge\n"))
+                                        this.stageValue = 3;
+                                    if (GUILayout.Button("SecondStage_HardChallenge\n"))
+                                        this.stageValue = 4;
+                                    if (GUILayout.Button("SpeedStageOne\n"))
+                                        this.stageValue = 5;
+                                    if (GUILayout.Button("SpeedStageTwo\n"))
+                                        this.stageValue = 6;
+                                    if (GUILayout.Button("SpecialStage_SpeedUp\n"))
+                                        this.stageValue = 7;
+                                    GUILayout.EndVertical();
+                                }
+                                GUILayout.EndScrollView();
+                            }
+
+                            GUILayout.Space(50);
+
+                            GUILayout.BeginVertical();
+                            {
+                                GUILayout.Box(this.StageTextures[this.stageValue], GUILayout.Width(this.stageHintTextureSize.x), GUILayout.Height(this.stageHintTextureSize.y));
+                    
+                            } 
+                            GUILayout.EndVertical();
+                        }
+                        GUILayout.EndVertical();
+                    }
+                    GUILayout.EndArea();
+                    break;
+                #endregion
+                
+
+                #region Menu : Option
 
                 case GameDefinition.HomeMenu.Option:
                     // Display Option Background picture
