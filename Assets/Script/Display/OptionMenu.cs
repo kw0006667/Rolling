@@ -78,9 +78,9 @@ public class OptionMenu : MonoBehaviour
         this.optionMenu = GameDefinition.OptionMenu.None;
         this.optionResolutions = Screen.resolutions;
         this.optionResolutionList = new List<Resolution>();
-        foreach (var res in this.optionResolutions)
+        foreach (Resolution res in this.optionResolutions)
         {
-            if (res.width >= 1024 && res.height >= 768)
+            if (res.width >= 1024 && res.height >= 720)
                 this.optionResolutionList.Add(res);
         }
         this.optionResolutionMaxLenght = this.optionResolutionList.Count;
