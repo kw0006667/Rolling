@@ -189,6 +189,7 @@ public class FileManager
             settings.IgnoreWhitespace = true;
             settings.ValidationType = ValidationType.None;
             XmlReader reader = XmlTextReader.Create(filename, settings);
+            bool isSameName = false;
 
             while (reader.Read())
             {
@@ -198,15 +199,28 @@ public class FileManager
                         string tagName = reader.LocalName;
                         if (tagName.Equals(SettingTag.SetTag))
                         {
-                            this.settingData = new SettingData(reader[SettingTag.MachineName],
-                                                               reader[SettingTag.Quality],
-                                                               reader[SettingTag.Resolution],
-                                                               reader[SettingTag.FullScreen]);
+                            if (machineName.Equals(reader[SettingTag.MachineName]))
+                            {
+                                this.settingData = new SettingData(reader[SettingTag.MachineName],
+                                                                   reader[SettingTag.Quality],
+                                                                   reader[SettingTag.Resolution],
+                                                                   reader[SettingTag.FullScreen]);
+                                isSameName = true;
+                            }
+                            else
+                                isSameName = false;
+                            
                         }
                         break;
                     default:
                         break;
                 }
+            }
+
+            if (!isSameName)
+            {
+                this.settingData = new SettingData(Environment.GetEnvironmentVariable("COMPUTERNAME"), "4", "0", "False");
+                this.ConfigWrite(this.settingData);
             }
             reader.Close();
             return true;
@@ -352,12 +366,13 @@ public class FileManager
                     document.Save(filename);
                     XmlNode nodee = document.SelectSingleNode(SettingTag.SettingsTag);
                     XmlElement newMachine = document.CreateElement(SettingTag.SetTag);
-                    newMachine.SetAttribute(SettingTag.MachineName, "");
-                    newMachine.SetAttribute(SettingTag.Quality, "");
-                    newMachine.SetAttribute(SettingTag.Resolution, "");
-                    newMachine.SetAttribute(SettingTag.FullScreen, "");
+                    newMachine.SetAttribute(SettingTag.MachineName, Environment.GetEnvironmentVariable("COMPUTERNAME"));
+                    newMachine.SetAttribute(SettingTag.Quality, "4");
+                    newMachine.SetAttribute(SettingTag.Resolution, "0");
+                    newMachine.SetAttribute(SettingTag.FullScreen, "False");
                     nodee.AppendChild(newMachine);
                     document.Save(filename);
+                    this.settingData = new SettingData(Environment.GetEnvironmentVariable("COMPUTERNAME"), "4", "0", "False");
                     return false;
                 }
                 break;

@@ -60,8 +60,6 @@ public class HomeMenu : MonoBehaviour
     void Start()
     {
         // Option Initialization
-        this.optionQualityContentValue = GameDefinition.QualityContent.Fastest;
-        this.optionResolutionContentValue = 0;
         this.optionResolutions = Screen.resolutions;
         this.optionResolutionList = new List<Resolution>();
         foreach (Resolution res in this.optionResolutions)
@@ -70,12 +68,29 @@ public class HomeMenu : MonoBehaviour
                 this.optionResolutionList.Add(res);
         }
         this.optionResolutionMaxLenght = this.optionResolutionList.Count;
-
-        this.optionFullScreenContentValue = true;
+        
         this.machineName = Environment.GetEnvironmentVariable("COMPUTERNAME"); 
         this.fileManager = new FileManager();
         this.fileManager.ConfigReader(GameDefinition.SettingFilePath, this.machineName);
         this.settingData = this.fileManager.GetSettingData();
+
+        // Get xml setting value
+        this.optionQualityContentValue = (GameDefinition.QualityContent)Convert.ToInt32(this.settingData.Quality);
+        this.optionFullScreenContentValue = Convert.ToBoolean(this.settingData.FullScreen);
+        if (Convert.ToInt32(this.settingData.Resolution) > this.optionResolutionMaxLenght)
+        {
+            this.optionResolutionContentValue = this.optionResolutionMaxLenght - 1;
+            this.settingData.Resolution = this.optionResolutionContentValue.ToString();
+            this.fileManager.ConfigWrite(this.settingData);
+        }
+        else
+            this.optionResolutionContentValue = Convert.ToInt32(this.settingData.Resolution);
+
+        // Set xml setting value
+        QualitySettings.SetQualityLevel((int)this.optionQualityContentValue, true);
+        Screen.SetResolution(this.optionResolutionList[this.optionResolutionContentValue].width,
+                             this.optionResolutionList[this.optionResolutionContentValue].height,
+                             this.optionFullScreenContentValue);        
     }
 
     void OnTriggerEnter(Collider other)
@@ -83,7 +98,7 @@ public class HomeMenu : MonoBehaviour
         GameObject m_parent = other.transform.parent.gameObject;
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
         {
-            isTrigger = true;
+            isTrigger = true;            
             TriggerEvent();
         }
     }
@@ -397,14 +412,14 @@ public class HomeMenu : MonoBehaviour
             this.optionResolutionContentValue = 0;
 
         Screen.SetResolution(this.optionResolutionList[this.optionResolutionContentValue].width, this.optionResolutionList[this.optionResolutionContentValue].height, this.optionFullScreenContentValue);
-        this.settingData.Quality = this.optionResolutionContentValue.ToString();
+        this.settingData.Resolution = this.optionResolutionContentValue.ToString();
         this.fileManager.ConfigWrite(this.settingData);
     }
 
     private void setResolution(bool isFullScreen)
     {
         Screen.SetResolution(this.optionResolutionList[this.optionResolutionContentValue].width, this.optionResolutionList[this.optionResolutionContentValue].height, this.optionFullScreenContentValue);
-        this.settingData.Quality = this.optionFullScreenContentValue.ToString();
+        this.settingData.FullScreen = this.optionFullScreenContentValue.ToString();
         this.fileManager.ConfigWrite(this.settingData);
     }
 
