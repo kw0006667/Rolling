@@ -38,8 +38,10 @@ public class GameDefinition
         BeginChallenge,
         FirstStage,
         FirstStage_Hard,
+        FirstStageChallenge,
         SecondStage,
         SecondStage_Hard,
+        SecondStageChallenge,
         SpeedStageOne,
         SpeedStageTwo,
         SpecialStage_SpeedUp,        
@@ -89,8 +91,10 @@ public class GameDefinition
     private const string BeginChallenge = "BeginChallenge";
     private const string FirstStage = "FirstStage";
     private const string FirstStage_Hard = "FirstStage_Hard";
+    private const string FirstStageChallenge = "FirstStageChallenge";
     private const string SecondStage = "SecondStage";
     private const string SecondStage_Hard = "SecondStage_Hard";
+    private const string SecondStageChallenge = "SecondStageChallenge";
     private const string SpeedStageOne = "SpeedStageOne";
     private const string SpeedStageTwo = "SpeedStageTwo";
     private const string SpecialStage_SpeedUp = "SpecialStage_SpeedUp";
@@ -113,22 +117,35 @@ public class GameDefinition
     public static string GetSceneName(Scene scene)
     {
         switch (scene)
-        {
+        {            
             case Scene.StartMenu:
                 return GameDefinition.StartMenu;
             case Scene.Begin:
                 return GameDefinition.Begin;
+            case Scene.BeginChallenge:
+                return GameDefinition.BeginChallenge;
             case Scene.FirstStage:
                 return GameDefinition.FirstStage;
+            case Scene.FirstStage_Hard:
+                return GameDefinition.FirstStage_Hard;
+            case Scene.FirstStageChallenge:
+                return GameDefinition.FirstStageChallenge;
+            case Scene.SecondStage:
+                return GameDefinition.SecondStage;
+            case Scene.SecondStage_Hard:
+                return GameDefinition.SecondStage_Hard;
+            case Scene.SecondStageChallenge:
+                return GameDefinition.SecondStageChallenge;
             case Scene.SpeedStageOne:
                 return GameDefinition.SpeedStageOne;
             case Scene.SpeedStageTwo:
                 return GameDefinition.SpeedStageTwo;
-            case Scene.BeginChallenge:
-                return GameDefinition.BeginChallenge;
+            case Scene.SpecialStage_SpeedUp:
+                return GameDefinition.SpecialStage_SpeedUp;
             default:
                 return null;
         }
+        
     }
 
     /// <summary>
