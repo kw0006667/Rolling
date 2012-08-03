@@ -2,9 +2,9 @@ using UnityEngine;
 using System.Collections;
 using System.Globalization;
 using System.Collections.Generic;
+using System;
 public class OptionMenu : MonoBehaviour
 {
-
     public GameObject CheckPointObject;
     public Texture OptionBackground;
     public Texture[] HintTextures;
@@ -12,6 +12,10 @@ public class OptionMenu : MonoBehaviour
     private bool isOpenMenu = false;
     private CheckPointManager checkPointManager;
     private GameDefinition.OptionMenu optionMenu;
+
+    private FileManager fileManager;
+    private SettingData settingData;
+    private string machineName;
 
     #region Tutorials Properties
     // Tutorials properties
@@ -72,8 +76,6 @@ public class OptionMenu : MonoBehaviour
         this.tutorialsValue = 0;
         // Option Initialization
         this.optionMenu = GameDefinition.OptionMenu.None;
-        this.optionQualityContentValue = GameDefinition.QualityContent.Fastest;
-        this.optionResolutionContentValue = 0;
         this.optionResolutions = Screen.resolutions;
         this.optionResolutionList = new List<Resolution>();
         foreach (var res in this.optionResolutions)
@@ -82,7 +84,24 @@ public class OptionMenu : MonoBehaviour
                 this.optionResolutionList.Add(res);
         }
         this.optionResolutionMaxLenght = this.optionResolutionList.Count;
-        this.optionFullScreenContentValue = true;
+
+        this.machineName = Environment.GetEnvironmentVariable("COMPUTERNAME");
+        this.fileManager = new FileManager();
+        this.fileManager.ConfigReader(GameDefinition.SettingFilePath, this.machineName);
+        this.settingData = this.fileManager.GetSettingData();
+
+        // Get xml setting value
+        this.optionQualityContentValue = (GameDefinition.QualityContent)Convert.ToInt32(this.settingData.Quality);
+        this.optionFullScreenContentValue = Convert.ToBoolean(this.settingData.FullScreen);
+        if (Convert.ToInt32(this.settingData.Resolution) > this.optionResolutionMaxLenght)
+        {
+            this.optionResolutionContentValue = this.optionResolutionMaxLenght - 1;
+            this.settingData.Resolution = this.optionResolutionContentValue.ToString();
+            this.fileManager.ConfigWrite(this.settingData);
+        }
+        else
+            this.optionResolutionContentValue = Convert.ToInt32(this.settingData.Resolution);
+        
     }
 
     // Update is called once per frame
@@ -350,6 +369,8 @@ public class OptionMenu : MonoBehaviour
                 break;
         }
         QualitySettings.SetQualityLevel((int)this.optionQualityContentValue, true);
+        this.settingData.Quality = ((int)this.optionQualityContentValue).ToString();
+        this.fileManager.ConfigWrite(this.settingData);
     }
 
     private void setResolution(SETVALUE value)
@@ -362,11 +383,15 @@ public class OptionMenu : MonoBehaviour
             this.optionResolutionContentValue = 0;
 
         Screen.SetResolution(this.optionResolutionList[this.optionResolutionContentValue].width, this.optionResolutionList[this.optionResolutionContentValue].height, this.optionFullScreenContentValue);
+        this.settingData.Resolution = this.optionResolutionContentValue.ToString();
+        this.fileManager.ConfigWrite(this.settingData);
     }
 
     private void setResolution(bool isFullScreen)
     {
         Screen.SetResolution(this.optionResolutionList[this.optionResolutionContentValue].width, this.optionResolutionList[this.optionResolutionContentValue].height, this.optionFullScreenContentValue);
+        this.settingData.FullScreen = this.optionFullScreenContentValue.ToString();
+        this.fileManager.ConfigWrite(this.settingData);
     }
 
     #endregion
