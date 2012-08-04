@@ -1,6 +1,9 @@
 Rolling
 
-Version : 2012-08-04-02
+Version : 2012-08-05-01
+
+2012-08-05-01
+StartMenu的HighScore功能完成
 
 2012-08-04-01
 SecondStage sence complete

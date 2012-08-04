@@ -12,6 +12,7 @@ public class HomeMenu : MonoBehaviour
     private bool isTrigger = false;
     private FileManager fileManager;
     private SettingData settingData;
+    private List<ScoreData> scoreList;
     private string machineName;
 
     #region Stage Properties
@@ -20,9 +21,12 @@ public class HomeMenu : MonoBehaviour
     private Rect stageBackgroundRect = new Rect(0, 0, 900, 585);
 
     private Vector2 stageScrolViewPosition = new Vector2(0, 0);
-    private Vector2 stageScrolViewSize = new Vector2(400, 500);
-    private Vector2 stageHintTextureSize = new Vector2(241, 300);
+    private Vector2 stageScrolViewSize = new Vector2(300, 400);
+    private Vector2 stageButtonSize = new Vector2(300, 100);
+    private Vector2 stageTextureSize = new Vector2(500, 400);
+    private Vector2 stageHintBoxSize = new Vector2(500, 100);
     private int stageValue;
+    private GameDefinition.Scene stageScene = GameDefinition.Scene.none;
 
     #endregion
 
@@ -30,7 +34,11 @@ public class HomeMenu : MonoBehaviour
 
     private Rect highScoreAreaRect = new Rect(0, 0, 900, 585);
     private Rect highScoreBackgroundRect = new Rect(0, 0, 900, 585);
-    
+    private int highScoreSceneValue;
+    private int highScoreSceneMaxLenght;
+    private int highScoreCount = 10;            // how many high score will be get
+    private bool isHighScoreSceneChange = true;
+
     #endregion
 
     #region Option Properties
@@ -84,6 +92,12 @@ public class HomeMenu : MonoBehaviour
 
         this.machineName = Environment.GetEnvironmentVariable("COMPUTERNAME");
         this.fileManager = new FileManager();
+
+        // score reader
+        this.fileManager.ScoresReader(GameDefinition.ScoresFilePath);
+        this.highScoreSceneValue = (int)GameDefinition.Scene.BeginChallenge;
+        this.highScoreSceneMaxLenght = Enum.GetValues(typeof(GameDefinition.Scene)).Length;
+
         this.fileManager.ConfigReader(GameDefinition.SettingFilePath, this.machineName);
         this.settingData = this.fileManager.GetSettingData();
 
@@ -178,11 +192,25 @@ public class HomeMenu : MonoBehaviour
                             GUILayout.BeginHorizontal();
                             {
                                 GUILayout.Space(25);
-                                GUILayout.Button("<", GUILayout.Width(50));
-                                GUILayout.Box("關卡名", GUILayout.Width(200));
-                                GUILayout.Button(">", GUILayout.Width(50));
+                                
+                                if (GUILayout.Button("<", GUILayout.Width(50)))
+                                {
+                                    this.setScene(SETVALUE.DECREASE);
+                                    this.isHighScoreSceneChange = true;
+                                }
+                                
+                                GUILayout.Box(GameDefinition.GetSceneName((GameDefinition.Scene)this.highScoreSceneValue), GUILayout.Width(200));
+                                
+                                if (GUILayout.Button(">", GUILayout.Width(50)))
+                                {
+                                    this.setScene(SETVALUE.INCREASE);
+                                    this.isHighScoreSceneChange = true;
+                                }
                                 GUILayout.Space(300);
-                                GUILayout.Button("back", GUILayout.Width(100));
+                                
+                                if(GUILayout.Button("back", GUILayout.Width(100)))
+                                    this.isTrigger = false;
+                                
                                 GUILayout.Space(25);
                             }
                             GUILayout.EndHorizontal();
@@ -198,7 +226,6 @@ public class HomeMenu : MonoBehaviour
                                 GUILayout.Box("銀", GUILayout.Width(50));
                                 GUILayout.Box("金", GUILayout.Width(50));
                                 GUILayout.Box("等級", GUILayout.Width(50));
-                                GUILayout.Box("玩家", GUILayout.Width(150));
                                 GUILayout.Box("紀錄時間");
                                 GUILayout.Space(25);
                             }
@@ -207,23 +234,47 @@ public class HomeMenu : MonoBehaviour
 
                             GUILayout.BeginVertical();
                             {
-                                for (int i = 0; i < 10; i++)
+                                if (this.isHighScoreSceneChange)
                                 {
-                                    GUILayout.BeginHorizontal();
+                                    this.scoreList = this.fileManager.GetHighScores(GameDefinition.GetSceneName((GameDefinition.Scene)this.highScoreSceneValue), this.highScoreCount);
+                                    this.isHighScoreSceneChange = false;
+                                }
+                                for (int i = 0; i < this.highScoreCount; i++)
+                                {
+                                    if (this.scoreList.Count > i)
                                     {
-                                        GUILayout.Space(25);
-                                        GUILayout.Box((i + 1).ToString(), GUILayout.Width(50));
-                                        GUILayout.Box("0201", GUILayout.Width(100));
-                                        GUILayout.Box("00:01:12", GUILayout.Width(150));
-                                        GUILayout.Box("4銅", GUILayout.Width(50));
-                                        GUILayout.Box("5銀", GUILayout.Width(50));
-                                        GUILayout.Box("6金", GUILayout.Width(50));
-                                        GUILayout.Box("A", GUILayout.Width(50));
-                                        GUILayout.Box("測試玩家", GUILayout.Width(150));
-                                        GUILayout.Box("2012-07-31 13:15:12");
-                                        GUILayout.Space(25);
+                                        GUILayout.BeginHorizontal();
+                                        {
+                                            GUILayout.Space(25);
+                                            GUILayout.Box((i + 1).ToString(), GUILayout.Width(50));
+                                            GUILayout.Box(this.scoreList[i].Score, GUILayout.Width(100));
+                                            GUILayout.Box(this.scoreList[i].GameTime, GUILayout.Width(150));
+                                            GUILayout.Box(this.scoreList[i].Coppers, GUILayout.Width(50));
+                                            GUILayout.Box(this.scoreList[i].Silvers, GUILayout.Width(50));
+                                            GUILayout.Box(this.scoreList[i].Golds, GUILayout.Width(50));
+                                            GUILayout.Box(this.scoreList[i].Rank, GUILayout.Width(50));
+                                            GUILayout.Box(this.scoreList[i].PlayDate);
+                                            GUILayout.Space(25);
+                                        }
+                                        GUILayout.EndHorizontal();
                                     }
-                                    GUILayout.EndHorizontal();
+                                    else
+                                    {
+                                        GUILayout.BeginHorizontal();
+                                        {
+                                            GUILayout.Space(25);
+                                            GUILayout.Box((i + 1).ToString(), GUILayout.Width(50));
+                                            GUILayout.Box("------", GUILayout.Width(100));
+                                            GUILayout.Box("------", GUILayout.Width(150));
+                                            GUILayout.Box("------", GUILayout.Width(50));
+                                            GUILayout.Box("------", GUILayout.Width(50));
+                                            GUILayout.Box("------", GUILayout.Width(50));
+                                            GUILayout.Box("------", GUILayout.Width(50));
+                                            GUILayout.Box("------");
+                                            GUILayout.Space(25);
+                                        }
+                                        GUILayout.EndHorizontal();
+                                    }
                                 }
                             }
                             GUILayout.EndVertical();
@@ -254,45 +305,81 @@ public class HomeMenu : MonoBehaviour
                             GUILayout.BeginHorizontal();
                             {
                                 GUILayout.Space(25);
-                                this.stageScrolViewPosition = GUILayout.BeginScrollView(this.stageScrolViewPosition, false, true, GUILayout.Width(this.stageScrolViewSize.x), GUILayout.Height(this.stageScrolViewSize.y));
+                                GUILayout.BeginVertical();
                                 {
-                                    GUILayout.BeginVertical();
-                                    if (GUILayout.Button("BeginChallenge\n"))
-                                        this.stageValue = 0;
-                                    if (GUILayout.Button("FirstStageChallenge\n"))
-                                        this.stageValue = 1;
-                                    if (GUILayout.Button("FirstStage_Hard\n"))
-                                        this.stageValue = 2;
-                                    if (GUILayout.Button("SecondStageChallenge\n"))
-                                        this.stageValue = 3;
-                                    if (GUILayout.Button("SecondStage_Hard\n"))
-                                        this.stageValue = 4;
-                                    if (GUILayout.Button("SpeedStageOne\n"))
-                                        this.stageValue = 5;
-                                    if (GUILayout.Button("SpeedStageTwo\n"))
-                                        this.stageValue = 6;
-                                    if (GUILayout.Button("SpecialStage_SpeedUp\n"))
-                                        this.stageValue = 7;
-                                    GUILayout.EndVertical();
-                                }
-                                GUILayout.EndScrollView();
+                                    this.stageScrolViewPosition = GUILayout.BeginScrollView(this.stageScrolViewPosition, false, true, GUILayout.MaxWidth(this.stageScrolViewSize.x), GUILayout.MaxHeight(this.stageScrolViewSize.y));
+                                    {
+                                        GUILayout.BeginVertical();
+                                        if (GUILayout.Button("\nBeginChallenge\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                        {
+                                            this.stageValue = 0;
+                                            stageScene = GameDefinition.Scene.BeginChallenge;
+                                        }
+                                        if (GUILayout.Button("\nFirstStageChallenge\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                        {
+                                            this.stageValue = 1;
+                                            stageScene = GameDefinition.Scene.FirstStageChallenge;
+                                        }
+                                        if (GUILayout.Button("\nFirstStage_Hard\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                        {
+                                            this.stageValue = 2;
+                                            stageScene = GameDefinition.Scene.FirstStage_Hard;
+                                        }
+                                        if (GUILayout.Button("\nSecondStageChallenge\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                        {
+                                            this.stageValue = 3;
+                                            stageScene = GameDefinition.Scene.SecondStageChallenge;
+                                        }
+                                        if (GUILayout.Button("\nSecondStage_Hard\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                        {
+                                            this.stageValue = 4;
+                                            stageScene = GameDefinition.Scene.SecondStage_Hard;
+                                        }
+                                        if (GUILayout.Button("\nSpeedStageOne\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                        {
+                                            this.stageValue = 5;
+                                            stageScene = GameDefinition.Scene.SpeedStageOne;
+                                        }
+                                        if (GUILayout.Button("\nSpeedStageTwo\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                        {
+                                            this.stageValue = 6;
+                                            stageScene = GameDefinition.Scene.SpeedStageTwo;
+                                        }
+                                        if (GUILayout.Button("\nSpecialStage_SpeedUp\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                        {
+                                            this.stageValue = 7;
+                                            stageScene = GameDefinition.Scene.SpecialStage_SpeedUp;
+                                        }
+                                        GUILayout.EndVertical();
+                                    }
+                                    GUILayout.EndScrollView();
+
+                                    GUILayout.Space(25);
+
+                                    if (GUILayout.Button("\n GO \n"))
+                                    {
+                                        if (stageScene != GameDefinition.Scene.none)
+                                            Application.LoadLevel(GameDefinition.GetSceneName(stageScene));
+                                    }
+                                } 
+                                GUILayout.EndVertical();
                             }
 
-                            GUILayout.Space(50);
+                            GUILayout.Space(25);
 
                             GUILayout.BeginVertical();
                             {
-                                GUILayout.Box(this.StageTextures[this.stageValue], GUILayout.Width(this.stageHintTextureSize.x), GUILayout.Height(this.stageHintTextureSize.y));
-                    
-                            } 
+                                GUILayout.Box(this.StageTextures[this.stageValue], GUILayout.Width(this.stageTextureSize.x), GUILayout.Height(this.stageTextureSize.y));
+                                GUILayout.Space(25);
+                                GUILayout.Box("第" + (this.stageValue + 1).ToString() + "關說明(待補)", GUILayout.Width(this.stageHintBoxSize.x), GUILayout.Height(this.stageHintBoxSize.y));
+                            }
                             GUILayout.EndVertical();
                         }
                         GUILayout.EndVertical();
                     }
                     GUILayout.EndArea();
                     break;
-                #endregion
-                
+                #endregion                
 
                 #region Menu : Option
 
@@ -338,6 +425,8 @@ public class HomeMenu : MonoBehaviour
                     break;
                 #endregion                
 
+                #region Menu : Exit
+                
                 case GameDefinition.HomeMenu.Exit:
                     if (GUI.Button(new Rect(Screen.width * 0.3f, Screen.height * 0.425f, Screen.width * 0.2f, Screen.height * 0.15f), "Yes"))
                     {
@@ -349,6 +438,8 @@ public class HomeMenu : MonoBehaviour
                     }
                     break;
 
+                #endregion
+                
                 default:
                     break;
             }
@@ -433,6 +524,7 @@ public class HomeMenu : MonoBehaviour
         
     }
 
+    // Menu:Option use functtion
     private void setQuality(SETVALUE value)
     {
         int qualityTempValue = (int)this.optionQualityContentValue + (int)value;
@@ -470,6 +562,7 @@ public class HomeMenu : MonoBehaviour
         this.fileManager.ConfigWrite(this.settingData);
     }
 
+    // Menu:Option use functtion
     private void setResolution(SETVALUE value)
     {
         this.optionResolutionContentValue += (int)value;
@@ -484,11 +577,37 @@ public class HomeMenu : MonoBehaviour
         this.fileManager.ConfigWrite(this.settingData);
     }
 
+    // Menu:Option use functtion
     private void setResolution(bool isFullScreen)
     {
         Screen.SetResolution(this.optionResolutionList[this.optionResolutionContentValue].width, this.optionResolutionList[this.optionResolutionContentValue].height, this.optionFullScreenContentValue);
         this.settingData.FullScreen = this.optionFullScreenContentValue.ToString();
         this.fileManager.ConfigWrite(this.settingData);
+    }
+
+    // Menu:HighScore use functtion
+    private void setScene(SETVALUE value)
+    {
+        this.highScoreSceneValue += (int)value;
+
+        if (this.highScoreSceneValue < 0)
+            this.highScoreSceneValue = this.highScoreSceneMaxLenght - 1;
+        else if (this.highScoreSceneValue > this.highScoreSceneMaxLenght - 1)//12 >  12
+            this.highScoreSceneValue = 0;
+
+        switch ((GameDefinition.Scene)this.highScoreSceneValue)
+        {
+            case GameDefinition.Scene.none:
+            case GameDefinition.Scene.StartMenu:
+            case GameDefinition.Scene.Begin:
+            case GameDefinition.Scene.FirstStage:
+            case GameDefinition.Scene.SecondStage:
+                this.setScene(value);
+                break;
+
+            default:
+                break;
+        }
     }
 
     #endregion

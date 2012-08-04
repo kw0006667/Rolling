@@ -145,6 +145,7 @@ public class FileManager
     public void ScoresReader(string filename)
     {
         this.fileName = filename;
+        this.VerifyFileExist(filename);
 
         XmlReaderSettings settings = new XmlReaderSettings();
         settings.IgnoreComments = true;
@@ -313,10 +314,11 @@ public class FileManager
             select score;
 
         List<ScoreData> scores = query.ToList<ScoreData>();
-        scores.Sort(delegate(ScoreData x, ScoreData y)
-        {
-            return -Convert.ToUInt32(x.Score).CompareTo(Convert.ToUInt32(y.Score));
-        });
+        scores.Sort(
+            (x, y) =>
+            {
+                return -Convert.ToUInt32(x.Score).CompareTo(Convert.ToUInt32(y.Score));
+            });
         if (scores.Count >= count)
             return scores.GetRange(0, count);
         else
@@ -384,6 +386,8 @@ public class FileManager
 
                     XmlNode productsNode = document.CreateElement(ScoreTag.ScoresTag);
                     document.AppendChild(productsNode);
+
+                    document.Save(filename);
                     return false;
                 }
                 break;
