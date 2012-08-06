@@ -11,22 +11,25 @@ public class RecordTag
     public const string Record = "Record";
     public const string RecordName = "RecordName";
     public const string Scene = "Scene";
+    public const string SaveDate = "SaveDate";
 }
 
 public class RecordData
 {
     public string RecordName;
     public string Scene;
+    public string SaveDate;
 
     public RecordData()
     {
 
     }
 
-    public RecordData(string recordName, string scene)
+    public RecordData(string recordName, string scene, string saveDate)
     {
         this.RecordName = recordName;
         this.Scene = scene;
+        this.SaveDate = saveDate;
     }
 }
 
@@ -187,7 +190,8 @@ public class FileManager
                     if (tagName.Equals(RecordTag.Record))
                     {
                         record = new RecordData(reader[RecordTag.RecordName],
-                                                reader[RecordTag.Scene]);
+                                                reader[RecordTag.Scene],
+                                                reader[RecordTag.SaveDate]);
                         this.recordList.Add(record);
                     }
                     break;
@@ -210,6 +214,7 @@ public class FileManager
             if (attributes[RecordTag.RecordName].Equals(record.RecordName))
             {
                 attributes[RecordTag.Scene].Value = record.Scene;
+                attributes[RecordTag.SaveDate].Value = record.SaveDate;
             }
         }
         doc.Save(GameDefinition.RecordFilePath);
@@ -433,6 +438,7 @@ public class FileManager
         newUser.SetAttribute(ScoreTag.Scene, scoreData.Scene);
         node.AppendChild(newUser);
         document.Save(filename);
+        this.scoreList.Add(scoreData);
     }
 
     public bool VerifyFileExist(string filename)
