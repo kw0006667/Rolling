@@ -220,6 +220,33 @@ public class FileManager
         doc.Save(GameDefinition.RecordFilePath);
     }
 
+    public bool RecordDelete(int recordChoice)
+    {
+        try
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(GameDefinition.RecordFilePath);
+            XmlNodeList setNodes = doc.SelectNodes(RecordTag.Records + "/" + RecordTag.Record);
+            foreach (XmlNode setNode in setNodes)
+            {
+                XmlElement element = (XmlElement)setNode;
+                XmlAttributeCollection attributes = element.Attributes;
+                if (attributes[RecordTag.RecordName].Equals("Record " + (recordChoice + 1).ToString()))
+                {
+                    attributes[RecordTag.Scene].Value = "";
+                    attributes[RecordTag.SaveDate].Value = "";
+                    break;
+                }
+            }
+            doc.Save(GameDefinition.RecordFilePath);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
+    }
+
     public List<RecordData> GetRecords()
     {
         return this.recordList;
@@ -486,6 +513,18 @@ public class FileManager
                     document.AppendChild(docNode);
                     XmlNode node = document.CreateElement(RecordTag.Records);
                     document.AppendChild(node);
+                    document.Save(filename);
+                    document.Load(GameDefinition.RecordFilePath);
+                    node = document.SelectSingleNode(RecordTag.Records);
+
+                    for (int count = 1; count <= 5; count++)
+                    {
+                        XmlElement newUser = document.CreateElement(RecordTag.Record);
+                        newUser.SetAttribute(RecordTag.RecordName, "Record " + count.ToString());
+                        newUser.SetAttribute(RecordTag.Scene, "");
+                        newUser.SetAttribute(RecordTag.SaveDate, "");
+                        node.AppendChild(newUser);
+                    }
                     document.Save(filename);
                 }
                 break;

@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Records>
-  <Record RecordName="Record 1" Scene="Begin" SaveDate="2012-08-06 17:25:34"/>
-  <Record RecordName="Record 2" Scene="Begin" SaveDate="2012-08-06 17:26:34"/>
-  <Record RecordName="Record 3" Scene="" SaveDate=""/>
-  <Record RecordName="Record 4" Scene="" SaveDate=""/>
-  <Record RecordName="Record 5" Scene="" SaveDate=""/>
+  <Record RecordName="Record 1" Scene="Begin" SaveDate="2012-08-06 17:25:34" />
+  <Record RecordName="Record 2" Scene="Begin" SaveDate="2012-08-06 17:26:34" />
+  <Record RecordName="Record 3" Scene="" SaveDate="" />
+  <Record RecordName="Record 4" Scene="" SaveDate="" />
+  <Record RecordName="Record 5" Scene="" SaveDate="" />
 </Records>

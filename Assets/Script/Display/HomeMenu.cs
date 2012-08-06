@@ -369,7 +369,13 @@ public class HomeMenu : MonoBehaviour
                                 GUILayout.Space(10);
                                 if (GUILayout.Button("Delete", GUILayout.MaxWidth(this.loadButtonSize2.x), GUILayout.MaxHeight(this.loadButtonSize2.y)))
                                 {
-
+                                    if (!this.recordList[this.recordChoice].Scene.Equals(string.Empty))
+                                    {
+                                        if (this.fileManager.RecordDelete(this.recordChoice))
+                                            this.recordContentValue = "";
+                                    }
+                                    else
+                                        this.recordContentValue = "No Record!";
                                 }
                             }
                             GUILayout.EndHorizontal();
