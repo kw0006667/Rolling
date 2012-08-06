@@ -233,24 +233,12 @@ public class ResultDisplay : MonoBehaviour
         score *= 10;
 
         switch (this.CurrentScene)
-        {
-            case GameDefinition.Scene.none:
-                break;
-            case GameDefinition.Scene.StartMenu:
-                break;
-            case GameDefinition.Scene.Begin:
-                break;
+        {            
             case GameDefinition.Scene.BeginChallenge:
                 break;
-            case GameDefinition.Scene.FirstStage:
-                break;
-            case GameDefinition.Scene.FirstStage_Hard:
-                break;
             case GameDefinition.Scene.FirstStageChallenge:
-                break;
-            case GameDefinition.Scene.SecondStage:
-                break;
-            case GameDefinition.Scene.SecondStage_Hard:
+                break;            
+            case GameDefinition.Scene.FirstStage_Hard:
                 break;
             case GameDefinition.Scene.SecondStageChallenge:
                 break;
