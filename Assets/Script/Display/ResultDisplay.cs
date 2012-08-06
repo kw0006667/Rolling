@@ -5,9 +5,7 @@ using System;
 
 public class ResultDisplay : MonoBehaviour
 {
-    public bool isShowScore;
-    public bool isShowHighScoreUI = false;
-
+    public GameDefinition.Scene CurrentScene;
     public GameObject GearCollectionObject;
     public GameObject TimerObject;
     
@@ -25,9 +23,12 @@ public class ResultDisplay : MonoBehaviour
 
     private FileManager fileManager;
     private List<ScoreData> scoreList;
-    private string sceneName;
-    private int totalScore;
-    private string rankStr;
+    private int highScoreCount = 10;            // how many high score will be get
+    private int totalScore = 0;
+    private string rankStr = "A";
+
+    private bool isShowScore = false;
+    private bool isShowHighScoreUI = false;
 
     private Timer timer;
 
@@ -42,7 +43,7 @@ public class ResultDisplay : MonoBehaviour
 
         this.fileManager = new FileManager();
         this.fileManager.ScoresReader(GameDefinition.ScoresFilePath);
-        this.sceneName = Application.loadedLevelName;
+        this.scoreList = new List<ScoreData>();
     }
 
     void Update()
@@ -69,8 +70,10 @@ public class ResultDisplay : MonoBehaviour
 
             GUILayout.BeginArea(this.resultAreaRect);
             {
-                if(!this.isShowHighScoreUI)
+                if (!this.isShowHighScoreUI)
                     ResultGUI();
+                else
+                    HighScoreGUI();
                 
             }
             GUILayout.EndArea();
@@ -79,90 +82,88 @@ public class ResultDisplay : MonoBehaviour
 
     private void HighScoreGUI()
     {
-        //GUILayout.BeginVertical();
-        //{
-        //    GUILayout.Space(25);
+        GUILayout.BeginVertical();
+        {
+            GUILayout.Space(25);
 
-        //    GUILayout.BeginHorizontal();
-        //    {
-        //        GUILayout.Space(25);
+            GUILayout.BeginHorizontal();
+            {
+                GUILayout.Space(25);
 
-                
-                
-        //        GUILayout.Space(300);
+                GUILayout.Label("是否再玩一次？", GUILayout.Width(100));
+                GUILayout.Space(25);
+                if (GUILayout.Button("是", GUILayout.Width(50)))
+                    Application.LoadLevel(GameDefinition.GetSceneName(this.CurrentScene));
 
-        //        if (GUILayout.Button("back", GUILayout.Width(100)))
-        //            this.isTrigger = false;
+                GUILayout.Space(25);
 
-        //        GUILayout.Space(25);
-        //    }
-        //    GUILayout.EndHorizontal();
+                if (GUILayout.Button("否", GUILayout.Width(50)))
+                    Application.LoadLevel(GameDefinition.GetSceneName(GameDefinition.Scene.StartMenu));
 
-        //    GUILayout.Space(50);
-        //    GUILayout.BeginHorizontal();
-        //    {
-        //        GUILayout.Space(25);
-        //        GUILayout.Box("名次", GUILayout.Width(50));
-        //        GUILayout.Box("分數", GUILayout.Width(100));
-        //        GUILayout.Box("遊戲時間", GUILayout.Width(150));
-        //        GUILayout.Box("銅", GUILayout.Width(50));
-        //        GUILayout.Box("銀", GUILayout.Width(50));
-        //        GUILayout.Box("金", GUILayout.Width(50));
-        //        GUILayout.Box("等級", GUILayout.Width(50));
-        //        GUILayout.Box("紀錄時間");
-        //        GUILayout.Space(25);
-        //    }
-        //    GUILayout.EndHorizontal();
+                GUILayout.Space(25);
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(50);
+            GUILayout.BeginHorizontal();
+            {
+                GUILayout.Space(25);
+                GUILayout.Box("名次", GUILayout.Width(50));
+                GUILayout.Box("分數", GUILayout.Width(100));
+                GUILayout.Box("遊戲時間", GUILayout.Width(150));
+                GUILayout.Box("銅", GUILayout.Width(50));
+                GUILayout.Box("銀", GUILayout.Width(50));
+                GUILayout.Box("金", GUILayout.Width(50));
+                GUILayout.Box("等級", GUILayout.Width(50));
+                GUILayout.Box("紀錄時間");
+                GUILayout.Space(25);
+            }
+            GUILayout.EndHorizontal();
 
 
-        //    GUILayout.BeginVertical();
-        //    {
-        //        if (this.isHighScoreSceneChange)
-        //        {
-        //            this.scoreList = this.fileManager.GetHighScores(GameDefinition.GetSceneName((GameDefinition.Scene)this.highScoreSceneValue), this.highScoreCount);
-        //            this.isHighScoreSceneChange = false;
-        //        }
-        //        for (int i = 0; i < this.highScoreCount; i++)
-        //        {
-        //            if (this.scoreList.Count > i)
-        //            {
-        //                GUILayout.BeginHorizontal();
-        //                {
-        //                    GUILayout.Space(25);
-        //                    GUILayout.Box((i + 1).ToString(), GUILayout.Width(50));
-        //                    GUILayout.Box(this.scoreList[i].Score, GUILayout.Width(100));
-        //                    GUILayout.Box(this.scoreList[i].GameTime, GUILayout.Width(150));
-        //                    GUILayout.Box(this.scoreList[i].Coppers, GUILayout.Width(50));
-        //                    GUILayout.Box(this.scoreList[i].Silvers, GUILayout.Width(50));
-        //                    GUILayout.Box(this.scoreList[i].Golds, GUILayout.Width(50));
-        //                    GUILayout.Box(this.scoreList[i].Rank, GUILayout.Width(50));
-        //                    GUILayout.Box(this.scoreList[i].PlayDate);
-        //                    GUILayout.Space(25);
-        //                }
-        //                GUILayout.EndHorizontal();
-        //            }
-        //            else
-        //            {
-        //                GUILayout.BeginHorizontal();
-        //                {
-        //                    GUILayout.Space(25);
-        //                    GUILayout.Box((i + 1).ToString(), GUILayout.Width(50));
-        //                    GUILayout.Box("------", GUILayout.Width(100));
-        //                    GUILayout.Box("------", GUILayout.Width(150));
-        //                    GUILayout.Box("------", GUILayout.Width(50));
-        //                    GUILayout.Box("------", GUILayout.Width(50));
-        //                    GUILayout.Box("------", GUILayout.Width(50));
-        //                    GUILayout.Box("------", GUILayout.Width(50));
-        //                    GUILayout.Box("------");
-        //                    GUILayout.Space(25);
-        //                }
-        //                GUILayout.EndHorizontal();
-        //            }
-        //        }
-        //    }
-        //    GUILayout.EndVertical();
-        //}
-        //GUILayout.EndVertical();
+            GUILayout.BeginVertical();
+            {
+                for (int i = 0; i < this.highScoreCount; i++)
+                {
+                    if (this.scoreList.Count > i)
+                    {
+                        GUILayout.BeginHorizontal();
+                        {
+                            GUILayout.Space(25);
+                            GUILayout.Box((i + 1).ToString(), GUILayout.Width(50));
+                            GUILayout.Box(this.scoreList[i].Score, GUILayout.Width(100));
+                            GUILayout.Box(this.scoreList[i].GameTime, GUILayout.Width(150));
+                            GUILayout.Box(this.scoreList[i].Coppers, GUILayout.Width(50));
+                            GUILayout.Box(this.scoreList[i].Silvers, GUILayout.Width(50));
+                            GUILayout.Box(this.scoreList[i].Golds, GUILayout.Width(50));
+                            GUILayout.Box(this.scoreList[i].Rank, GUILayout.Width(50));
+                            GUILayout.Box(this.scoreList[i].PlayDate);
+                            GUILayout.Space(25);
+                        }
+                        GUILayout.EndHorizontal();
+                    }
+                    else
+                    {
+                        GUILayout.BeginHorizontal();
+                        {
+                            GUILayout.Space(25);
+                            GUILayout.Box((i + 1).ToString(), GUILayout.Width(50));
+                            GUILayout.Box("------", GUILayout.Width(100));
+                            GUILayout.Box("------", GUILayout.Width(150));
+                            GUILayout.Box("------", GUILayout.Width(50));
+                            GUILayout.Box("------", GUILayout.Width(50));
+                            GUILayout.Box("------", GUILayout.Width(50));
+                            GUILayout.Box("------", GUILayout.Width(50));
+                            GUILayout.Box("------");
+                            GUILayout.Space(25);
+                        }
+                        GUILayout.EndHorizontal();
+                    }
+                }
+            }
+            GUILayout.EndVertical();
+        }
+        GUILayout.EndVertical();
     }
 
     private void ResultGUI()
@@ -196,11 +197,11 @@ public class ResultDisplay : MonoBehaviour
                     }
                     else
                     {
-                        GUILayout.Box(new GUIContent(" ", GearIconSmallTexture), GearStyle, GUILayout.MaxHeight(100));
+                        GUILayout.Box(new GUIContent(" " + Convert.ToInt32("0").ToString("000"), GearIconBigTexture), GearStyle, GUILayout.MaxHeight(100));
                         GUILayout.Space(25);
-                        GUILayout.Box(new GUIContent(" ", GearIconSmallTexture), GearStyle, GUILayout.MaxHeight(100));
+                        GUILayout.Box(new GUIContent(" " + Convert.ToInt32("0").ToString("000"), GearIconMiddleTexture), GearStyle, GUILayout.MaxHeight(100));
                         GUILayout.Space(25);
-                        GUILayout.Box(new GUIContent(" ", GearIconSmallTexture), GearStyle, GUILayout.MaxHeight(100));
+                        GUILayout.Box(new GUIContent(" " + Convert.ToInt32("0").ToString("000"), GearIconSmallTexture), GearStyle, GUILayout.MaxHeight(100));
                         GUILayout.Space(25);
                     }
                 }
@@ -224,21 +225,89 @@ public class ResultDisplay : MonoBehaviour
         GUILayout.EndVertical();
     }
 
+    int VerifyTimeScore()
+    {
+        int score = score = 300 - (int)this.timer.currentTime;
+        if (score < 0)
+            score = 0;
+        score *= 10;
+
+        switch (this.CurrentScene)
+        {
+            case GameDefinition.Scene.none:
+                break;
+            case GameDefinition.Scene.StartMenu:
+                break;
+            case GameDefinition.Scene.Begin:
+                break;
+            case GameDefinition.Scene.BeginChallenge:
+                break;
+            case GameDefinition.Scene.FirstStage:
+                break;
+            case GameDefinition.Scene.FirstStage_Hard:
+                break;
+            case GameDefinition.Scene.FirstStageChallenge:
+                break;
+            case GameDefinition.Scene.SecondStage:
+                break;
+            case GameDefinition.Scene.SecondStage_Hard:
+                break;
+            case GameDefinition.Scene.SecondStageChallenge:
+                break;
+            case GameDefinition.Scene.SpeedStageOne:
+                break;
+            case GameDefinition.Scene.SpeedStageTwo:
+                break;
+            case GameDefinition.Scene.SpecialStage_SpeedUp:
+                break;
+            default:
+                break;
+        }
+        return score;
+    }
+
     void OnTriggerEnter(Collider other)
     {
         GameObject m_parent = other.transform.parent.gameObject;
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)) && !this.isShowScore)
         {
             this.isShowScore = true;
-            ScoreData score = new ScoreData((this.fileManager.GetScores().Count + 1).ToString(),
-                                            Environment.GetEnvironmentVariable("COMPUTERNAME"),
-                                            totalScore.ToString(),
-                                            this.timer.TimerStr, cellManager.smallCount.ToString("000"),
-                                            cellManager.middleCount.ToString("000"),
-                                            cellManager.bigCount.ToString("000"), rankStr,
-                                            DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                                            this.sceneName);
+            if (cellManager != null)
+            {
+                this.totalScore += (this.cellManager.smallCount * 1 + this.cellManager.middleCount * 3 + this.cellManager.bigCount * 5);
+            }
+
+            this.totalScore += this.VerifyTimeScore();
+
+            ScoreData score;
+            if (cellManager != null)
+            {
+                score = new ScoreData((this.fileManager.GetScores().Count + 1).ToString(),
+                                       Environment.GetEnvironmentVariable("COMPUTERNAME"),
+                                       this.totalScore.ToString(),
+                                       this.timer.TimerStr,
+                                       this.cellManager.smallCount.ToString("000"),
+                                       this.cellManager.middleCount.ToString("000"),
+                                       this.cellManager.bigCount.ToString("000"),
+                                       this.rankStr,
+                                       DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                                       GameDefinition.GetSceneName(this.CurrentScene));
+            }
+            else
+            {
+                score = new ScoreData((this.fileManager.GetScores().Count + 1).ToString(),
+                                       Environment.GetEnvironmentVariable("COMPUTERNAME"),
+                                       this.totalScore.ToString(),
+                                       this.timer.TimerStr,
+                                       Convert.ToInt32("0").ToString("000"),
+                                       Convert.ToInt32("0").ToString("000"),
+                                       Convert.ToInt32("0").ToString("000"),
+                                       this.rankStr,
+                                       DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                                       GameDefinition.GetSceneName(this.CurrentScene));
+            }
             this.fileManager.ScoresWrite(score, GameDefinition.ScoresFilePath);
+            this.scoreList = this.fileManager.GetHighScores(GameDefinition.GetSceneName(this.CurrentScene), this.highScoreCount);
         }
     }
 

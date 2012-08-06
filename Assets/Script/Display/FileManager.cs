@@ -157,7 +157,7 @@ public class FileManager
     // Save exception message
     public Exception Ex { get; private set; }
     // Store all username's score
-    private List<ScoreData> scoreList;
+    public List<ScoreData> scoreList;
     private SettingData settingData;
     private List<RecordData> recordList;
     // Filename for reading

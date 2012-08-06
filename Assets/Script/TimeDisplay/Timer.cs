@@ -3,7 +3,7 @@ using System.Collections;
 
 class Timer : MonoBehaviour
 {
-    private float currentTime;
+    public float currentTime { get; private set; }
     private float originTime;
     private int hour;
     private int min;
