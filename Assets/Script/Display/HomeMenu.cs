@@ -13,7 +13,21 @@ public class HomeMenu : MonoBehaviour
     private FileManager fileManager;
     private SettingData settingData;
     private List<ScoreData> scoreList;
+    private List<RecordData> recordList;
     private string machineName;
+
+    #region Load Properties
+    private Rect loadAreaRect = new Rect(0, 0, 600, 585);
+    private Rect loadBackgroundRect = new Rect(0, 0, 900, 585);
+
+
+    private Vector2 loadButtonSize = new Vector2(300, 75);
+    private Vector2 loadButtonSize2 = new Vector2(200, 50);
+    private Vector2 loadBoxAreaSize = new Vector2(285, 395);
+    private Vector2 loadOptionHorizonalSize = new Vector2(600, 70);
+    private string recordContentValue;
+    private int recordChoice;
+    #endregion
 
     #region Stage Properties
 
@@ -117,7 +131,10 @@ public class HomeMenu : MonoBehaviour
         QualitySettings.SetQualityLevel((int)this.optionQualityContentValue, true);
         Screen.SetResolution(this.optionResolutionList[this.optionResolutionContentValue].width,
                              this.optionResolutionList[this.optionResolutionContentValue].height,
-                             this.optionFullScreenContentValue);        
+                             this.optionFullScreenContentValue);
+
+        this.recordContentValue = String.Empty;
+        this.recordChoice = -1;
     }
 
     void OnTriggerEnter(Collider other)
@@ -192,25 +209,25 @@ public class HomeMenu : MonoBehaviour
                             GUILayout.BeginHorizontal();
                             {
                                 GUILayout.Space(25);
-                                
+
                                 if (GUILayout.Button("<", GUILayout.Width(50)))
                                 {
                                     this.setScene(SETVALUE.DECREASE);
                                     this.isHighScoreSceneChange = true;
                                 }
-                                
+
                                 GUILayout.Box(GameDefinition.GetSceneName((GameDefinition.Scene)this.highScoreSceneValue), GUILayout.Width(200));
-                                
+
                                 if (GUILayout.Button(">", GUILayout.Width(50)))
                                 {
                                     this.setScene(SETVALUE.INCREASE);
                                     this.isHighScoreSceneChange = true;
                                 }
                                 GUILayout.Space(300);
-                                
-                                if(GUILayout.Button("back", GUILayout.Width(100)))
+
+                                if (GUILayout.Button("back", GUILayout.Width(100)))
                                     this.isTrigger = false;
-                                
+
                                 GUILayout.Space(25);
                             }
                             GUILayout.EndHorizontal();
@@ -284,9 +301,82 @@ public class HomeMenu : MonoBehaviour
                     GUILayout.EndArea();
 
                     break;
-                #endregion                
+                #endregion
 
                 case GameDefinition.HomeMenu.Load:
+                    this.fileManager.RecordsReader(GameDefinition.RecordFilePath);
+                    this.recordList = this.fileManager.GetRecords();
+                    // Display Option Background picture
+                    if (this.OptionBackground != null)
+                    {
+                        GUI.DrawTexture(this.stageBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, true, 0.0f);
+                    }
+                    GUILayout.BeginArea(this.loadAreaRect);
+                    {
+                        GUILayout.BeginVertical();
+                        {
+                            GUILayout.Space(57);
+                            GUILayout.BeginHorizontal();
+                            {
+                                GUILayout.BeginVertical();
+                                {
+                                    if (GUILayout.Button("Record 1", GUILayout.MaxWidth(this.loadButtonSize.x), GUILayout.MaxHeight(this.loadButtonSize.y)))
+                                    {
+                                        this.recordContentValue = this.recordList[0].RecordName + "\n" + this.recordList[0].Scene + "\n" + this.recordList[0].SaveDate;
+                                        this.recordChoice = 0;
+                                    }
+                                    GUILayout.Space(5);
+                                    if (GUILayout.Button("Record 2", GUILayout.MaxWidth(this.loadButtonSize.x), GUILayout.MaxHeight(this.loadButtonSize.y)))
+                                    {
+                                        this.recordContentValue = this.recordList[1].RecordName + "\n" + this.recordList[1].Scene + "\n" + this.recordList[1].SaveDate;
+                                        this.recordChoice = 1;
+                                    }
+                                    GUILayout.Space(5);
+                                    if (GUILayout.Button("Record 3", GUILayout.MaxWidth(this.loadButtonSize.x), GUILayout.MaxHeight(this.loadButtonSize.y)))
+                                    {
+                                        this.recordContentValue = this.recordList[2].RecordName + "\n" + this.recordList[2].Scene + "\n" + this.recordList[2].SaveDate;
+                                        this.recordChoice = 2;
+                                    }
+                                    GUILayout.Space(5);
+                                    if (GUILayout.Button("Record 4", GUILayout.MaxWidth(this.loadButtonSize.x), GUILayout.MaxHeight(this.loadButtonSize.y)))
+                                    {
+                                        this.recordContentValue = this.recordList[3].RecordName + "\n" + this.recordList[3].Scene + "\n" + this.recordList[3].SaveDate;
+                                        this.recordChoice = 3;
+                                    }
+                                    GUILayout.Space(5);
+                                    if (GUILayout.Button("Record 5", GUILayout.MaxWidth(this.loadButtonSize.x), GUILayout.MaxHeight(this.loadButtonSize.y)))
+                                    {
+                                        this.recordContentValue = this.recordList[4].RecordName + "\n" + this.recordList[4].Scene + "\n" + this.recordList[4].SaveDate;
+                                        this.recordChoice = 4;
+                                    }
+                                    GUILayout.Space(5);
+                                }
+                                GUILayout.EndVertical();
+                                GUILayout.Space(10);
+                                GUILayout.Box(this.recordContentValue, GUILayout.MaxWidth(this.loadBoxAreaSize.x), GUILayout.MaxHeight(this.loadBoxAreaSize.y));
+                            }
+                            GUILayout.EndHorizontal();
+                            GUILayout.BeginHorizontal(GUILayout.MaxWidth(this.loadOptionHorizonalSize.x), GUILayout.MaxHeight(this.loadOptionHorizonalSize.y));
+                            {
+                                GUILayout.Space(95);
+                                if (GUILayout.Button("Load", GUILayout.MaxWidth(this.loadButtonSize2.x), GUILayout.MaxHeight(this.loadButtonSize2.y)))
+                                {
+                                    if (!this.recordList[this.recordChoice].Scene.Equals(string.Empty))
+                                        Application.LoadLevel(this.recordList[this.recordChoice].Scene);
+                                    else
+                                        this.recordContentValue = "No Record!";
+                                }
+                                GUILayout.Space(10);
+                                if (GUILayout.Button("Delete", GUILayout.MaxWidth(this.loadButtonSize2.x), GUILayout.MaxHeight(this.loadButtonSize2.y)))
+                                {
+
+                                }
+                            }
+                            GUILayout.EndHorizontal();
+                        }
+                        GUILayout.EndVertical();
+                    }
+                    GUILayout.EndArea();
                     break;
 
                 #region Menu : Stage
@@ -361,7 +451,7 @@ public class HomeMenu : MonoBehaviour
                                         if (stageScene != GameDefinition.Scene.none)
                                             Application.LoadLevel(GameDefinition.GetSceneName(stageScene));
                                     }
-                                } 
+                                }
                                 GUILayout.EndVertical();
                             }
 
@@ -379,7 +469,7 @@ public class HomeMenu : MonoBehaviour
                     }
                     GUILayout.EndArea();
                     break;
-                #endregion                
+                #endregion
 
                 #region Menu : Option
 
@@ -423,10 +513,10 @@ public class HomeMenu : MonoBehaviour
                         this.isTrigger = false;
                     }
                     break;
-                #endregion                
+                #endregion
 
                 #region Menu : Exit
-                
+
                 case GameDefinition.HomeMenu.Exit:
                     if (GUI.Button(new Rect(Screen.width * 0.3f, Screen.height * 0.425f, Screen.width * 0.2f, Screen.height * 0.15f), "Yes"))
                     {
@@ -439,10 +529,15 @@ public class HomeMenu : MonoBehaviour
                     break;
 
                 #endregion
-                
+
                 default:
                     break;
             }
+        }
+        else
+        {
+            this.recordContentValue = string.Empty;
+            this.recordChoice = -1;
         }
     }
 
@@ -451,6 +546,16 @@ public class HomeMenu : MonoBehaviour
     // Initialize All Buttons Rect real time
     private void InitializeButtonRect()
     {
+        #region Load Rect
+        this.loadAreaRect = new Rect((Screen.width - (int)this.loadAreaRect.width) / 2,
+                                     (Screen.height - (int)this.loadAreaRect.height) / 2,
+                                      this.loadAreaRect.width,
+                                      this.loadAreaRect.height);
+        this.loadBackgroundRect = new Rect((Screen.width - (int)this.loadBackgroundRect.width) / 2,
+                                           (Screen.height - (int)this.loadBackgroundRect.height) / 2,
+                                           this.loadBackgroundRect.width,
+                                           this.loadBackgroundRect.height);
+        #endregion
 
         #region HighScore Rect
 
