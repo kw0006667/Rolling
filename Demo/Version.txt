@@ -1,6 +1,9 @@
 Rolling
 
-Version : 2012-08-05-01
+Version : 2012-08-06-02
+
+2012-08-06-02
+各關備置完成RC1
 
 2012-08-06-01
 Add SecondStage two and SpeedStage one, two, SpecialStage_SpeedUp

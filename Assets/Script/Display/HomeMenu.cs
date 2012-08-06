@@ -8,6 +8,7 @@ public class HomeMenu : MonoBehaviour
     public GameDefinition.HomeMenu homeMenu;
     public Texture OptionBackground;
     public Texture[] StageTextures;
+    public Texture StageHintTexture;
 
     private bool isTrigger = false;
     private FileManager fileManager;
@@ -432,11 +433,11 @@ public class HomeMenu : MonoBehaviour
                                             this.stageValue = 3;
                                             stageScene = GameDefinition.Scene.SecondStageChallenge;
                                         }
-                                        if (GUILayout.Button("\nSecondStage_Hard\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
-                                        {
-                                            this.stageValue = 4;
-                                            stageScene = GameDefinition.Scene.SecondStage_Hard;
-                                        }
+                                        //if (GUILayout.Button("\nSecondStage_Hard\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                        //{
+                                        //    this.stageValue = 4;
+                                        //    stageScene = GameDefinition.Scene.SecondStage_Hard;
+                                        //}
                                         if (GUILayout.Button("\nSpeedStageOne\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
                                         {
                                             this.stageValue = 5;
@@ -465,17 +466,19 @@ public class HomeMenu : MonoBehaviour
                                     }
                                 }
                                 GUILayout.EndVertical();
-                            }
 
-                            GUILayout.Space(25);
-
-                            GUILayout.BeginVertical();
-                            {
-                                GUILayout.Box(this.StageTextures[this.stageValue], GUILayout.Width(this.stageTextureSize.x), GUILayout.Height(this.stageTextureSize.y));
                                 GUILayout.Space(25);
-                                GUILayout.Box("第" + (this.stageValue + 1).ToString() + "關說明(待補)", GUILayout.Width(this.stageHintBoxSize.x), GUILayout.Height(this.stageHintBoxSize.y));
+
+                                GUILayout.BeginVertical();
+                                {
+                                    GUILayout.Box(this.StageTextures[this.stageValue], GUILayout.Width(this.stageTextureSize.x), GUILayout.Height(this.stageTextureSize.y));
+                                    GUILayout.Space(25);
+                                    GUILayout.Box(StageHintTexture, GUILayout.Width(this.stageHintBoxSize.x), GUILayout.Height(this.stageHintBoxSize.y));
+                                }
+                                GUILayout.Space(25);
+                                GUILayout.EndVertical();
                             }
-                            GUILayout.EndVertical();
+                            GUILayout.EndHorizontal();
                         }
                         GUILayout.EndVertical();
                     }
@@ -734,6 +737,7 @@ public class HomeMenu : MonoBehaviour
             case GameDefinition.Scene.Begin:
             case GameDefinition.Scene.FirstStage:
             case GameDefinition.Scene.SecondStage:
+            case GameDefinition.Scene.SecondStage_Hard:
                 this.setScene(value);
                 break;
 
