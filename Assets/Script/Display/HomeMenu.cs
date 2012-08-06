@@ -372,7 +372,11 @@ public class HomeMenu : MonoBehaviour
                                     if (!this.recordList[this.recordChoice].Scene.Equals(string.Empty))
                                     {
                                         if (this.fileManager.RecordDelete(this.recordChoice))
+                                        {
                                             this.recordContentValue = "";
+                                            this.fileManager.RecordUpdate();
+                                            this.recordList = this.fileManager.GetRecords();
+                                        }
                                     }
                                     else
                                         this.recordContentValue = "No Record!";

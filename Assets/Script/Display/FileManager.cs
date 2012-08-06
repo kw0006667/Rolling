@@ -210,11 +210,10 @@ public class FileManager
         foreach (XmlNode setNode in setNodes)
         {
             XmlElement element = (XmlElement)setNode;
-            XmlAttributeCollection attributes = element.Attributes;
-            if (attributes[RecordTag.RecordName].Equals(record.RecordName))
+            if (element.GetAttribute(RecordTag.RecordName).Equals(record.RecordName))
             {
-                attributes[RecordTag.Scene].Value = record.Scene;
-                attributes[RecordTag.SaveDate].Value = record.SaveDate;
+                element.SetAttribute(RecordTag.Scene, record.Scene);
+                element.SetAttribute(RecordTag.SaveDate, record.SaveDate);
             }
         }
         doc.Save(GameDefinition.RecordFilePath);
@@ -231,10 +230,10 @@ public class FileManager
             {
                 XmlElement element = (XmlElement)setNode;
                 XmlAttributeCollection attributes = element.Attributes;
-                if (attributes[RecordTag.RecordName].Equals("Record " + (recordChoice + 1).ToString()))
+                if (element.GetAttribute(RecordTag.RecordName).Equals("Record " + (recordChoice + 1).ToString()))
                 {
-                    attributes[RecordTag.Scene].Value = "";
-                    attributes[RecordTag.SaveDate].Value = "";
+                    element.SetAttribute(RecordTag.Scene, "");
+                    element.SetAttribute(RecordTag.SaveDate, "");
                     break;
                 }
             }
@@ -245,6 +244,12 @@ public class FileManager
         {
             return false;
         }
+    }
+
+    public void RecordUpdate()
+    {
+        this.recordList = new List<RecordData>();
+        this.RecordsReader(GameDefinition.RecordFilePath);
     }
 
     public List<RecordData> GetRecords()
@@ -514,8 +519,7 @@ public class FileManager
                     XmlNode node = document.CreateElement(RecordTag.Records);
                     document.AppendChild(node);
                     document.Save(filename);
-                    document.Load(GameDefinition.RecordFilePath);
-                    node = document.SelectSingleNode(RecordTag.Records);
+                    XmlNode newNode = document.SelectSingleNode(RecordTag.Records);
 
                     for (int count = 1; count <= 5; count++)
                     {
