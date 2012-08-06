@@ -5,6 +5,31 @@ using System.Collections.Generic;
 using System.Xml;
 using System.IO;
 
+public class RecordTag
+{
+    public const string Records = "Records";
+    public const string Record = "Record";
+    public const string RecordName = "RecordName";
+    public const string Scene = "Scene";
+}
+
+public class RecordData
+{
+    public string RecordName;
+    public string Scene;
+
+    public RecordData()
+    {
+
+    }
+
+    public RecordData(string recordName, string scene)
+    {
+        this.RecordName = recordName;
+        this.Scene = scene;
+    }
+}
+
 #region ScoreTag
 /// <summary>
 /// XML's Element Tag
@@ -26,6 +51,7 @@ public class ScoreTag
 }
 #endregion
 
+#region SettingTag
 public class SettingTag
 {
     public const string SettingsTag = "Settings";
@@ -35,7 +61,9 @@ public class SettingTag
     public const string Resolution = "Resolution";
     public const string FullScreen = "FullScreen";
 }
+#endregion
 
+#region SettingData Class
 public class SettingData
 {
     public string MachineName;
@@ -56,6 +84,7 @@ public class SettingData
         this.FullScreen = fullscreen;
     }
 }
+#endregion
 
 #region ScoreData class
 /// <summary>
@@ -127,6 +156,7 @@ public class FileManager
     // Store all username's score
     private List<ScoreData> scoreList;
     private SettingData settingData;
+    private List<RecordData> recordList;
     // Filename for reading
     private string fileName;
 
@@ -134,8 +164,60 @@ public class FileManager
     public FileManager()
     {
         this.scoreList = new List<ScoreData>();
+        this.recordList = new List<RecordData>();
         this.fileName = string.Empty;
         this.Ex = null;
+    }
+
+    public void RecordsReader(string filename)
+    {
+        this.VerifyFileExist(filename);
+        XmlReaderSettings settings = new XmlReaderSettings();
+        settings.IgnoreComments = true;
+        settings.IgnoreWhitespace = true;
+        settings.ValidationType = ValidationType.None;
+        XmlReader reader = XmlTextReader.Create(filename, settings);
+        while (reader.Read())
+        {
+            RecordData record = null;
+            switch (reader.NodeType)
+            {
+                case XmlNodeType.Element:
+                    string tagName = reader.LocalName;
+                    if (tagName.Equals(RecordTag.Record))
+                    {
+                        record = new RecordData(reader[RecordTag.RecordName],
+                                                reader[RecordTag.Scene]);
+                        this.recordList.Add(record);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        reader.Close();
+    }
+
+    public void RecordWrite(RecordData record)
+    {
+        XmlDocument doc = new XmlDocument();
+        doc.Load(GameDefinition.RecordFilePath);
+        XmlNodeList setNodes = doc.SelectNodes(RecordTag.Records + "/" + RecordTag.Record);
+        foreach (XmlNode setNode in setNodes)
+        {
+            XmlElement element = (XmlElement)setNode;
+            XmlAttributeCollection attributes = element.Attributes;
+            if (attributes[RecordTag.RecordName].Equals(record.RecordName))
+            {
+                attributes[RecordTag.Scene].Value = record.Scene;
+            }
+        }
+        doc.Save(GameDefinition.RecordFilePath);
+    }
+
+    public List<RecordData> GetRecords()
+    {
+        return this.recordList;
     }
 
     /// <summary>
@@ -389,6 +471,16 @@ public class FileManager
 
                     document.Save(filename);
                     return false;
+                }
+                break;
+            case GameDefinition.RecordFilePath:
+                if (!File.Exists(filename))
+                {
+                    XmlNode docNode = document.CreateXmlDeclaration("1.0", "UTF-8", null);
+                    document.AppendChild(docNode);
+                    XmlNode node = document.CreateElement(RecordTag.Records);
+                    document.AppendChild(node);
+                    document.Save(filename);
                 }
                 break;
             default:

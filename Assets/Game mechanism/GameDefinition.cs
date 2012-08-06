@@ -17,6 +17,7 @@ public class GameDefinition
 
     public const string ScoresFilePath = ".\\Scores.xml";
     public const string SettingFilePath = ".\\Setting.xml";
+    public const string RecordFilePath = ".\\Records.xml";
 
     public enum Tag
     {
