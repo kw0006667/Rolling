@@ -303,6 +303,7 @@ public class HomeMenu : MonoBehaviour
                     break;
                 #endregion
 
+                #region Menu : Load
                 case GameDefinition.HomeMenu.Load:
                     this.fileManager.RecordsReader(GameDefinition.RecordFilePath);
                     this.recordList = this.fileManager.GetRecords();
@@ -388,6 +389,7 @@ public class HomeMenu : MonoBehaviour
                     }
                     GUILayout.EndArea();
                     break;
+                #endregion
 
                 #region Menu : Stage
                 case GameDefinition.HomeMenu.Stage:

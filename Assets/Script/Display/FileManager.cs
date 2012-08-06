@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.IO;
 
+#region RecordTag
 public class RecordTag
 {
     public const string Records = "Records";
@@ -13,7 +14,9 @@ public class RecordTag
     public const string Scene = "Scene";
     public const string SaveDate = "SaveDate";
 }
+#endregion
 
+#region RecordData
 public class RecordData
 {
     public string RecordName;
@@ -32,6 +35,7 @@ public class RecordData
         this.SaveDate = saveDate;
     }
 }
+#endregion
 
 #region ScoreTag
 /// <summary>
@@ -63,6 +67,7 @@ public class SettingTag
     public const string Quality = "Quality";
     public const string Resolution = "Resolution";
     public const string FullScreen = "FullScreen";
+    public const string Key = "Key";
 }
 #endregion
 
@@ -73,18 +78,20 @@ public class SettingData
     public string Quality;
     public string Resolution;
     public string FullScreen;
+    public string Key;
 
     public SettingData()
     {
 
     }
 
-    public SettingData(string machineName, string quality, string resolution, string fullscreen)
+    public SettingData(string machineName, string quality, string resolution, string fullscreen, string key)
     {
         this.MachineName = machineName;
         this.Quality = quality;
         this.Resolution = resolution;
         this.FullScreen = fullscreen;
+        this.Key = key;
     }
 }
 #endregion
@@ -324,7 +331,8 @@ public class FileManager
                                 this.settingData = new SettingData(reader[SettingTag.MachineName],
                                                                    reader[SettingTag.Quality],
                                                                    reader[SettingTag.Resolution],
-                                                                   reader[SettingTag.FullScreen]);
+                                                                   reader[SettingTag.FullScreen],
+                                                                   reader[SettingTag.Key]);
                                 isSameName = true;
                             }
                             else
@@ -340,7 +348,7 @@ public class FileManager
             // if different machine , game setting will back to default value.
             if (!isSameName)
             {
-                this.settingData = new SettingData(Environment.GetEnvironmentVariable("COMPUTERNAME"), "4", "0", "False");
+                this.settingData = new SettingData(Environment.GetEnvironmentVariable("COMPUTERNAME"), "4", "0", "False", "0");
                 this.ConfigWrite(this.settingData);
             }
             return true;
@@ -374,6 +382,9 @@ public class FileManager
                     break;
                 case SettingTag.FullScreen:
                     attribute.Value = this.settingData.FullScreen;
+                    break;
+                case SettingTag.Key:
+                    attribute.Value = this.settingData.Key;
                     break;
                 default:
                     break;
@@ -492,9 +503,10 @@ public class FileManager
                     newMachine.SetAttribute(SettingTag.Quality, "4");
                     newMachine.SetAttribute(SettingTag.Resolution, "0");
                     newMachine.SetAttribute(SettingTag.FullScreen, "False");
+                    newMachine.SetAttribute(SettingTag.Key, "0");
                     nodee.AppendChild(newMachine);
                     document.Save(filename);
-                    this.settingData = new SettingData(Environment.GetEnvironmentVariable("COMPUTERNAME"), "4", "0", "False");
+                    this.settingData = new SettingData(Environment.GetEnvironmentVariable("COMPUTERNAME"), "4", "0", "False", "0");
                     return false;
                 }
                 break;
