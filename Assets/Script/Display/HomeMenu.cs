@@ -452,9 +452,9 @@ public class HomeMenu : MonoBehaviour
     private void InitializeButtonRect()
     {
 
-        #region HeightScore Rect
+        #region HighScore Rect
 
-        // --------------------Background------------------
+        // --------------------HighScore Background------------------
         this.highScoreBackgroundRect = new Rect((Screen.width - (int)this.highScoreBackgroundRect.width) / 2,
                                               (Screen.height - (int)this.highScoreBackgroundRect.height) / 2,
                                                this.highScoreBackgroundRect.width,
@@ -465,6 +465,21 @@ public class HomeMenu : MonoBehaviour
                                                this.highScoreAreaRect.width,
                                                this.highScoreAreaRect.height);
         #endregion
+
+        #region Stage Rect
+
+        // --------------------Stage Background------------------
+        this.stageBackgroundRect = new Rect((Screen.width - (int)this.stageBackgroundRect.width) / 2,
+                                              (Screen.height - (int)this.stageBackgroundRect.height) / 2,
+                                               this.stageBackgroundRect.width,
+                                               this.stageBackgroundRect.height);
+
+        this.stageAreaRect = new Rect((Screen.width - (int)this.stageAreaRect.width) / 2,
+                                              (Screen.height - (int)this.stageAreaRect.height) / 2,
+                                               this.stageAreaRect.width,
+                                               this.stageAreaRect.height);
+        #endregion
+
         #region Option Rect
 
         // --------------------Background------------------
