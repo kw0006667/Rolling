@@ -9,6 +9,9 @@ public class ElevatorMechanismNum2 : MonoBehaviour
     private bool isEnter = false;
     private float addValue = 0;
     private GameObject Greta;
+
+    private float revertTime = 2.0f;
+    private float addTime = 0;
     
     void OnTriggerEnter(Collider other)
     {
@@ -24,7 +27,10 @@ public class ElevatorMechanismNum2 : MonoBehaviour
     {
         GameObject m_parent = other.transform.parent.gameObject;
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
+        {
             this.isEnter = false;
+            this.addTime = 0;
+        }
     }
 
     
@@ -53,6 +59,11 @@ public class ElevatorMechanismNum2 : MonoBehaviour
                 }
                 else
                 {
+                    if (addTime < revertTime)
+                    {
+                        addTime += Time.deltaTime;
+                        return;
+                    }
                     if (this.addValue > 0)
                     {
                         this.transform.parent.transform.position += this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
