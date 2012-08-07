@@ -12,7 +12,8 @@ public class JumpMechanism : MonoBehaviour
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
         {
             m_parent.rigidbody.AddForce(this.transform.TransformDirection(0, 0, JumpSpeed));
-            this.audio.Play();
+            if(this.audio != null)
+                this.audio.Play();
         }
     }
 
