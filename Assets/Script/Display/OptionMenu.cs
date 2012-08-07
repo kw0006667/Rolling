@@ -17,6 +17,8 @@ public class OptionMenu : MonoBehaviour
     private SettingData settingData;
     private string machineName;
 
+    private string recordChoice;
+
     #region Tutorials Properties
     // Tutorials properties
     private Rect tutorialsAreaRect = new Rect(0, 0, 600, 390);
@@ -101,7 +103,10 @@ public class OptionMenu : MonoBehaviour
         }
         else
             this.optionResolutionContentValue = Convert.ToInt32(this.settingData.Resolution);
-        
+
+        this.recordChoice = PlayerPrefs.GetString(GameDefinition.RecordChoicePrefsString);
+        this.fileManager.RecordsReader(GameDefinition.RecordFilePath);
+        this.fileManager.RecordWrite(new RecordData("Record " + (Convert.ToInt32(this.recordChoice) + 1).ToString(), Application.loadedLevelName, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
     }
 
     // Update is called once per frame

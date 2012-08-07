@@ -11,6 +11,7 @@ public class HomeMenu : MonoBehaviour
     public Texture StageHintTexture;
 
     private bool isTrigger = false;
+    private bool isExceptionChoice;
     private FileManager fileManager;
     private SettingData settingData;
     private List<ScoreData> scoreList;
@@ -23,7 +24,7 @@ public class HomeMenu : MonoBehaviour
 
 
     private Vector2 loadButtonSize = new Vector2(300, 75);
-    private Vector2 loadButtonSize2 = new Vector2(200, 50);
+    private Vector2 loadButtonSize2 = new Vector2(125, 50);
     private Vector2 loadBoxAreaSize = new Vector2(285, 395);
     private Vector2 loadOptionHorizonalSize = new Vector2(600, 70);
     private string recordContentValue;
@@ -136,6 +137,7 @@ public class HomeMenu : MonoBehaviour
 
         this.recordContentValue = String.Empty;
         this.recordChoice = -1;
+        this.isExceptionChoice = false;
     }
 
     void OnTriggerEnter(Collider other)
@@ -143,7 +145,7 @@ public class HomeMenu : MonoBehaviour
         GameObject m_parent = other.transform.parent.gameObject;
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
         {
-            isTrigger = true;            
+            isTrigger = true;
             TriggerEvent();
         }
     }
@@ -158,11 +160,10 @@ public class HomeMenu : MonoBehaviour
     }
 
     void TriggerEvent()
-    {        
+    {
         switch (homeMenu)
         {
             case GameDefinition.HomeMenu.New:
-                Application.LoadLevel(GameDefinition.GetSceneName(GameDefinition.Scene.Begin));
                 break;
             case GameDefinition.HomeMenu.Continute:
                 break;
@@ -191,6 +192,113 @@ public class HomeMenu : MonoBehaviour
             switch (homeMenu)
             {
                 case GameDefinition.HomeMenu.New:
+                    this.fileManager.RecordsReader(GameDefinition.RecordFilePath);
+                    this.recordList = this.fileManager.GetRecords();
+                    // Display Option Background picture
+                    if (this.OptionBackground != null)
+                    {
+                        GUI.DrawTexture(this.stageBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, true, 0.0f);
+                    }
+                    GUILayout.BeginArea(this.loadAreaRect);
+                    {
+                        GUILayout.BeginVertical();
+                        {
+                            GUILayout.Space(57);
+                            GUILayout.BeginHorizontal();
+                            {
+                                GUILayout.BeginVertical();
+                                {
+                                    if (GUILayout.Button("Record 1", GUILayout.MaxWidth(this.loadButtonSize.x), GUILayout.MaxHeight(this.loadButtonSize.y)))
+                                    {
+                                        this.recordContentValue = this.recordList[0].RecordName + "\n" + this.recordList[0].Scene + "\n" + this.recordList[0].SaveDate;
+                                        this.recordChoice = 0;
+                                    }
+                                    GUILayout.Space(5);
+                                    if (GUILayout.Button("Record 2", GUILayout.MaxWidth(this.loadButtonSize.x), GUILayout.MaxHeight(this.loadButtonSize.y)))
+                                    {
+                                        this.recordContentValue = this.recordList[1].RecordName + "\n" + this.recordList[1].Scene + "\n" + this.recordList[1].SaveDate;
+                                        this.recordChoice = 1;
+                                    }
+                                    GUILayout.Space(5);
+                                    if (GUILayout.Button("Record 3", GUILayout.MaxWidth(this.loadButtonSize.x), GUILayout.MaxHeight(this.loadButtonSize.y)))
+                                    {
+                                        this.recordContentValue = this.recordList[2].RecordName + "\n" + this.recordList[2].Scene + "\n" + this.recordList[2].SaveDate;
+                                        this.recordChoice = 2;
+                                    }
+                                    GUILayout.Space(5);
+                                    if (GUILayout.Button("Record 4", GUILayout.MaxWidth(this.loadButtonSize.x), GUILayout.MaxHeight(this.loadButtonSize.y)))
+                                    {
+                                        this.recordContentValue = this.recordList[3].RecordName + "\n" + this.recordList[3].Scene + "\n" + this.recordList[3].SaveDate;
+                                        this.recordChoice = 3;
+                                    }
+                                    GUILayout.Space(5);
+                                    if (GUILayout.Button("Record 5", GUILayout.MaxWidth(this.loadButtonSize.x), GUILayout.MaxHeight(this.loadButtonSize.y)))
+                                    {
+                                        this.recordContentValue = this.recordList[4].RecordName + "\n" + this.recordList[4].Scene + "\n" + this.recordList[4].SaveDate;
+                                        this.recordChoice = 4;
+                                    }
+                                    GUILayout.Space(5);
+                                }
+                                GUILayout.EndVertical();
+                                GUILayout.Space(10);
+                                GUILayout.Box(this.recordContentValue, GUILayout.MaxWidth(this.loadBoxAreaSize.x), GUILayout.MaxHeight(this.loadBoxAreaSize.y));
+                            }
+                            GUILayout.EndHorizontal();
+                            GUILayout.BeginHorizontal(GUILayout.MaxWidth(this.loadOptionHorizonalSize.x), GUILayout.MaxHeight(this.loadOptionHorizonalSize.y));
+                            {
+                                if (this.recordChoice >= 0)
+                                {
+                                    if (this.recordList[this.recordChoice].Scene.Equals(string.Empty))
+                                    {
+                                        GUILayout.Space(95);
+                                        if (GUILayout.Button("開新檔案", GUILayout.MaxWidth(this.loadButtonSize2.x), GUILayout.MaxHeight(this.loadButtonSize2.y)))
+                                        {
+                                            PlayerPrefs.SetString(GameDefinition.RecordChoicePrefsString, this.recordChoice.ToString());
+                                            Application.LoadLevel(GameDefinition.GetSceneName(GameDefinition.Scene.Begin));
+                                        }
+                                    }
+                                    else
+                                    {
+                                        GUILayout.Space(90);
+                                        if (GUILayout.Button("讀取", GUILayout.MaxWidth(this.loadButtonSize2.x), GUILayout.MaxHeight(this.loadButtonSize2.y)))
+                                        {
+                                            if (this.fileManager.RecordDelete(this.recordChoice))
+                                            {
+                                                PlayerPrefs.SetString(GameDefinition.RecordChoicePrefsString, this.recordChoice.ToString());
+                                                Application.LoadLevel(this.recordList[this.recordChoice].Scene);
+                                            }
+                                        }
+                                        GUILayout.Space(10);
+                                        if (GUILayout.Button("覆蓋", GUILayout.MaxWidth(this.loadButtonSize2.x), GUILayout.MaxHeight(this.loadButtonSize2.y)))
+                                        {
+                                            if (this.fileManager.RecordDelete(this.recordChoice))
+                                            {
+                                                this.recordContentValue = "";
+                                                this.fileManager.RecordUpdate();
+                                                this.recordList = this.fileManager.GetRecords();
+                                                PlayerPrefs.SetString(GameDefinition.RecordChoicePrefsString, this.recordChoice.ToString());
+                                                Application.LoadLevel(GameDefinition.GetSceneName(GameDefinition.Scene.Begin));
+                                            }
+                                        }
+                                        GUILayout.Space(10);
+                                        if (GUILayout.Button("刪除", GUILayout.MaxWidth(this.loadButtonSize2.x), GUILayout.MaxHeight(this.loadButtonSize2.y)))
+                                        {
+                                            if (this.fileManager.RecordDelete(this.recordChoice))
+                                            {
+                                                this.recordContentValue = "";
+                                                this.fileManager.RecordUpdate();
+                                                this.recordList = this.fileManager.GetRecords();
+                                            }
+                                        }
+                                    }
+
+                                }
+                            }
+                            GUILayout.EndHorizontal();
+                        }
+                        GUILayout.EndVertical();
+                    }
+                    GUILayout.EndArea();
                     break;
 
                 #region Menu : HighScore
@@ -580,7 +688,7 @@ public class HomeMenu : MonoBehaviour
                                                this.highScoreBackgroundRect.width,
                                                this.highScoreBackgroundRect.height);
 
-        this.highScoreAreaRect = new Rect((Screen.width - (int)this.highScoreAreaRect.width) / 2 ,
+        this.highScoreAreaRect = new Rect((Screen.width - (int)this.highScoreAreaRect.width) / 2,
                                               (Screen.height - (int)this.highScoreAreaRect.height) / 2,
                                                this.highScoreAreaRect.width,
                                                this.highScoreAreaRect.height);
@@ -656,7 +764,7 @@ public class HomeMenu : MonoBehaviour
                                                this.optionBackButtonRect.width,
                                                this.optionBackButtonRect.height);
         #endregion
-        
+
     }
 
     // Menu:Option use functtion
