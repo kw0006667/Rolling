@@ -1,6 +1,14 @@
 Rolling
 
-Version : 2012-08-07-03
+Version : 2012-08-07-04 RC2
+
+2012-08-07-04 RC2
+Fixed some bugs
+Feature : Add auto save record
+Feature : Add Staff UI in HomeMenu(uncomplete)
+Merge New and Load as Start
+Change New to Start in HomeMenu
+Change HomeMenu UI
 
 2012-08-07-01
 §ï¿O¥ú
