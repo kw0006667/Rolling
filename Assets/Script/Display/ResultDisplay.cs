@@ -13,7 +13,7 @@ public class ResultDisplay : MonoBehaviour
     public Texture GearIconBigTexture;
     public Texture GearIconMiddleTexture;
     public Texture GearIconSmallTexture;
-    public Texture rankTecture;
+    public Texture[] rankTectures;
 
     public GUIStyle TimeStyle;
     public GUIStyle GearStyle;    
@@ -26,6 +26,7 @@ public class ResultDisplay : MonoBehaviour
     private int highScoreCount = 10;            // how many high score will be get
     private int totalScore = 0;
     private string rankStr = "A";
+    private int rankValue = 3;              // A = 0 . B = 1 , C = 2 , D = 3
 
     private bool isShowScore = false;
     private bool isShowHighScoreUI = false;
@@ -213,7 +214,7 @@ public class ResultDisplay : MonoBehaviour
                 {
                     GUILayout.Box(totalScore.ToString(), ScoreStyle);
                     GUILayout.Space(25);
-                    GUILayout.Box(this.rankTecture, ScoreStyle, GUILayout.MaxHeight(200));
+                    GUILayout.Box(this.rankTectures[rankValue], ScoreStyle, GUILayout.MaxHeight(200));
                     GUILayout.Space(25);
                 }
                 GUILayout.EndVertical();
@@ -227,31 +228,84 @@ public class ResultDisplay : MonoBehaviour
 
     int VerifyTimeScore()
     {
-        int score = score = 300 - (int)this.timer.currentTime;
-        if (score < 0)
-            score = 0;
-        score *= 10;
+        int totalScore = 0;
+        int timeScore = 0;
+        if (cellManager != null)
+        {
+            totalScore += (this.cellManager.smallCount * 10 + this.cellManager.middleCount * 30 + this.cellManager.bigCount * 50);
+        }
 
         switch (this.CurrentScene)
         {            
             case GameDefinition.Scene.BeginChallenge:
+                timeScore = 300 - (int)this.timer.currentTime;
+                if (timeScore < 0)
+                    timeScore = 0;
+                totalScore += (timeScore *= 10);
+
+                if (totalScore > 2080)
+                {
+                    this.rankStr = "A";
+                    this.rankValue = 0;
+                }
+                else if(totalScore > 1780) 
+                {
+                    this.rankStr = "B";
+                    this.rankValue = 1;
+                }
+                else if (totalScore > 1380)
+                {
+                    this.rankStr = "C";
+                    this.rankValue = 2;
+                }
+                else
+                {
+                    this.rankStr = "D";
+                    this.rankValue = 3;
+                }
                 break;
             case GameDefinition.Scene.FirstStageChallenge:
+                timeScore = 1800 - (int)this.timer.currentTime;
+                if (timeScore < 0)
+                    timeScore = 0;
+                totalScore += (timeScore *= 10);
                 break;            
             case GameDefinition.Scene.FirstStage_Hard:
+                timeScore = 1800 - (int)this.timer.currentTime;
+                if (timeScore < 0)
+                    timeScore = 0;
+                totalScore += (timeScore *= 10);
                 break;
             case GameDefinition.Scene.SecondStageChallenge:
+                timeScore = 1800 - (int)this.timer.currentTime;
+                if (timeScore < 0)
+                    timeScore = 0;
+                totalScore += (timeScore *= 10);
                 break;
             case GameDefinition.Scene.SpeedStageOne:
+                timeScore = 300 - (int)this.timer.currentTime;
+                if (timeScore < 0)
+                    timeScore = 0;
+                totalScore += (timeScore *= 10);
+
+
                 break;
             case GameDefinition.Scene.SpeedStageTwo:
+                timeScore = 300 - (int)this.timer.currentTime;
+                if (timeScore < 0)
+                    timeScore = 0;
+                totalScore += (timeScore *= 10);
                 break;
             case GameDefinition.Scene.SpecialStage_SpeedUp:
+                timeScore = 300 - (int)this.timer.currentTime;
+                if (timeScore < 0)
+                    timeScore = 0;
+                totalScore += (timeScore *= 10);
                 break;
             default:
                 break;
         }
-        return score;
+        return totalScore;
     }
 
     void OnTriggerEnter(Collider other)
@@ -260,12 +314,8 @@ public class ResultDisplay : MonoBehaviour
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)) && !this.isShowScore)
         {
             this.isShowScore = true;
-            if (cellManager != null)
-            {
-                this.totalScore += (this.cellManager.smallCount * 1 + this.cellManager.middleCount * 3 + this.cellManager.bigCount * 5);
-            }
-
-            this.totalScore += this.VerifyTimeScore();
+            
+            this.totalScore = this.VerifyTimeScore();
 
             ScoreData score;
             if (cellManager != null)

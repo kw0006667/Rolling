@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Records>
-  <Record RecordName="Record 1" Scene="" SaveDate="" />
+  <Record RecordName="Record 1" Scene="FirstStageChallenge" SaveDate="2012-08-10 16:04:20" />
   <Record RecordName="Record 2" Scene="SecondStage" SaveDate="2012-08-07 20:55:33" />
   <Record RecordName="Record 3" Scene="" SaveDate="" />
   <Record RecordName="Record 4" Scene="Begin" SaveDate="2012-08-07 20:48:23" />
