@@ -207,7 +207,7 @@ public class ResultDisplay : MonoBehaviour
                     }
                 }
                 GUILayout.EndVertical();
-
+                
                 GUILayout.Space(25);
 
                 GUILayout.BeginVertical();
@@ -269,38 +269,165 @@ public class ResultDisplay : MonoBehaviour
                 if (timeScore < 0)
                     timeScore = 0;
                 totalScore += (timeScore *= 10);
+
+                if (totalScore > 16650)         //2'15
+                {
+                    this.rankStr = "A";
+                    this.rankValue = 0;
+                }
+                else if (totalScore > 13650)
+                {
+                    this.rankStr = "B";
+                    this.rankValue = 1;
+                }
+                else if (totalScore > 10650)
+                {
+                    this.rankStr = "C";
+                    this.rankValue = 2;
+                }
+                else
+                {
+                    this.rankStr = "D";
+                    this.rankValue = 3;
+                }
+
                 break;            
             case GameDefinition.Scene.FirstStage_Hard:
                 timeScore = 1800 - (int)this.timer.currentTime;
                 if (timeScore < 0)
                     timeScore = 0;
                 totalScore += (timeScore *= 10);
+
+                if (totalScore > 16350)     // 2'45
+                {
+                    this.rankStr = "A";
+                    this.rankValue = 0;
+                }
+                else if (totalScore > 13350)
+                {
+                    this.rankStr = "B";
+                    this.rankValue = 1;
+                }
+                else if (totalScore > 7350)
+                {
+                    this.rankStr = "C";
+                    this.rankValue = 2;
+                }
+                else
+                {
+                    this.rankStr = "D";
+                    this.rankValue = 3;
+                }
+
                 break;
             case GameDefinition.Scene.SecondStageChallenge:
                 timeScore = 1800 - (int)this.timer.currentTime;
                 if (timeScore < 0)
                     timeScore = 0;
                 totalScore += (timeScore *= 10);
+
+                if (totalScore > 15000)     // 5'00
+                {
+                    this.rankStr = "A";
+                    this.rankValue = 0;
+                }
+                else if (totalScore > 12000)
+                {
+                    this.rankStr = "B";
+                    this.rankValue = 1;
+                }
+                else if (totalScore > 6000)
+                {
+                    this.rankStr = "C";
+                    this.rankValue = 2;
+                }
+                else
+                {
+                    this.rankStr = "D";
+                    this.rankValue = 3;
+                }
+
                 break;
             case GameDefinition.Scene.SpeedStageOne:
                 timeScore = 300 - (int)this.timer.currentTime;
                 if (timeScore < 0)
                     timeScore = 0;
                 totalScore += (timeScore *= 10);
-
-
+                if (totalScore > 3150)
+                {
+                    this.rankStr = "A";
+                    this.rankValue = 0;
+                }
+                else if (totalScore > 3100)
+                {
+                    this.rankStr = "B";
+                    this.rankValue = 1;
+                }
+                else if (totalScore > 3000)
+                {
+                    this.rankStr = "C";
+                    this.rankValue = 2;
+                }
+                else
+                {
+                    this.rankStr = "D";
+                    this.rankValue = 3;
+                }
                 break;
             case GameDefinition.Scene.SpeedStageTwo:
                 timeScore = 300 - (int)this.timer.currentTime;
                 if (timeScore < 0)
                     timeScore = 0;
                 totalScore += (timeScore *= 10);
+
+                if (totalScore > 3200)
+                {
+                    this.rankStr = "A";
+                    this.rankValue = 0;
+                }
+                else if (totalScore > 3000)
+                {
+                    this.rankStr = "B";
+                    this.rankValue = 1;
+                }
+                else if (totalScore > 2500)
+                {
+                    this.rankStr = "C";
+                    this.rankValue = 2;
+                }
+                else
+                {
+                    this.rankStr = "D";
+                    this.rankValue = 3;
+                }
+
                 break;
             case GameDefinition.Scene.SpecialStage_SpeedUp:
                 timeScore = 300 - (int)this.timer.currentTime;
                 if (timeScore < 0)
                     timeScore = 0;
                 totalScore += (timeScore *= 10);
+
+                if (totalScore > 2700)
+                {
+                    this.rankStr = "A";
+                    this.rankValue = 0;
+                }
+                else if (totalScore > 2650)
+                {
+                    this.rankStr = "B";
+                    this.rankValue = 1;
+                }
+                else if (totalScore > 2600)
+                {
+                    this.rankStr = "C";
+                    this.rankValue = 2;
+                }
+                else
+                {
+                    this.rankStr = "D";
+                    this.rankValue = 3;
+                }
                 break;
             default:
                 break;
