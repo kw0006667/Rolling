@@ -52,9 +52,9 @@ public class GameDefinition
 
     public enum HomeMenu
     {
-        New,
-        Continute,
-        Load,
+        Start,
+        HighScore,
+        Staff,
         Stage,
         Option,
         Exit,
