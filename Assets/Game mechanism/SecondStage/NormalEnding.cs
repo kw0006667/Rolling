@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class NormalEnding : MonoBehaviour
 {
@@ -8,7 +9,13 @@ public class NormalEnding : MonoBehaviour
     private bool isOpen = false;
     private bool isShowEndingUI = false;
 
+    private FileManager fileManager;
+    private SettingData settingData;
+    private string machineName;
+
     public Texture normalEndBackgroundTexture;
+    public int RecordKeyValue;
+
     public GameObject GearCollectionObject;
 
     void OnTriggerEnter(Collider other)
@@ -17,6 +24,7 @@ public class NormalEnding : MonoBehaviour
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)) && this.isOpen)
         {
             this.isShowEndingUI = true;
+            this.setRecordKey(this.RecordKeyValue);
         }
     }
 
@@ -33,6 +41,11 @@ public class NormalEnding : MonoBehaviour
         }
         else
             this.isOpen = true;
+
+        this.machineName = Environment.GetEnvironmentVariable("COMPUTERNAME");
+        this.fileManager = new FileManager();
+        this.fileManager.ConfigReader(GameDefinition.SettingFilePath, this.machineName);
+        this.settingData = this.fileManager.GetSettingData();
     }
 
     // Update is called once per frame
@@ -69,5 +82,14 @@ public class NormalEnding : MonoBehaviour
                                               (Screen.height - (int)this.normalEndBackgroundRect.height) / 2,
                                                this.normalEndBackgroundRect.width,
                                                this.normalEndBackgroundRect.height);
+    }
+
+    private void setRecordKey(int key)
+    {
+        if (Convert.ToInt32(this.settingData.Key) < key)
+        {
+            this.settingData.Key = key.ToString();
+            this.fileManager.ConfigWrite(this.settingData);
+        }
     }
 }

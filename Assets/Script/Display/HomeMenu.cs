@@ -41,7 +41,8 @@ public class HomeMenu : MonoBehaviour
     private Vector2 stageButtonSize = new Vector2(300, 100);
     private Vector2 stageTextureSize = new Vector2(500, 400);
     private Vector2 stageHintBoxSize = new Vector2(500, 100);
-    private int stageValue;
+    private int stageTextureValue;
+    private int stageKeyValue;
     private GameDefinition.Scene stageScene = GameDefinition.Scene.none;
 
     #endregion
@@ -118,6 +119,7 @@ public class HomeMenu : MonoBehaviour
         this.settingData = this.fileManager.GetSettingData();
 
         // Get xml setting value
+        this.stageKeyValue = Convert.ToInt32(this.settingData.Key);
         this.optionQualityContentValue = (GameDefinition.QualityContent)Convert.ToInt32(this.settingData.Quality);
         this.optionFullScreenContentValue = Convert.ToBoolean(this.settingData.FullScreen);
         if (Convert.ToInt32(this.settingData.Resolution) > this.optionResolutionMaxLenght)
@@ -521,46 +523,110 @@ public class HomeMenu : MonoBehaviour
                                     this.stageScrolViewPosition = GUILayout.BeginScrollView(this.stageScrolViewPosition, false, true, GUILayout.MaxWidth(this.stageScrolViewSize.x), GUILayout.MaxHeight(this.stageScrolViewSize.y));
                                     {
                                         GUILayout.BeginVertical();
-                                        if (GUILayout.Button("\nBeginChallenge\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                        switch (this.stageKeyValue)
                                         {
-                                            this.stageValue = 0;
-                                            stageScene = GameDefinition.Scene.BeginChallenge;
+                                            case 0:
+                                                GUILayout.Box("\nBeginChallenge\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y));
+                                                GUILayout.Box("\nFirstStageChallenge\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y));
+                                                GUILayout.Box("\nFirstStage_Hard\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y));
+                                                GUILayout.Box("\nSecondStageChallenge\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y));
+                                                GUILayout.Box("\nSpeedStageOne\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y));
+                                                GUILayout.Box("\nSpeedStageTwo\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y));
+                                                GUILayout.Box("\nSpecialStage_SpeedUp\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y));
+                                                break;
+
+                                            case 1:
+                                                if (GUILayout.Button("\nBeginChallenge\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                                {
+                                                    this.stageTextureValue = 0;
+                                                    stageScene = GameDefinition.Scene.BeginChallenge;
+                                                }
+                                                GUILayout.Box("\nFirstStageChallenge\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y));
+                                                GUILayout.Box("\nFirstStage_Hard\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y));
+                                                GUILayout.Box("\nSecondStageChallenge\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y));
+                                                if (GUILayout.Button("\nSpeedStageOne\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                                {
+                                                    this.stageTextureValue = 5;
+                                                    stageScene = GameDefinition.Scene.SpeedStageOne;
+                                                }
+                                                GUILayout.Box("\nSpeedStageTwo\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y));
+                                                GUILayout.Box("\nSpecialStage_SpeedUp\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y));
+                                                break;
+
+                                            case 2:
+                                                if (GUILayout.Button("\nBeginChallenge\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                                {
+                                                    this.stageTextureValue = 0;
+                                                    stageScene = GameDefinition.Scene.BeginChallenge;
+                                                }
+                                                if (GUILayout.Button("\nFirstStageChallenge\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                                {
+                                                    this.stageTextureValue = 1;
+                                                    stageScene = GameDefinition.Scene.FirstStageChallenge;
+                                                }
+                                                if (GUILayout.Button("\nFirstStage_Hard\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                                {
+                                                    this.stageTextureValue = 2;
+                                                    stageScene = GameDefinition.Scene.FirstStage_Hard;
+                                                }
+                                                GUILayout.Box("\nSecondStageChallenge\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y));
+                                                if (GUILayout.Button("\nSpeedStageOne\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                                {
+                                                    this.stageTextureValue = 5;
+                                                    stageScene = GameDefinition.Scene.SpeedStageOne;
+                                                }
+                                                if (GUILayout.Button("\nSpeedStageTwo\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                                {
+                                                    this.stageTextureValue = 6;
+                                                    stageScene = GameDefinition.Scene.SpeedStageTwo;
+                                                }
+                                                GUILayout.Box("\nSpecialStage_SpeedUp\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y));
+                                                break;
+
+                                            case 3:
+                                                if (GUILayout.Button("\nBeginChallenge\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                                {
+                                                    this.stageTextureValue = 0;
+                                                    stageScene = GameDefinition.Scene.BeginChallenge;
+                                                }
+                                                if (GUILayout.Button("\nFirstStageChallenge\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                                {
+                                                    this.stageTextureValue = 1;
+                                                    stageScene = GameDefinition.Scene.FirstStageChallenge;
+                                                }
+                                                if (GUILayout.Button("\nFirstStage_Hard\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                                {
+                                                    this.stageTextureValue = 2;
+                                                    stageScene = GameDefinition.Scene.FirstStage_Hard;
+                                                }
+                                                if (GUILayout.Button("\nSecondStageChallenge\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                                {
+                                                    this.stageTextureValue = 3;
+                                                    stageScene = GameDefinition.Scene.SecondStageChallenge;
+                                                }
+                                                //if (GUILayout.Button("\nSecondStage_Hard\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                                //{
+                                                //    this.stageValue = 4;
+                                                //    stageScene = GameDefinition.Scene.SecondStage_Hard;
+                                                //}
+                                                if (GUILayout.Button("\nSpeedStageOne\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                                {
+                                                    this.stageTextureValue = 5;
+                                                    stageScene = GameDefinition.Scene.SpeedStageOne;
+                                                }
+                                                if (GUILayout.Button("\nSpeedStageTwo\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                                {
+                                                    this.stageTextureValue = 6;
+                                                    stageScene = GameDefinition.Scene.SpeedStageTwo;
+                                                }
+                                                if (GUILayout.Button("\nSpecialStage_SpeedUp\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
+                                                {
+                                                    this.stageTextureValue = 7;
+                                                    stageScene = GameDefinition.Scene.SpecialStage_SpeedUp;
+                                                }
+                                                break;
                                         }
-                                        if (GUILayout.Button("\nFirstStageChallenge\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
-                                        {
-                                            this.stageValue = 1;
-                                            stageScene = GameDefinition.Scene.FirstStageChallenge;
-                                        }
-                                        if (GUILayout.Button("\nFirstStage_Hard\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
-                                        {
-                                            this.stageValue = 2;
-                                            stageScene = GameDefinition.Scene.FirstStage_Hard;
-                                        }
-                                        if (GUILayout.Button("\nSecondStageChallenge\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
-                                        {
-                                            this.stageValue = 3;
-                                            stageScene = GameDefinition.Scene.SecondStageChallenge;
-                                        }
-                                        //if (GUILayout.Button("\nSecondStage_Hard\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
-                                        //{
-                                        //    this.stageValue = 4;
-                                        //    stageScene = GameDefinition.Scene.SecondStage_Hard;
-                                        //}
-                                        if (GUILayout.Button("\nSpeedStageOne\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
-                                        {
-                                            this.stageValue = 5;
-                                            stageScene = GameDefinition.Scene.SpeedStageOne;
-                                        }
-                                        if (GUILayout.Button("\nSpeedStageTwo\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
-                                        {
-                                            this.stageValue = 6;
-                                            stageScene = GameDefinition.Scene.SpeedStageTwo;
-                                        }
-                                        if (GUILayout.Button("\nSpecialStage_SpeedUp\n", GUILayout.MaxWidth(stageButtonSize.x), GUILayout.MaxHeight(stageButtonSize.y)))
-                                        {
-                                            this.stageValue = 7;
-                                            stageScene = GameDefinition.Scene.SpecialStage_SpeedUp;
-                                        }
+                                        
                                         GUILayout.EndVertical();
                                     }
                                     GUILayout.EndScrollView();
@@ -579,7 +645,10 @@ public class HomeMenu : MonoBehaviour
 
                                 GUILayout.BeginVertical();
                                 {
-                                    GUILayout.Box(this.StageTextures[this.stageValue], GUILayout.Width(this.stageTextureSize.x), GUILayout.Height(this.stageTextureSize.y));
+                                    if(this.stageKeyValue == 0)
+                                        GUILayout.Label("\n\n\n\n\n\n\n\n                                請先進入普通模式解鎖後才可以使用                                \n\n\n\n\n\n\n\n");
+                                    else
+                                        GUILayout.Box(this.StageTextures[this.stageTextureValue], GUILayout.Width(this.stageTextureSize.x), GUILayout.Height(this.stageTextureSize.y));
                                     GUILayout.Space(25);
                                     GUILayout.Box(StageHintTexture, GUILayout.Width(this.stageHintBoxSize.x), GUILayout.Height(this.stageHintBoxSize.y));
                                 }
