@@ -73,6 +73,8 @@ public class OptionMenu : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        // Disable Curser
+        Screen.showCursor = false;
         this.checkPointManager = CheckPointObject.GetComponent<CheckPointManager>();
         // Tutorials Initialization
         this.tutorialsValue = 0;
@@ -123,6 +125,17 @@ public class OptionMenu : MonoBehaviour
         {
             this.isOpenMenu = !this.isOpenMenu;
             this.optionMenu = GameDefinition.OptionMenu.None;
+        }
+
+        if (this.isOpenMenu)
+        {
+            if (!Screen.showCursor)
+                Screen.showCursor = true;
+        }
+        else
+        {
+            if (Screen.showCursor)
+                Screen.showCursor = false;
         }
     }
 
