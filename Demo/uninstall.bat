@@ -1,0 +1,1 @@
+Msiexec /x [ProductCode]
