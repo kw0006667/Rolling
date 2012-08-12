@@ -66,7 +66,7 @@ public class ResultDisplay : MonoBehaviour
             // Display Option Background picture
             if (this.OptionBackground != null)
             {
-                GUI.DrawTexture(this.resultBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, false, 0.0f);
+                GUI.DrawTexture(this.resultBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, true, 0.0f);
             }
 
             GUILayout.BeginArea(this.resultAreaRect);

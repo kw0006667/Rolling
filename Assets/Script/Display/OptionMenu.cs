@@ -165,7 +165,7 @@ public class OptionMenu : MonoBehaviour
                 // Display Option Background picture
                 if (this.OptionBackground != null)
                 {
-                    GUI.DrawTexture(this.optionBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, false, 0.0f);
+                    GUI.DrawTexture(this.optionBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, true, 0.0f);
                 }
                 GUILayout.BeginArea(this.tutorialsAreaRect);
                 {
@@ -194,6 +194,10 @@ public class OptionMenu : MonoBehaviour
                                 this.tutorialsValue = 8;
                             if (GUILayout.Button("\nHint 10\n"))
                                 this.tutorialsValue = 9;
+                            if (GUILayout.Button("\nHint 11\n"))
+                                this.tutorialsValue = 10;
+                            if (GUILayout.Button("\nHint 12\n"))
+                                this.tutorialsValue = 11;
                             GUILayout.EndVertical();
                         }
                         GUILayout.EndScrollView();
@@ -217,7 +221,7 @@ public class OptionMenu : MonoBehaviour
                 // Display Option Background picture
                 if (this.OptionBackground != null)
                 {
-                    GUI.DrawTexture(this.optionBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, false, 0.0f);
+                    GUI.DrawTexture(this.optionBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, true, 0.0f);
                 }
 
                 // Quality Options

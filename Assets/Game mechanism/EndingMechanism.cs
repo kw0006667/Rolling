@@ -14,26 +14,27 @@ public class EndingMechanism : MonoBehaviour
         GameObject m_parent = other.transform.parent.gameObject;
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)) && this.isOpen)
         {
-            if(Scene != GameDefinition.Scene.none)
-                Application.LoadLevel(GameDefinition.GetSceneName(Scene));
+            if (this.Scene != GameDefinition.Scene.none)
+                Application.LoadLevel(GameDefinition.GetSceneName(this.Scene));
         }
     }
 
 	// Use this for initialization
     void Start()
     {
-        if (GearCollectionObject != null)
+        if (this.GearCollectionObject != null)
         {
             this.cellManager = GearCollectionObject.GetComponent<CellManager>();
-            isOpen = false;
+            this.isOpen = false;
         }
         else
-            isOpen = true;
+            this.isOpen = true;
     }
+
 	// Update is called once per frame
     void Update()
     {
-        if (!isOpen)
+        if (!this.isOpen)
         {
             if (this.cellManager.currentCount == this.cellManager.totalCount)
             {

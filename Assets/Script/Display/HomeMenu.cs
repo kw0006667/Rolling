@@ -307,7 +307,7 @@ public class HomeMenu : MonoBehaviour
                     // Display Option Background picture
                     if (this.OptionBackground != null)
                     {
-                        GUI.DrawTexture(this.highScoreBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, false, 0.0f);
+                        GUI.DrawTexture(this.highScoreBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, true, 0.0f);
                     }
                     GUILayout.BeginArea(this.highScoreAreaRect);
                     {
@@ -505,7 +505,7 @@ public class HomeMenu : MonoBehaviour
                     // Display Option Background picture
                     if (this.OptionBackground != null)
                     {
-                        GUI.DrawTexture(this.stageBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, false, 0.0f);
+                        GUI.DrawTexture(this.stageBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, true, 0.0f);
                     }
 
                     GUILayout.BeginArea(this.stageAreaRect);
@@ -600,7 +600,7 @@ public class HomeMenu : MonoBehaviour
                     // Display Option Background picture
                     if (this.OptionBackground != null)
                     {
-                        GUI.DrawTexture(this.optionBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, false, 0.0f);
+                        GUI.DrawTexture(this.optionBackgroundRect, this.OptionBackground, ScaleMode.StretchToFill, true, 0.0f);
                     }
 
                     // Quality Options
