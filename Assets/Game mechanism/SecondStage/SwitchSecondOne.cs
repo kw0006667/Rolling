@@ -46,13 +46,13 @@ public class SwitchSecondOne : MonoBehaviour
     {
         if (isOn)
         {
-            if (!this.animation.IsPlaying("SwithchOnAnimation"))
-                this.animation.PlayQueued("SwithchOnAnimation");
+            if (!this.animation.IsPlaying("SwitchOnAnimation"))
+                this.animation.PlayQueued("SwitchOnAnimation");
         }
         else
         {
-            if (!this.animation.IsPlaying("SwithchOffAnimation"))
-                this.animation.PlayQueued("SwithchOffAnimation");
+            if (!this.animation.IsPlaying("SwitchOffAnimation"))
+                this.animation.PlayQueued("SwitchOffAnimation");
         }
         this.isOn = isOn;            
     }

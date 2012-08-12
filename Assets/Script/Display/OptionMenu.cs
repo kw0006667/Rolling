@@ -103,10 +103,17 @@ public class OptionMenu : MonoBehaviour
         }
         else
             this.optionResolutionContentValue = Convert.ToInt32(this.settingData.Resolution);
-
-        this.recordChoice = PlayerPrefs.GetString(GameDefinition.RecordChoicePrefsString);
-        this.fileManager.RecordsReader(GameDefinition.RecordFilePath);
-        this.fileManager.RecordWrite(new RecordData("Record " + (Convert.ToInt32(this.recordChoice) + 1).ToString(), Application.loadedLevelName, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+        
+        switch (Application.loadedLevelName)
+        {
+            case "Begin":                
+            case "FirstStage":                
+            case "SecondStage":
+                this.recordChoice = PlayerPrefs.GetString(GameDefinition.RecordChoicePrefsString);
+                this.fileManager.RecordsReader(GameDefinition.RecordFilePath);
+                this.fileManager.RecordWrite(new RecordData("Record " + (Convert.ToInt32(this.recordChoice) + 1).ToString(), Application.loadedLevelName, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+                break;
+        }        
     }
 
     // Update is called once per frame

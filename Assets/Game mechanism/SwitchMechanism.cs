@@ -13,8 +13,8 @@ public class SwitchMechanism : MonoBehaviour {
             this.trigger = !this.trigger;
             if (trigger)
             {
-                if (!this.animation.IsPlaying("SwithchOnAnimation"))
-                    this.animation.PlayQueued("SwithchOnAnimation");                
+                if (!this.animation.IsPlaying("SwitchOnAnimation"))
+                    this.animation.PlayQueued("SwitchOnAnimation");                
             }
             else
             {

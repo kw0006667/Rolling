@@ -44,8 +44,8 @@ public class SwitchSecondTwo : MonoBehaviour
         print(this.name);
         if (isOn)
         {
-            if (!this.animation.IsPlaying("SwithchOnAnimation"))
-                this.animation.PlayQueued("SwithchOnAnimation");
+            if (!this.animation.IsPlaying("SwitchOnAnimation"))
+                this.animation.PlayQueued("SwitchOnAnimation");
         }
         else
         {
