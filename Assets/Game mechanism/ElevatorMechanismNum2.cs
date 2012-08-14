@@ -50,11 +50,11 @@ public class ElevatorMechanismNum2 : MonoBehaviour
                 {
                     if (Mathf.Abs(this.addValue) < this.MoveDistance)
                     {
-                        this.transform.parent.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
+                        this.transform.parent.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed * Time.deltaTime));
                         if (this.isEnter)
-                            Greta.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
+                            Greta.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed * Time.deltaTime));
 
-                        this.addValue += this.MoveSpeed;
+                        this.addValue += this.MoveSpeed * Time.deltaTime;
                     }
                 }
                 else
@@ -66,8 +66,8 @@ public class ElevatorMechanismNum2 : MonoBehaviour
                     }
                     if (this.addValue > 0)
                     {
-                        this.transform.parent.transform.position += this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
-                        this.addValue -= MoveSpeed;
+                        this.transform.parent.transform.position += this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed * Time.deltaTime));
+                        this.addValue -= MoveSpeed * Time.deltaTime;
                     }
                 }
 

@@ -82,11 +82,11 @@ public class SwitchSecondOne : MonoBehaviour
             {
                 if (this.addValue < this.MoveDistance)
                 {
-                    this.addValue += this.MoveSpeed;
+                    this.addValue += this.MoveSpeed * Time.deltaTime;
                     if (this.controlUpdown == ControlUpDown.Down)
-                        this.ControlMoveWallObject.transform.position -= this.ControlMoveWallObject.transform.TransformDirection(new Vector3(0, this.MoveSpeed, 0));
+                        this.ControlMoveWallObject.transform.position -= this.ControlMoveWallObject.transform.TransformDirection(new Vector3(0, this.MoveSpeed * Time.deltaTime, 0));
                     else
-                        this.ControlMoveWallObject.transform.position += this.ControlMoveWallObject.transform.TransformDirection(new Vector3(0, this.MoveSpeed, 0));
+                        this.ControlMoveWallObject.transform.position += this.ControlMoveWallObject.transform.TransformDirection(new Vector3(0, this.MoveSpeed * Time.deltaTime, 0));
                 }
                 else
                 {

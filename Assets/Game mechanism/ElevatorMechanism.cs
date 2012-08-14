@@ -75,17 +75,17 @@ public class ElevatorMechanism : MonoBehaviour
                         if (hit.transform.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)))
                             return;
 
-                    this.transform.parent.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
+                    this.transform.parent.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed) * Time.deltaTime);
                     if (this.isEnter)
-                        this.Greta.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
+                        this.Greta.transform.position -= this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed * Time.deltaTime));
                 }
                 else if (this.Direction == ElevatorDirection.Up)
                 {
-                    transform.parent.transform.position += this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed));
+                    transform.parent.transform.position += this.transform.parent.transform.TransformDirection(new Vector3(0, 0, this.MoveSpeed * Time.deltaTime));
                     if (this.isEnter)
-                        this.Greta.transform.position += transform.parent.transform.TransformDirection(new Vector3(0, 0, MoveSpeed));
+                        this.Greta.transform.position += transform.parent.transform.TransformDirection(new Vector3(0, 0, MoveSpeed * Time.deltaTime));
                 }
-                this.addVaule += this.MoveSpeed;
+                this.addVaule += this.MoveSpeed * Time.deltaTime;
             }
             else
             {

@@ -45,16 +45,16 @@ public class WallUpDownMechanism : MonoBehaviour
         {
             if (this.addValue < this.MoveDistance)
             {
-                this.addValue += MoveSpeed;
-                this.transform.position -= this.transform.TransformDirection(new Vector3(0, this.MoveSpeed, 0));
+                this.addValue += MoveSpeed * Time.deltaTime;
+                this.transform.position -= this.transform.TransformDirection(new Vector3(0, this.MoveSpeed * Time.deltaTime, 0));
             }
         }
         else
         {
             if (this.addValue > 0)
             {
-                this.addValue -= MoveSpeed;
-                this.transform.position += this.transform.TransformDirection(new Vector3(0, this.MoveSpeed, 0));
+                this.addValue -= MoveSpeed * Time.deltaTime;
+                this.transform.position += this.transform.TransformDirection(new Vector3(0, this.MoveSpeed * Time.deltaTime, 0));
             }
         }
     }
