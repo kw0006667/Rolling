@@ -21,7 +21,7 @@ public class RotateWorld : MonoBehaviour
         {
             this.isRotate = true;
             this.greta = m_parent;
-            this.greta.rigidbody.isKinematic = true;
+            //this.greta.rigidbody.isKinematic = true;
             //RotateObject();
         }
     }

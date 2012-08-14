@@ -18,8 +18,8 @@ public class SwitchMechanism : MonoBehaviour {
             }
             else
             {
-                if (!this.animation.IsPlaying("SwithchOffAnimation"))
-                    this.animation.PlayQueued("SwithchOffAnimation");
+                if (!this.animation.IsPlaying("SwitchOffAnimation"))
+                    this.animation.PlayQueued("SwitchOffAnimation");
             }
         }        
     }

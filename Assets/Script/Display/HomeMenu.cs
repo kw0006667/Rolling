@@ -411,7 +411,8 @@ public class HomeMenu : MonoBehaviour
                     {
                         GUILayout.BeginVertical();
                         {
-                            GUILayout.Label("製作人員：",StaffStyle);
+                            GUILayout.Label("製作團隊： T.I.C.S",StaffStyle);
+                            GUILayout.Space(20);
                             GUILayout.Label("    程式：", StaffStyle);
                             GUILayout.Label("        黃御恩、張廷宇", StaffStyle);
                             GUILayout.Space(10);
@@ -422,10 +423,8 @@ public class HomeMenu : MonoBehaviour
                             GUILayout.Label("        王昶中", StaffStyle);
                             GUILayout.Space(10);
                             GUILayout.Label("    企劃：", StaffStyle);
-                            GUILayout.Label("        XXX", StaffStyle);
+                            GUILayout.Label("        黃御恩、張廷宇、王昶中、康學昕", StaffStyle);
                             GUILayout.Space(10);
-                            GUILayout.Label("    音樂：", StaffStyle);
-                            GUILayout.Label("        XXX", StaffStyle);
                         }
                         GUILayout.EndVertical();
                     }
