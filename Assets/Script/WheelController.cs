@@ -9,6 +9,9 @@ public class WheelController : MonoBehaviour
     public WheelCollider RightWheel;
     public WheelCollider LeftWheel_Front;
     public WheelCollider RightWheel_Front;
+
+    public GameObject LeftWheelObject;
+    public GameObject RightWheelObject;
     
     // The center mass of Rigidbody
     public Transform CenterOfMass;
@@ -149,6 +152,9 @@ public class WheelController : MonoBehaviour
                 this.forceTorque = this.MaxTorque;
             else if(this.forceTorque <= (-this.MaxTorque))
                 this.forceTorque = (-this.MaxTorque);
+
+            this.LeftWheelObject.transform.localRotation *= Quaternion.Euler(-this.tempTorque, 180, 180);
+            this.RightWheelObject.transform.localRotation *= Quaternion.Euler(-this.tempTorque, 180, 180);
         }
         else
         {
