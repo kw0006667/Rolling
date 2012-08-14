@@ -8,6 +8,7 @@ public class ResultDisplay : MonoBehaviour
     public GameDefinition.Scene CurrentScene;
     public GameObject GearCollectionObject;
     public GameObject TimerObject;
+    public GameObject ESC_Menu;
     
     public Texture OptionBackground;
     public Texture GearIconBigTexture;
@@ -60,6 +61,12 @@ public class ResultDisplay : MonoBehaviour
     {
         if (isShowScore)
         {
+            // Show Mouse Curser
+            if (!Screen.showCursor)
+            {
+                Screen.showCursor = true;
+            }
+
             // Initialize all button rect real time
             this.InitializeButtonRect();
 
@@ -441,6 +448,8 @@ public class ResultDisplay : MonoBehaviour
         if (m_parent.CompareTag(GameDefinition.GetTagName(GameDefinition.Tag.Player)) && !this.isShowScore)
         {
             this.isShowScore = true;
+
+            Destroy(this.ESC_Menu);
             
             this.totalScore = this.VerifyTimeScore();
 

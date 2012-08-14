@@ -147,6 +147,8 @@ public class HomeMenu : MonoBehaviour
         this.recordContentValue = String.Empty;
         this.recordChoice = -1;
         this.isExceptionChoice = false;
+
+        Screen.showCursor = true;
     }
 
     void OnTriggerEnter(Collider other)
