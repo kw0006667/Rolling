@@ -34,7 +34,6 @@ public class TitleDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(Time.time);
         this.currentTime += Time.deltaTime;
         if (this.currentTime > this.waitTime)
         {
