@@ -39,6 +39,8 @@ public class WheelController : MonoBehaviour
     // All wheelcolliders
     public WheelCollider[] wheelColliderList;
 
+    private float wheelValue;
+
     #endregion
 
     #region UnityEngine
@@ -58,6 +60,8 @@ public class WheelController : MonoBehaviour
         this.tempTorque = 0.0f;
         this.forceTorque = 0.0f;
         this.addValue = 60.0f;
+
+        this.wheelValue = 0.0f;
     }
 
     // Update is called once per frame
@@ -83,6 +87,10 @@ public class WheelController : MonoBehaviour
 
         // Free rigidbody x-axis rotate
         this.freeRigidbodyRotate();
+
+        this.wheelValue += this.rigidbody.velocity.magnitude;
+        this.LeftWheelObject.transform.localRotation = Quaternion.Euler(-this.wheelValue * this.Sign(this.transform.TransformDirection(this.rigidbody.velocity).z), 180, 180);
+        this.RightWheelObject.transform.localRotation = Quaternion.Euler(-this.wheelValue * this.Sign(this.transform.TransformDirection(this.rigidbody.velocity).z), 180, 180);
     }
 
     #endregion
@@ -152,9 +160,7 @@ public class WheelController : MonoBehaviour
                 this.forceTorque = this.MaxTorque;
             else if(this.forceTorque <= (-this.MaxTorque))
                 this.forceTorque = (-this.MaxTorque);
-
-            this.LeftWheelObject.transform.localRotation *= Quaternion.Euler(-this.tempTorque, 180, 180);
-            this.RightWheelObject.transform.localRotation *= Quaternion.Euler(-this.tempTorque, 180, 180);
+            
         }
         else
         {
@@ -256,6 +262,14 @@ public class WheelController : MonoBehaviour
                 this.animation.CrossFade("Idle");
             }
         }
+    }
+
+    private float Sign(float value)
+    {
+        if (value != 0)
+            return value > 0 ? 1 : -1;
+        else
+            return 0;
     }
 
     #endregion
